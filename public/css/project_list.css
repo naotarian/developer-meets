@@ -1,0 +1,43 @@
+.project_list {
+    width: 1200px;
+    margin: 0 auto;
+}
+.project {
+    border: 2px solid darkgray;
+    border-radius: 1rem;
+    padding: 2rem;
+    cursor: pointer;
+    margin-bottom: 2rem;
+     position: relative;
+}
+.project:hover {
+    opacity: 0.8;
+}
+.project_detail_table td {
+    border-bottom: 1px solid gray;
+}
+.project_detail_table {
+    border-collapse: separate;
+    border-spacing: 10px 5px;
+}
+.create_user {
+    position: absolute;
+    right: 40px;
+}
+.actions {
+    text-align: right;
+    margin-bottom: 2rem;
+}
+@media only screen and (max-width: 768px) {
+    .project_list {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .create_user {
+        right: 25px;
+    }
+    .actions {
+        text-align: left;
+        margin-bottom: 2rem;
+    }
+}
