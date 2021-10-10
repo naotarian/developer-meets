@@ -8,10 +8,10 @@
     padding: 2rem;
     cursor: pointer;
     margin-bottom: 2rem;
-     position: relative;
+    padding-bottom:0;
 }
 .project:hover {
-    opacity: 0.8;
+    /*opacity: 0.8;*/
 }
 .project_detail_table td {
     border-bottom: 1px solid gray;
@@ -20,14 +20,31 @@
     border-collapse: separate;
     border-spacing: 10px 5px;
 }
-.create_user {
-    position: absolute;
-    right: 40px;
-}
+
 .actions {
     text-align: right;
     margin-bottom: 2rem;
 }
+.popup {
+  display: none;
+  height: 100vh;
+  width: 100%;
+  background: gray;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.content {
+  background: #fff;
+  padding: 30px;
+  width: 50%;
+}
+.show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media only screen and (max-width: 768px) {
     .project_list {
         width: 100%;

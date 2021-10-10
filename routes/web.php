@@ -14,7 +14,15 @@
 // Route::get('/', function () {
     
 // });
+Route::get('/welcome', function() {
+    return view('welcome');
+});
 Route::get('/', 'DynamicController@index')->name('top');
 Route::get('/seek', 'DynamicController@seek_project')->name('seek_project');
-Route::get('/make', 'DynamicController@make_project')->name('make_project');
+Route::get('/make', 'DynamicController@make_project')->name('make_project')->middleware('auth');
+Route::post('/make', 'DynamicController@make_project_post')->name('make_project_post')->middleware('auth');
 Route::get('/project_list', 'DynamicController@project_list')->name('project_list');
+Route::get('/my_page', 'DynamicController@my_page')->name('my_page')->middleware('auth');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

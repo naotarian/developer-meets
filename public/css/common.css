@@ -7,6 +7,21 @@ body {
     margin: 0 auto;
     margin-top: 5rem;
 }
+.mr2 {
+    margin-right: 2rem;
+}
+.mt2 {
+    margin-top: 2rem;
+}
+.tas {
+    text-align: center;
+}
+.scale2 {
+    transform: scale(1.5);
+}
+.flex {
+    display: flex;
+}
 @media only screen and (max-width: 768px) {
     .pconly {
         display: none!important;

@@ -18,7 +18,10 @@
 <link rel="stylesheet" href="/css/template/header.css">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.12.0/css/mdb.min.css" rel="stylesheet">
-
+<script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
 <meta name="robots" content="index,follow">
 <meta name="robots" content="all">
 @yield('individual_stylesheet')
@@ -30,6 +33,7 @@
         @yield('contents')
     </div>
 </body>
+
 <script>
     function toggleNav() {
   var body = document.body;
@@ -44,4 +48,5 @@
   });
 }
 toggleNav();
+@yield('scripts')
 </script>

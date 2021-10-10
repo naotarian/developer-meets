@@ -1,51 +1,8 @@
-.contents {
-    width: 1024px;
-    margin: 0 auto;
-}
-
-.page_title {
-    text-align: center;
-    font-size: 2rem;
-}
-
-#contact{
-    padding:10px 0 10px;
-  }
-
-  .contact-text{
-    margin:45px auto;
-  }
-
-  .mail-message-area{
-    width:100%;
-    padding:0 15px;
-  }
-
-  .mail-message{
-    width: 100%;
-    background:rgba(255,255,255, 0.8) !important;
-    -webkit-transition: all 0.7s;
-    -moz-transition: all 0.7s;
-    transition: all 0.7s;
-    margin:0 auto;
-    border-radius: 0;
-  }
-
-  .not-visible-message{
-    height:0px;
-    opacity: 0;
-  }
-
-  .visible-message{
-    height:auto;
-    opacity: 1;
-    margin:25px auto 0;
-  }
 
 /* Input Styles */
 
   .form{
-    width: 48%;
+    width: 98%;
     padding: 15px;
     background:#f8f8f8;
     border:1px solid rgba(0, 0, 0, 0.075);
