@@ -17,25 +17,25 @@
   top: 50%;
   right: 2em;
   transform: translateY(-50%) rotate(45deg);
-  width: 5px;
-  height: 5px;
+  width: 10px;
+  height: 10px;
   border-top: 2px solid #fff;
   border-right: 2px solid #fff;
   transition: 0.3s;
 }
 
-.button20 a::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: calc(2em + 5px);
-  transform: translateY(-50%) rotate(45deg);
-  width: 5px;
-  height: 5px;
-  border-top: 2px solid #fff;
-  border-right: 2px solid #fff;
-  transition: 0.3s;
-}
+/*.button20 a::after {*/
+/*  content: '';*/
+/*  position: absolute;*/
+/*  top: 50%;*/
+/*  right: calc(2em + 5px);*/
+/*  transform: translateY(-50%) rotate(45deg);*/
+/*  width: 10px;*/
+/*  height: 10px;*/
+/*  border-top: 2px solid #fff;*/
+/*  border-right: 2px solid #fff;*/
+/*  transition: 0.3s;*/
+/*}*/
 
 .button20 a:hover {
   text-decoration: none;

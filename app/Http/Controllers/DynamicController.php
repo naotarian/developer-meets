@@ -123,8 +123,11 @@ class DynamicController extends Controller
         return view('project_list', ['projects' => $projects]);
     }
     
-    public function my_page() {
+    public function my_page(Request $request) {
         $login_user = Auth::user();
+        if($request->method() == 'POST') {
+            $login_user = User::find($request['user_id'])->first();
+        }
         $login_user_infomation = User::where('id', $login_user->id)->first();
         $login_user_infomation->sex = $this->sex[$login_user_infomation->sex];
         return view('personal.my_page', ['login_user_infomation' => $login_user_infomation]);

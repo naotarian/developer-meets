@@ -17,12 +17,12 @@
             <ul class="auth">
                 <li>
                    <div class="button20">
-                      <a href="">ログイン</a>
+                      <a class="nav-link" href="{{ route('login') }}">ログイン</a>
                     </div>
                 </li>
                 <li>
                    <div class="button20">
-                      <a href="">新規登録</a>
+                      <a class="nav-link" href="{{ route('register') }}">新規作成</a>
                     </div>
                 </li>
                 <!--<li><a href="" class="btn btn-flat"><span>新規登録</span></a></li>-->
@@ -30,8 +30,22 @@
         @endguest
         @auth
         <ul class="auth">
-           <li>ログアウト</li>
-        </ul>
+                <li>
+                   <div class="button20">
+                      <!--<a href="">ログアウト</a>-->
+                      <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                        ログアウト
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    </div>
+                </li>
+                <!--<li><a href="" class="btn btn-flat"><span>新規登録</span></a></li>-->
+            </ul>
         @endauth
     </div>
 

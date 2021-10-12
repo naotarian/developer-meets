@@ -41,12 +41,20 @@
                 
             </table>
             <div class="actions">
-                <a class="detail btn btn-primary">詳細を見る</a>
-                <a class="btn btn-secondary">質問したい</a>
-                <a class="btn btn-success">参加申請</a>
+                <button type="button" class="detail btn btn-outline-primary">詳細を見る</button>
+                <button type="button" class="btn btn-outline-secondary">質問したい</button>
+                <button type="button" class="btn btn-outline-success">参加申請</button>
+                <!--<a class="detail btn btn-primary">詳細を見る</a>-->
+                <!--<a class="btn btn-secondary">質問したい</a>-->
+                <!--<a class="btn btn-success">参加申請</a>-->
             </div>
+            
             <div class="att_name">
-                <div class="create_user">作成者 : <a href="#">{{$project->user['user_name']}}</a></div>
+                <form method="POST" name="post_form" action="/user_info">
+                    @csrf
+                	<input type="hidden" name="user_id" value="{{$project->user_id}}">
+                    <div class="create_user">作成者 : <a href="" onclick="document.post_form[0].submit();return false;">{{$project->user['user_name']}}</a></div>
+                </form>
             </div>
             <div class="popup">
               <div class="content">
@@ -66,9 +74,9 @@
 var detail = $("[class^='detail_']");
 
     $(".detail").on("click", function() {
-    console.log();
+    console.log('s');
     
-  $(this).parent().next('.popup')
+  $(this).parent().next().next('.popup')
     .addClass("show")
     .fadeIn();
   // return false;

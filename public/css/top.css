@@ -9,11 +9,13 @@ body{
     font-family: 'Exo', sans-serif;
 }
 
-
+.wrapper {
+    margin-top: 3rem;
+}
 .context {
     width: 100%;
     position: absolute;
-    top:50vh;
+    top:25vh;
     z-index: 100;
 }
 

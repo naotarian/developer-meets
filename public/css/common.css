@@ -5,6 +5,9 @@ body {
 .wrapper {
     /*max-width: 1200px;*/
     margin: 0 auto;
+    margin-top: 8rem;
+}
+.wrapper {
     margin-top: 3rem;
 }
 .mr2 {

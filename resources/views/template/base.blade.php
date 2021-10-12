@@ -32,7 +32,7 @@
 <body>
     @include('template.header')
     <div class="wrapper">
-        @yield('contents')
+    @yield('contents')
     </div>
 </body>
 
