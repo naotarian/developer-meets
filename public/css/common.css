@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+.wrapper {
+    /*max-width: 1200px;*/
+    margin: 0 auto;
+    margin-top: 8rem;
+}
+.wrapper {
+    margin-top: 3rem;
+}
+.mr2 {
+    margin-right: 2rem;
+}
+.mt2 {
+    margin-top: 2rem;
+}
+.tas {
+    text-align: center;
+}
+.scale2 {
+    transform: scale(1.5);
+}
+.flex {
+    display: flex;
+}
+label {
+    cursor: pointer;
+}
+@media only screen and (max-width: 768px) {
+    .pconly {
+        display: none!important;
+    }
+
+}

@@ -1,0 +1,24 @@
+dt{
+  float: left;
+}
+
+dd{
+  margin-left: 160px;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid gray;
+}
+.my_infomations {
+    width: 1024px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+.wrapper {
+    margin-top: 8rem;
+}
+@media only screen and (max-width: 768px) {
+    .my_infomations {
+        width: 100%;
+        margin: 0 auto;
+        padding: 1rem;
+    }
+}

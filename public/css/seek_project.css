@@ -1,0 +1,39 @@
+.wrapper {
+    margin-top: 5rem;
+}
+.seek_list {
+    width: 1024px;
+    margin: 0 auto;
+}
+.language, .purposes {
+    margin-top: 3rem;
+}
+.language ul, .purposes ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+.language ul li, .purposes ul li {
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+    list-style: none;
+}
+.g1 {
+    background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+    padding: 1rem;
+    color: #fff;
+    font-weight: bold;
+}
+.g2 {
+    background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+    padding: 1rem;
+    color: #fff;
+    font-weight: bold;
+}
+@media only screen and (max-width: 768px) {
+    .seek_list {
+        width: 100%;
+    }
+    .language ul, .purposes ul {
+        display: block;
+    }
+}

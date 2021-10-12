@@ -1,0 +1,56 @@
+.button20 a {
+  display: block;
+    position: relative;
+    margin: 0 auto;
+    padding: 1em 2em;
+    width: 220px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    background-color: #333;
+    transition: 0.3s;
+}
+
+.button20 a::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 2em;
+  transform: translateY(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid #fff;
+  border-right: 2px solid #fff;
+  transition: 0.3s;
+}
+
+/*.button20 a::after {*/
+/*  content: '';*/
+/*  position: absolute;*/
+/*  top: 50%;*/
+/*  right: calc(2em + 5px);*/
+/*  transform: translateY(-50%) rotate(45deg);*/
+/*  width: 10px;*/
+/*  height: 10px;*/
+/*  border-top: 2px solid #fff;*/
+/*  border-right: 2px solid #fff;*/
+/*  transition: 0.3s;*/
+/*}*/
+
+.button20 a:hover {
+  text-decoration: none;
+  background-color: yellow;
+  color: #333;
+}
+
+.button20 a:hover::before {
+  right: 1.8em;
+  border-top: 2px solid #333;
+  border-right: 2px solid #333;
+}
+
+.button20 a:hover::after {
+  right: calc(1.8em + 5px);
+  border-top: 2px solid #333;
+  border-right: 2px solid #333;
+}
