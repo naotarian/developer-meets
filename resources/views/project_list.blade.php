@@ -44,6 +44,8 @@
                 <a class="detail btn btn-primary">詳細を見る</a>
                 <a class="btn btn-secondary">質問したい</a>
                 <a class="btn btn-success">参加申請</a>
+            </div>
+            <div class="att_name">
                 <div class="create_user">作成者 : <a href="#">{{$project->user['user_name']}}</a></div>
             </div>
             <div class="popup">

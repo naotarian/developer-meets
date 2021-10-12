@@ -7,6 +7,7 @@ use App\User;
 use App\Project;
 use Illuminate\Support\Facades\Auth;
 
+
 class DynamicController extends Controller
 {
     
@@ -22,10 +23,11 @@ class DynamicController extends Controller
     }
     
     public function seek_project() {
-        $languages = ['Java', 'C#', 'C言語', 'Python'];
-        $purposes = ['学習', 'つながり', 'リリース', '本気'];
+        $languages = $this->languages;
+        $purposes = $this->purposes;
         return view('seek_project', ['languages' => $languages, 'purposes' => $purposes]);
     }
+   
     public function make_project() {
         return view('make_project');
     }
@@ -73,8 +75,42 @@ class DynamicController extends Controller
         
         return redirect('/make')->with('flash_message', 'プロジェクト作成が完了しました');
     }
-    public function project_list() {
+    public function project_list(Request $request) {
+        $validate_datas = $request->all();
         $projects = Project::all();
+        
+            // dd($request->method());
+        if($request->method() == 'POST') {
+            $messages = [
+                '*.required' => ':attributeが入力されていません。',
+                
+            ];
+            $validator = Validator::make($validate_datas,[
+                'language' => 'required',
+                'purpose' => 'required',
+            ],$messages);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        if(array_key_exists('99', $validate_datas['purpose']) && array_key_exists('99', $validate_datas['language'])) {
+            $projects = Project::all();
+        } elseif(array_key_exists('99', $validate_datas['purpose'])) {
+            $projects = Project::where('language', $validate_datas['language'])->get();
+        } elseif(array_key_exists('99', $validate_datas['language'])) {
+            $projects = Project::where('purpose', $validate_datas['purpose'])->get();
+        } else {
+            $projects = Project::where('purpose', '=', $validate_datas["purpose"])->where(function($query) use ($validate_datas) {
+                    $query->where('language', '=', $validate_datas["language"])
+                    ->orWhere('sub_language', '=', $validate_datas["language"]);
+                })->get();
+        }
+            
+        }
+
+        
+        
+
         foreach($projects as $project) {
             $project->purpose = $this->purposes[$project->purpose];
             $project->men_and_women = $this->gender[$project->men_and_women];
@@ -93,4 +129,6 @@ class DynamicController extends Controller
         $login_user_infomation->sex = $this->sex[$login_user_infomation->sex];
         return view('personal.my_page', ['login_user_infomation' => $login_user_infomation]);
     }
+    
+    
 }

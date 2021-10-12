@@ -1,6 +1,12 @@
+.wrapper {
+    margin-top: 5rem;
+}
 .project_list {
     width: 1200px;
     margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 .project {
     border: 2px solid darkgray;
@@ -9,6 +15,7 @@
     cursor: pointer;
     margin-bottom: 2rem;
     padding-bottom:0;
+    width: 48%;
 }
 .project:hover {
     /*opacity: 0.8;*/
@@ -23,7 +30,7 @@
 
 .actions {
     text-align: right;
-    margin-bottom: 2rem;
+    margin-top: 2rem;
 }
 .popup {
   display: none;
@@ -43,6 +50,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.create_user {
+    padding: 1rem;
+    text-align: right;
 }
 
 @media only screen and (max-width: 768px) {
