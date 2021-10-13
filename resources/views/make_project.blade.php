@@ -38,16 +38,20 @@
                         </div>
                         <div class="col-xs-6 wow animated slideInRight flex-form mt2" data-wow-delay=".5s">
                             <!-- Name -->
-                            {{Form::select('minimum_years_old', ['18' => '18', '20' => '20', '25' => '25', '30' => '30'], 'ordinarily', ['class' => 'form','id' => 'minimum_years_old', 'placeholder' => '年齢下限'])}}
-                            {{Form::select('max_years_old', ['18' => '18', '20' => '20', '25' => '25', '30' => '30', '35' => '35', '40' => '40', '45' => '45', '50' => '50'], 'ordinarily', ['class' => 'form','id' => 'max_years_old', 'placeholder' => '年齢上限'])}}
+                            {{Form::select('minimum_years_old', $datas['age'], 'ordinarily', ['class' => 'form','id' => 'minimum_years_old', 'placeholder' => '年齢下限'])}}
+                            {{Form::select('max_years_old', $datas['age'], 'ordinarily', ['class' => 'form','id' => 'max_years_old', 'placeholder' => '年齢上限'])}}
                         </div>
                         <div class="col-xs-6 wow animated slideInLeft flex-form mt2" data-wow-delay=".5s">
-                            {{Form::select('purpose', ['0' => '繋がり', '1' => 'リリース', '2' => '学習', '3' => 'ワイワイ'], 'ordinarily', ['class' => 'form','id' => 'purpose', 'placeholder' => 'プロジェクト目的'])}}
+                            {{Form::select('purpose', $datas['purposes'], 'ordinarily', ['class' => 'form','id' => 'purpose', 'placeholder' => 'プロジェクト目的'])}}
                             {{Form::select('sex', ['0' => '男女制限なし', '1' => '男性のみ', '2' => '女性のみ'], 'ordinarily', ['class' => 'form','id' => 'sex'])}}
                         </div>
                         <div class="col-xs-6 wow animated slideInRight flex-form mt2" data-wow-delay=".5s">
+                            {{--
                             {{Form::select('skil', ['0' => 'Java', '1' => 'C', '2' => 'C#', '3' => 'Dart'], 'ordinarily', ['class' => 'form','id' => 'skil', 'placeholder' => '主要言語'])}}
                             {{Form::select('sub_skil', ['0' => 'Java', '1' => 'C', '2' => 'C#', '3' => 'Dart'], 'ordinarily', ['class' => 'form','id' => 'sub_skil', 'placeholder' => 'サブ言語'])}}
+                            --}}
+                            {{Form::select('skil', $datas['languages'], 'ordinarily', ['class' => 'form','id' => 'skil', 'placeholder' => '主要言語'])}}
+                            {{Form::select('sub_skil', $datas['languages'], 'ordinarily', ['class' => 'form','id' => 'sub_skil', 'placeholder' => 'サブ言語'])}}
                         </div>
                         <div class="col-xs-6 wow animated slideInLeft flex-form mt2" data-wow-delay=".5s">
                             {{Form::select('minimum_work_experience', ['0' => '未経験可', '1' => '~1年', '2' => '~2年', '3' => '~3年', '4' => '4年以上'], 'ordinarily', ['class' => 'form','id' => 'minimum_work_experience', 'placeholder' => '最低実務経験'])}}

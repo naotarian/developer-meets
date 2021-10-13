@@ -29,7 +29,15 @@ class DynamicController extends Controller
     }
    
     public function make_project() {
-        return view('make_project');
+        $languages = $this->languages;
+        $purposes = $this->purposes;
+        $datas['languages'] = $this->languages;
+        $datas['purposes'] = $this->purposes;
+        $datas['age'] = [];
+        for($i = 15; $i < 60; $i++) {
+            $datas['age'][$i] = $i;
+        }
+        return view('make_project', ['datas' => $datas]);
     }
     public function make_project_post(Request $request) {
         $user = Auth::user();
@@ -133,5 +141,9 @@ class DynamicController extends Controller
         return view('personal.my_page', ['login_user_infomation' => $login_user_infomation]);
     }
     
+    public function question(Request $request) {
+        $project_info = json_decode($request['project_info'], true);
+        dd($project_info);
+    }
     
 }
