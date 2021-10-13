@@ -24,4 +24,8 @@ class Project extends Model
         'created_at',
         'updated_at',
     ];
+    public function questions()
+    {
+        return $this->hasMany('App\Question');
+    }
 }
