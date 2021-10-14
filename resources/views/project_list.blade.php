@@ -42,8 +42,11 @@
             </table>
             <div class="actions">
                 <button type="button" class="detail btn btn-outline-primary">詳細を見る</button>
-                <button type="button" class="btn btn-outline-secondary">質問したい</button>
+                {{Form::open(['route' => 'question', 'method' => 'post', 'enctype' => 'multipart/form-data'])}}
+                <input type="hidden" name="project_info" value="{{$project}}">
+                <button type="submit" class="btn btn-outline-secondary">質問したい</button>
                 <button type="button" class="btn btn-outline-success">参加申請</button>
+                {{Form::close()}}
                 <!--<a class="detail btn btn-primary">詳細を見る</a>-->
                 <!--<a class="btn btn-secondary">質問したい</a>-->
                 <!--<a class="btn btn-success">参加申請</a>-->

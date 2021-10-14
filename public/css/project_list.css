@@ -31,6 +31,7 @@
 .actions {
     text-align: right;
     margin-top: 2rem;
+    display: flex;
 }
 .popup {
   display: none;
