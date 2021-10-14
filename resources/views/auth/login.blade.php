@@ -104,7 +104,6 @@
   </div>
   <a href="/password/reset"><p class="forget">パスワードを忘れた方はこちら</p></a>
 </form>
-
 <footer>
   <h5>Right click and visit: <a target="_blank" href="http://lifes.gd">Life's Good</a></h5>
 </footer>

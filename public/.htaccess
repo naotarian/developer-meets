@@ -25,3 +25,22 @@ require valid-user
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+<IfModule mod_setenvif.c>
+  SetEnvIf Request_URI "\.(jpe?g|png)$" _image_request
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_ACCEPT} image/webp
+  RewriteCond %{SCRIPT_FILENAME}.webp -f
+  RewriteRule .(jpe?g|png)$ %{SCRIPT_FILENAME}.webp [T=image/webp]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header append Vary Accept env=_image_request
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+</IfModule>

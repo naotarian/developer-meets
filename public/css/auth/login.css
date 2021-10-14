@@ -62,6 +62,9 @@ a:hover {
 }
 body {
   background:#63b47a;
+  background-image: url('/images/be.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 * {
