@@ -9,7 +9,7 @@ class ApiController extends Controller
 {
     
     public function __construct () {
-        $this->sex = config('app.sex');
+        $this->gender = config('app.gender');
         $this->gender = config('app.gender');
         $this->purposes = config('app.purposes');
         $this->tools = config('app.tools');
@@ -17,13 +17,17 @@ class ApiController extends Controller
     }
     public function seek_project(Request $request) {
         $seek_datas = $request->all();
+        //nullは指定なし扱い
         if($seek_datas['language'] == null) {
             $seek_datas['language'] = 99;
         }
         if($seek_datas['purpose'] == null) {
             $seek_datas['purpose'] = 99;
         }
-        \Log::info($seek_datas);
+        if($seek_datas['gender'] == null) {
+            $seek_datas['gender'] = 0;
+        }
+        //言語と目的で絞り込み
         if($seek_datas['purpose'] == 99 && $seek_datas['language'] == 99) {
             $projects = Project::all();
         } elseif($seek_datas['purpose'] == 99) {
@@ -36,7 +40,25 @@ class ApiController extends Controller
                     ->orWhere('sub_language', '=', $seek_datas["language"]);
                 })->get();
         }
-        
+        /*
+        男女指定があった場合はフィルターかける
+        values()でindex振り直し
+        */
+        if($seek_datas['gender'] != 0) {
+            if($seek_datas['gender'] == 2) {
+                //女性指定
+                $projects = $projects->filter(function ($value, $key) {
+                    return $value['men_and_women'] == 2;
+                })->values();
+            } else {
+                //男性指定
+                $projects = $projects->filter(function ($value, $key) {
+                    return $value['men_and_women'] == 1;
+                })->values();
+            }
+        }
+
+        //表示用データ生成
         foreach($projects as $project) {
             $project->purpose = $this->purposes[$project->purpose];
             $project->men_and_women = $this->gender[$project->men_and_women];

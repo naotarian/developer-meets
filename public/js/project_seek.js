@@ -6,6 +6,7 @@ $('.search-icon').on('click', function() {
     });
     var language = $('.language').val();
     var purpose = $('.purpose').val();
+    var gender = $('.gender').val();
     $.ajax({
       url: '/api/seek_project',
       type: 'post',
@@ -13,6 +14,7 @@ $('.search-icon').on('click', function() {
       data: {
         'language': language,
         'purpose': purpose,
+        'gender': gender,
         //left値と該当idを渡す
         
         //ここはサーバーに贈りたい情報
@@ -20,6 +22,7 @@ $('.search-icon').on('click', function() {
     })
     // Ajaxリクエストが成功した時発動
     .done( (data) => {
+        console.log(data);
         if(data.datas.length == 0) {
           $('.project_list').html('検索結果がありません');
         } else {

@@ -12,7 +12,7 @@ class DynamicController extends Controller
 {
     
     public function __construct () {
-        $this->sex = config('app.sex');
+        $this->gender = config('app.gender');
         $this->gender = config('app.gender');
         $this->purposes = config('app.purposes');
         $this->tools = config('app.tools');
@@ -91,10 +91,12 @@ class DynamicController extends Controller
             $project->year = $project->minimum_years_old . '歳~' . $project->max_years_old . '歳';
             $project->user = User::where('id', $project->user_id)->first();
         }
-        $languages = $this->languages;
-        $purposes = $this->purposes;
+        $array_datas = [];
+        $array_datas['languages'] = $this->languages;
+        $array_datas['purposes'] = $this->purposes;
+        $array_datas['gender'] = $this->gender;
         
-        return view('seek_project', ['languages' => $languages, 'purposes' => $purposes, 'projects' => $projects]);
+        return view('seek_project', ['datas' => $array_datas, 'projects' => $projects]);
     }
     
     public function my_page($user_name = 0) {
@@ -102,7 +104,7 @@ class DynamicController extends Controller
         if($user_name) {
             $target_user = User::where('user_name', $user_name)->first();
         }
-        $target_user['sex'] = $this->sex[$target_user['sex']];
+        $target_user['sex'] = $this->gender[$target_user['sex']];
         
         return view('personal.my_page', ['login_user_infomation' => $target_user]);
     }

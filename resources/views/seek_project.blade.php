@@ -9,14 +9,18 @@
 <div class="contents">
     
     <div class="search-header">
-        <div class="dib">
+        <div class="dib mr2">
             <i class="fa fa-laptop fa-2x icon_color mr1" aria-hidden="true"></i>
-            {{Form::select('language', $languages, 'null', ['class' => 'form language','id' => 'languages', 'placeholder' => '言語で探す'])}}
+            {{Form::select('language', $datas['languages'], 'null', ['class' => 'form language','id' => 'languages', 'placeholder' => '言語で探す'])}}
         </div>
-        <div class="dib">
+        <div class="dib mr2">
             <i class="fa fa-2x fa-group mr1" aria-hidden="true"></i>
             <i class="fa fa-user fa-2x icon_color mr1" aria-hidden="true"></i>
-            {{Form::select('purpose', $purposes, 'null', ['class' => 'form purpose','id' => 'purposes', 'placeholder' => '目的で探す'])}}
+            {{Form::select('purpose', $datas['purposes'], 'null', ['class' => 'form purpose','id' => 'purposes', 'placeholder' => '目的で探す'])}}
+        </div>
+        <div class="dib mr2">
+            <i class="fa fa-male fa-2x icon_color"></i><i class="fa fa-female fa-2x icon_color mr1"></i>
+            {{Form::select('gender', $datas['gender'], 'null', ['class' => 'form gender','id' => 'gender', 'placeholder' => '男女構成'])}}
         </div>
         <div class="dib">{{ Form::button('<i class="fa fa-search" aria-hidden="true"></i>', ['class' => 'btn search-icon', 'type' => 'button']) }}</div>
     </div>
@@ -24,35 +28,35 @@
         @foreach($projects as $project)
         <!--<div class="project">-->
         <div class="card wi48 p2">
-            <p>{{$project->project_name}}</p>
+            <p>{{$project['project_name']}}</p>
             <table class="project_detail_table">
                 <tr>
                     <td>募集人数</td>
-                    <td>{{$project->number_of_application}}人</td>
+                    <td>{{$project['number_of_application']}}人</td>
                 </tr>
                 <tr>
                     <td>男女</td>
-                    <td>{{$project->men_and_women}}</td>
+                    <td>{{$project['men_and_women']}}</td>
                 </tr>
                 <tr>
                     <td>経験年数</td>
-                    <td>@if($project->minimum_experience != 0){{$project->minimum_experience}}年以上@else未経験歓迎@endif</td>
+                    <td>@if($project['minimum_experience'] != 0){{$project['minimum_experience']}}年以上@else未経験歓迎@endif</td>
                 </tr>
                 <tr>
                     <td>目的</td>
-                    <td>{{$project->purpose}}</td>
+                    <td>{{$project['purpose']}}</td>
                 </tr>
                 <tr>
                     <td>ソース管理</td>
-                    <td>{{$project->tools}}</td>
+                    <td>{{$project['tools']}}</td>
                 </tr>
                 <tr>
                     <td>主要言語</td>
-                    <td>{{$project->language}}</td>
+                    <td>{{$project['language']}}</td>
                 </tr>
                 <tr>
                     <td>年齢</td>
-                    <td>{{$project->year}}</td>
+                    <td>{{$project['year']}}</td>
                 </tr>
                 
             </table>
@@ -65,11 +69,11 @@
                 {{Form::close()}}
             </div>
             <div class="att_name">
-                <div class="create_user">作成者 : <a href="/user_info/{{$project->user['user_name']}}">{{$project->user['user_name']}}</a></div>
+                <div class="create_user">作成者 : <a href="/user_info/{{$project['user']['user_name']}}">{{$project['user']['user_name']}}</a></div>
             </div>
             <div class="popup">
               <div class="content">
-                <p>{{$project->project_detail}}</p>
+                <p>{{$project['project_detail']}}</p>
                 <button id="close" class="close">閉じる</button>
               </div>
             </div>
