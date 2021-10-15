@@ -1,71 +1,95 @@
 @extends('template.base')
 @section('individual_stylesheet')
 <link rel="stylesheet" href="/css/seek_project.css">
+<link rel="stylesheet" href="/css/project_list.css">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('contents')
 
 <div class="contents">
-    @if($errors->any())
-        <div class="error">
-            <strong>【登録内容に不備】</strong><br>
-                <dl>
-                    <dt>下記項目をご確認ください。</dt>
-                @foreach ($errors->all() as $error)
-                    <dd>{{ $error }}</dd>
-                @endforeach
-                </dl>
+    
+    <div class="search-header">
+        <div class="dib">
+            <i class="fa fa-laptop fa-2x icon_color mr1" aria-hidden="true"></i>
+            {{Form::select('language', $languages, 'null', ['class' => 'form language','id' => 'languages', 'placeholder' => '言語で探す'])}}
         </div>
-    @php Request::session()->forget('errors') @endphp
-    @endif
-   <div class="seek_list">
-       {{Form::open(['route' => 'project_list_post', 'method' => 'post', 'enctype' => 'multipart/form-data'])}}
-
-
-
-        <div class="language">
-            <p class="g1">言語</p>
-            <ul>
-                    @foreach($languages as $key => $language)
-                <li>
-                        {{ Form::checkbox('language[' . $key .']', $key, false, ['id' => $language, 'class' => 'form-check-input scale2']) }}
-                        {{ Form::label($language, $language, ['class' => 'form-check-label mr2']) }}
-                </li>
-                    @endforeach
-               
-            </ul>
-           
+        <div class="dib">
+            <i class="fa fa-2x fa-group mr1" aria-hidden="true"></i>
+            <i class="fa fa-user fa-2x icon_color mr1" aria-hidden="true"></i>
+            {{Form::select('purpose', $purposes, 'null', ['class' => 'form purpose','id' => 'purposes', 'placeholder' => '目的で探す'])}}
         </div>
-        <div class="purposes">
-           <p class="g2">目的</p>
-           <ul>
-                    @foreach($purposes as $key => $purpose)
-                <li>
-                    {{ Form::checkbox('purpose[' . $key .']', $key, false, ['id' => $purpose, 'class' => 'form-check-input scale2']) }}
-                    {{ Form::label($purpose, $purpose, ['class' => 'form-check-label mr2']) }}
-                </li>
-                    @endforeach
-            </ul>
+        <div class="dib">{{ Form::button('<i class="fa fa-search" aria-hidden="true"></i>', ['class' => 'btn search-icon', 'type' => 'button']) }}</div>
+    </div>
+   <div class="project_list">
+        @foreach($projects as $project)
+        <!--<div class="project">-->
+        <div class="card wi48 p2">
+            <p>{{$project->project_name}}</p>
+            <table class="project_detail_table">
+                <tr>
+                    <td>募集人数</td>
+                    <td>{{$project->number_of_application}}人</td>
+                </tr>
+                <tr>
+                    <td>男女</td>
+                    <td>{{$project->men_and_women}}</td>
+                </tr>
+                <tr>
+                    <td>経験年数</td>
+                    <td>@if($project->minimum_experience != 0){{$project->minimum_experience}}年以上@else未経験歓迎@endif</td>
+                </tr>
+                <tr>
+                    <td>目的</td>
+                    <td>{{$project->purpose}}</td>
+                </tr>
+                <tr>
+                    <td>ソース管理</td>
+                    <td>{{$project->tools}}</td>
+                </tr>
+                <tr>
+                    <td>主要言語</td>
+                    <td>{{$project->language}}</td>
+                </tr>
+                <tr>
+                    <td>年齢</td>
+                    <td>{{$project->year}}</td>
+                </tr>
+                
+            </table>
+            <div class="actions">
+                <button type="button" class="detail btn btn-outline-primary">詳細を見る</button>
+                {{Form::open(['route' => 'question', 'method' => 'post', 'enctype' => 'multipart/form-data'])}}
+                <input type="hidden" name="project_info" value="{{$project}}">
+                <button type="submit" class="btn btn-outline-secondary">質問したい</button>
+                <button type="button" class="btn btn-outline-success">参加申請</button>
+                {{Form::close()}}
+            </div>
+            <div class="att_name">
+                <div class="create_user">作成者 : <a href="/user_info/{{$project->user['user_name']}}">{{$project->user['user_name']}}</a></div>
+            </div>
+            <div class="popup">
+              <div class="content">
+                <p>{{$project->project_detail}}</p>
+                <button id="close" class="close">閉じる</button>
+              </div>
+            </div>
         </div>
-        <button type="submit" class="btn btn-outline-success">検索</button>
-       {{ Form::close() }}
-   </div>
+        @endforeach
+    </div>
 </div>
+@section('reed_scripts')
+<script src="/js/project_seek.js"></script>
+@endsection
 @endsection
 @section('scripts')
-$('input[name="language[99]"]').click(function() {
-    if($(this).prop("checked")) {
-        $('input[name^=language]').not($(this)).prop('checked', false);
-        $('input[name^=language]').not($(this)).prop('disabled', true);
-    } else {
-        $('input[name^=language]').not($(this)).prop('disabled', false);
-    }
-});
-$('input[name="purpose[99]"]').click(function() {
-    if($(this).prop("checked")) {
-        $('input[name^=purpose]').not($(this)).prop('checked', false);
-        $('input[name^=purpose]').not($(this)).prop('disabled', true);
-    } else {
-        $('input[name^=purpose]').not($(this)).prop('disabled', false);
-    }
+$(function(){
+    $(document).on('click', '.detail', function(){
+        $(this).parent().next().next('.popup')
+        .addClass("show")
+        .fadeIn();
+    });
+    $(document).on('click', '.close', function(){
+        $(".popup").fadeOut();
+    });
 });
 @endsection

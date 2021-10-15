@@ -1,12 +1,13 @@
 .wrapper {
-    margin-top: 5rem;
+    margin-top: 3.6rem;
+    padding-top: 0;
 }
 .seek_list {
     width: 1024px;
     margin: 0 auto;
 }
 .language, .purposes {
-    margin-top: 3rem;
+    margin-top: 1.5rem;
 }
 .language ul, .purposes ul {
     display: flex;
@@ -37,3 +38,37 @@
         display: block;
     }
 }
+
+.search-header {
+    position: relative;
+    background: #f6f8fa;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 12px;
+}
+.form{
+    cursor: pointer;
+    padding: 15px;
+    background:#f8f8f8;
+    border:1px solid rgba(0, 0, 0, 0.075);
+    margin-bottom:25px;
+    color:#727272 !important;
+    font-size:13px;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    
+  }
+
+  .form:hover{
+    border:1px solid #8BC3A3;
+  }
+
+  .form:focus{
+    color: white;
+    outline: none;
+    border:1px solid #8BC3A3;
+  }
+  .icon_color {
+      color: gray;
+  }

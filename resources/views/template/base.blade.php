@@ -35,6 +35,7 @@
     <div class="wrapper">
     @yield('contents')
     </div>
+    @yield('reed_scripts')
 </body>
 
 <script>
