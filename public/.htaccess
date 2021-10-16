@@ -1,9 +1,5 @@
-Satisfy Any
-SetEnvIf HOST "^(3.133.44.198/|localhost)$" noAuth
-Allow from env=noAuth
-
-AuthUserfile /home/xs900379/developer-meets.com/public_html/public/.htpasswd
-AuthGroupfile /dev/null
+AuthUserfile /home/ec2-user/environment/public/.htpasswd
+#AuthGroupfile /dev/null
 AuthName "Please enter your ID and password"
 AuthType Basic
 require valid-user
