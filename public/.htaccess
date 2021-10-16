@@ -47,4 +47,4 @@ require valid-user
 
 <IfModule mod_mime.c>
   AddType image/webp .webp
-</IfModule>
+</IfModule> 
