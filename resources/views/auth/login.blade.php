@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{--@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -70,4 +70,48 @@
         </div>
     </div>
 </div>
+@endsection
+--}}
+@extends('template.base')
+@section('individual_stylesheet')
+<link rel="stylesheet" href="/css/auth/login.css">
+@endsection
+@section('contents')
+
+
+<form method="POST" action="{{ route('login') }}">
+    @csrf
+  <h1>ログイン</h1>
+  <input id="email" type="email" class="@error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="メールアドレス">
+
+    @error('email')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
+  <input id="password" type="password" class="@error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="パスワード">
+    @error('password')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
+  <button class="btn m0" type="submit">Log in</button>
+  <h6>その他のログイン方法</h6>
+  <div class="social">
+  <button class="tw btn">Twitter</button>
+  <button class="fb btn">Facebook</button>
+  <button class="google fb btn">Google+</button>
+  </div>
+  <a href="/password/reset"><p class="forget">パスワードを忘れた方はこちら</p></a>
+</form>
+<footer>
+  <h5>Right click and visit: <a target="_blank" href="http://lifes.gd">Life's Good</a></h5>
+</footer>
+      @endsection
+@section('scripts')
+$(document).ready(function(e){
+   $('h6').on('click',function(){
+      $('.social').stop().slideToggle();
+   });
+})
 @endsection
