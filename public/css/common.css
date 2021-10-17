@@ -27,6 +27,9 @@ body {
 .mt2 {
     margin-top: 2rem;
 }
+.mb2 {
+    margin-bottom: 2rem;
+}
 .tas {
     text-align: center;
 }
@@ -39,9 +42,15 @@ body {
 label {
     cursor: pointer;
 }
+.sponly {
+    display: none;
+}
 @media only screen and (max-width: 768px) {
     .pconly {
         display: none!important;
+    }
+    .sponly {
+        display: block;
     }
 
 }
