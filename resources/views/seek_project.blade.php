@@ -7,27 +7,28 @@
 @section('contents')
 
 <div class="contents">
-    
+    <div class="acodion_seek sponly">
+        検索メニュー表示
+    </div>
     <div class="search-header">
-        <div class="dib mr2">
+        <div class="search_icon mr2">
             <i class="fa fa-laptop fa-2x icon_color mr1" aria-hidden="true"></i>
             {{Form::select('language', $datas['languages'], 'null', ['class' => 'form language','id' => 'languages', 'placeholder' => '言語で探す'])}}
         </div>
-        <div class="dib mr2">
-            <i class="fa fa-2x fa-group mr1" aria-hidden="true"></i>
+        <div class="search_icon mr2">
             <i class="fa fa-user fa-2x icon_color mr1" aria-hidden="true"></i>
             {{Form::select('purpose', $datas['purposes'], 'null', ['class' => 'form purpose','id' => 'purposes', 'placeholder' => '目的で探す'])}}
         </div>
-        <div class="dib mr2">
+        <div class="search_icon mr2">
             <i class="fa fa-male fa-2x icon_color"></i><i class="fa fa-female fa-2x icon_color mr1"></i>
             {{Form::select('gender', $datas['gender'], 'null', ['class' => 'form gender','id' => 'gender', 'placeholder' => '男女構成'])}}
         </div>
-        <div class="dib">{{ Form::button('<i class="fa fa-search" aria-hidden="true"></i>', ['class' => 'btn search-icon', 'type' => 'button']) }}</div>
+        <div class="search_icon mr2"><i class="fa fa-search fa-2x icon_color mr1"></i>{{ Form::button('探す', ['class' => 'btn search-icon', 'type' => 'button']) }}</div>
     </div>
    <div class="project_list">
         @foreach($projects as $project)
         <!--<div class="project">-->
-        <div class="card wi48 p2">
+        <div class="card p2 mb2">
             <p>{{$project['project_name']}}</p>
             <table class="project_detail_table">
                 <tr>
@@ -96,4 +97,12 @@ $(function(){
         $(".popup").fadeOut();
     });
 });
+$('.acodion_seek').click(function() {
+    $('.search-header').slideToggle();
+    if ($(this).text() === '閉じる') {
+        $(this).text('検索メニュー表示');
+    } else {
+        $(this).text('閉じる');
+    }
+})
 @endsection

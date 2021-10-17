@@ -30,14 +30,6 @@
     color: #fff;
     font-weight: bold;
 }
-@media only screen and (max-width: 768px) {
-    .seek_list {
-        width: 100%;
-    }
-    .language ul, .purposes ul {
-        display: block;
-    }
-}
 
 .search-header {
     position: relative;
@@ -46,6 +38,7 @@
     margin-bottom: 2rem;
     font-size: 12px;
 }
+
 .form{
     cursor: pointer;
     padding: 15px;
@@ -72,3 +65,38 @@
   .icon_color {
       color: gray;
   }
+  .card {
+      width: 48%;
+  }
+  .search_icon {
+      display: inline-block;
+  }
+@media only screen and (max-width: 768px) {
+    .seek_list {
+        width: 100%;
+    }
+    .language ul, .purposes ul {
+        display: block;
+    }
+    .card {
+      width: 100%;
+    }
+    .search-header {
+        display: none;
+        position: relative;
+        text-align: left;
+        background: #f6f8fa;
+        margin-bottom: 2rem;
+        padding-left: 2rem;
+        font-size: 12px;
+    }
+     .search_icon {
+      display: block;
+    }
+    .acodion_seek {
+        padding: 1rem;
+        text-align: center;
+        background: gray;
+        color: white;
+    }
+}
