@@ -71,6 +71,16 @@
   .search_icon {
       display: inline-block;
   }
+  .flash_message {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 1rem;
+    background: gray;
+    color: white;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
 @media only screen and (max-width: 768px) {
     .seek_list {
         width: 100%;

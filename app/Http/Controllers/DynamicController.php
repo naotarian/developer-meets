@@ -5,6 +5,7 @@ use Validator;
 use Illuminate\Http\Request;
 use App\User;
 use App\Project;
+use App\ProjectApplication;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -39,7 +40,6 @@ class DynamicController extends Controller
     public function make_project_post(Request $request) {
         $user = Auth::user();
         $datas = $request->all();
-        // dd($datas);
         $messages = [
             'required' => ' :attributeを入力してください',
             'project_name.max' => ':attributeは50文字までです'
@@ -105,12 +105,39 @@ class DynamicController extends Controller
             $target_user = User::where('user_name', $user_name)->first();
         }
         $target_user['sex'] = $this->gender[$target_user['sex']];
+        //掲載中のプロジェクト
+        $now_available_projects = Project::where('user_id', $target_user->id)->get();
         
-        return view('personal.my_page', ['login_user_infomation' => $target_user]);
+        return view('personal.my_page', ['login_user_infomation' => $target_user, 'now_available_projects' => $now_available_projects]);
     }
     
     public function question(Request $request) {
         $project_info = json_decode($request['project_info'], true);
+    }
+    public function application(Request $request) {
+        $target_user = Auth::user();
+        $project_info = json_decode($request['project_info'], true);
+        //既存のものがあれば追加しない
+        $upsert = ProjectApplication::updateOrCreate(
+            ['application_id' => $target_user->id, 'project_id' => $project_info['id']],
+            ['status' => '1', 'application_id' => $target_user->id, 'author_id' => $project_info['user_id'], 'project_id' => $project_info['id']]
+        );
+        if($upsert->wasRecentlyCreated) {
+            $message = '申請が完了しました。';
+        } else {
+            $message = '既に申請済みです。';
+        }
+        return back()->with('flash_message', $message);
+    }
+    
+    public function application_list(Request $request) {
+        $target_user = Auth::user();
+        $application_list = ProjectApplication::where('author_id', $target_user->id)->join('projects','project_applications.project_id','=','projects.id')->get();
+        foreach($application_list as $app) {
+            $app->application_user_info = User::select('user_name')->where('id', $app->application_id)->get();
+            $app->application_date = ProjectApplication::select('created_at')->where('id', $app->application_id)->get();
+        }
+        return view('personal.application', ['application_list' => $application_list]);
     }
     
 }
