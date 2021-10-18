@@ -18,7 +18,7 @@
   </ul>
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-      <p class="mypage_title">プロジェクト参加履歴</p>
+      <p class="mypage_title"><i class="fas fa-tasks icon_color mr1"></i>プロジェクト参加履歴</p>
       <div class="row">
         <div class="col-sm-6 mb2">
           <div class="card">

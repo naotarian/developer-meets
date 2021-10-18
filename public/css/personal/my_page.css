@@ -27,6 +27,17 @@ dd{
     width: 50%;
     margin: 3rem auto;
     text-align: center;
+    font-size: 2rem;
+    color: gray;
+}
+.nav-tabs {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
 }
 @media only screen and (max-width: 768px) {
     .my_infomations {
@@ -42,5 +53,12 @@ dd{
         width: 100%;
         margin-right: -15px;
         margin-left: 0;
+    }
+    .mypage_title {
+        width: 100%;
+        margin: 3rem auto;
+        text-align: center;
+        font-size: 1.5rem;
+        color: gray;
     }
 }

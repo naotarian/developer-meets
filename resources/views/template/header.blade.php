@@ -2,7 +2,7 @@
   <div class="header_inner">
     <div class="logo">
     </div>
-    <nav class="nav">
+    <nav class="nav_menu">
       <ul class="nav_list">
         <li class="nav_item"><a href="/">ホーム</a></li>
         <li class="nav_item"><a href="/seek">プロジェクトを探す</a></li>
