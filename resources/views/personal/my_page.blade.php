@@ -5,7 +5,70 @@
 @section('contents')
 
 <div class="contents">
-    <dl class="my_infomations">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <p class="mypage_title">プロジェクト参加履歴</p>
+      <div class="row">
+        <div class="col-sm-6 mb2">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">プロジェクトタイトル</h5>
+              <p class="card-text">プロジェクトの詳細</p>
+              <a href="#" class="btn btn-primary">このプロジェクトについて</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 mb2">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">プロジェクトタイトル</h5>
+              <p class="card-text">プロジェクトの詳細</p>
+              <a href="#" class="btn btn-primary">このプロジェクトについて</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 mb2">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">プロジェクトタイトル</h5>
+              <p class="card-text">プロジェクトの詳細</p>
+              <a href="#" class="btn btn-primary">このプロジェクトについて</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 mb2">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">プロジェクトタイトル</h5>
+              <p class="card-text">プロジェクトの詳細</p>
+              <a href="#" class="btn btn-primary">このプロジェクトについて</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 mb2">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">プロジェクトタイトル</h5>
+              <p class="card-text">プロジェクトの詳細</p>
+              <a href="#" class="btn btn-primary">このプロジェクトについて</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <dl class="my_infomations">
       <dt>ユーザー名</dt>
       <dd>{{$login_user_infomation->user_name}}<br>
       複数行でも崩れません。</dd>
@@ -29,5 +92,9 @@
       <dt>プロフィール</dt>
       <dd>{{$login_user_infomation->self_introduction}}</dd>
     <dl>
+    </div>
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">contact</div>
+  </div>
+    
 </div>
 @endsection
