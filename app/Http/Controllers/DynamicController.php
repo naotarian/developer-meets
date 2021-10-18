@@ -135,9 +135,8 @@ class DynamicController extends Controller
         $application_list = ProjectApplication::where('author_id', $target_user->id)->join('projects','project_applications.project_id','=','projects.id')->get();
         foreach($application_list as $app) {
             $app->application_user_info = User::select('user_name')->where('id', $app->application_id)->get();
-            $app->application_date = ProjectApplication::select('created_at')->where('id', $app->application_id)->get();
+            $app->application_date = ProjectApplication::select('created_at')->where('application_id', $app->application_id)->get();
         }
         return view('personal.application', ['application_list' => $application_list]);
     }
-    
 }
