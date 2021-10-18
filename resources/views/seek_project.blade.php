@@ -25,6 +25,12 @@
         </div>
         <div class="search_icon mr2"><i class="fa fa-search fa-2x icon_color mr1"></i>{{ Form::button('探す', ['class' => 'btn search-icon', 'type' => 'button']) }}</div>
     </div>
+    @if (session('flash_message'))
+        <div class="flash_message">
+            {{ session('flash_message') }}
+        </div>
+        @php session()->forget('flash_message') @endphp
+    @endif
    <div class="project_list">
         @foreach($projects as $project)
         <!--<div class="project">-->
@@ -63,10 +69,10 @@
             </table>
             <div class="actions">
                 <button type="button" class="detail btn btn-outline-primary">詳細を見る</button>
-                {{Form::open(['route' => 'question', 'method' => 'post', 'enctype' => 'multipart/form-data'])}}
+                {{Form::open(['route' => 'application', 'method' => 'post', 'enctype' => 'multipart/form-data'])}}
                 <input type="hidden" name="project_info" value="{{$project}}">
                 <button type="submit" class="btn btn-outline-secondary">質問したい</button>
-                <button type="button" class="btn btn-outline-success">参加申請</button>
+                <button type="submit" class="btn btn-outline-success">参加申請</button>
                 {{Form::close()}}
             </div>
             <div class="att_name">
