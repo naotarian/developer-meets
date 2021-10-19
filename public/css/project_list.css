@@ -1,5 +1,5 @@
 .wrapper {
-    margin-top: 5rem;
+    /*margin-top: 5rem;*/
 }
 .project_list {
     width: 1200px;
@@ -51,6 +51,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 }
 .create_user {
     padding: 1rem;
@@ -68,5 +69,8 @@
     .actions {
         text-align: left;
         margin-bottom: 2rem;
+    }
+    .project_list {
+        display: block;
     }
 }

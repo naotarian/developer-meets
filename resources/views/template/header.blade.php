@@ -2,12 +2,11 @@
   <div class="header_inner">
     <div class="logo">
     </div>
-    <nav class="nav">
+    <nav class="nav_menu">
       <ul class="nav_list">
         <li class="nav_item"><a href="/">ホーム</a></li>
         <li class="nav_item"><a href="/seek">プロジェクトを探す</a></li>
         <li class="nav_item"><a href="/make">プロジェクトを作る</a></li>
-        <li class="nav_item"><a href="/project_list">プロジェクトリスト</a></li>
         <li class="nav_item"><a href="/my_page">マイページ</a></li>
       </ul>
     </nav>
