@@ -7,18 +7,58 @@ dd{
   margin-bottom: 1.5rem;
   border-bottom: 1px solid gray;
 }
+.wrapper {
+    margin: 0 auto;
+     padding-top: 0; 
+}
 .my_infomations {
-    width: 1024px;
+    /*width: 1024px;*/
     margin: 0 auto;
     padding: 1rem;
 }
 .wrapper {
     margin-top: 8rem;
 }
+.contents {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+.mypage_title {
+    width: 50%;
+    margin: 3rem auto;
+    text-align: center;
+    font-size: 2rem;
+    color: gray;
+}
+.nav-tabs {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
 @media only screen and (max-width: 768px) {
     .my_infomations {
         width: 100%;
         margin: 0 auto;
         padding: 1rem;
+    }
+    .row {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        width: 100%;
+        margin-right: -15px;
+        margin-left: 0;
+    }
+    .mypage_title {
+        width: 100%;
+        margin: 3rem auto;
+        text-align: center;
+        font-size: 1.5rem;
+        color: gray;
     }
 }
