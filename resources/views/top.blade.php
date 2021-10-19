@@ -12,7 +12,15 @@
         </div>
     </div>
     <div class="context">
-        <h1>思考を合わせて<ruby>形<rt style="font-size: 1rem;">コード</rt></ruby>にしよう。</h1>
+        <h1>思考を合わせて
+            <!-- Example挿入例 -->
+            <div id="example"></div>
+            <script src="{{ mix('/js/Example.js') }}"></script>
+            <!-- AtomTest挿入例 -->
+            <div id="atom_test"></div>
+            <script src="{{ mix('/js/components/Atoms/AtomTest.js') }}"></script>
+
+            <ruby>形<rt style="font-size: 1rem;">コード</rt></ruby>にしよう。</h1>
         @guest
             <ul class="auth">
                 <li>

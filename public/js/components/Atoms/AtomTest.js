@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -28601,10 +28601,10 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./resources/js/components/Example.js":
-/*!********************************************!*\
-  !*** ./resources/js/components/Example.js ***!
-  \********************************************/
+/***/ "./resources/js/components/Atoms/AtomTest.js":
+/*!***************************************************!*\
+  !*** ./resources/js/components/Atoms/AtomTest.js ***!
+  \***************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -28617,23 +28617,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var Example = function Example() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Hello React!!!!!");
+var AtomTest = function AtomTest() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "AtomTest!");
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Example);
-react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Example, null), document.getElementById('example'));
+/* harmony default export */ __webpack_exports__["default"] = (AtomTest);
+react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(AtomTest, null), document.getElementById('atom_test'));
 
 /***/ }),
 
-/***/ 1:
-/*!**************************************************!*\
-  !*** multi ./resources/js/components/Example.js ***!
-  \**************************************************/
+/***/ 0:
+/*!*********************************************************!*\
+  !*** multi ./resources/js/components/Atoms/AtomTest.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /var/www/html/resources/js/components/Example.js */"./resources/js/components/Example.js");
+module.exports = __webpack_require__(/*! /var/www/html/resources/js/components/Atoms/AtomTest.js */"./resources/js/components/Atoms/AtomTest.js");
 
 
 /***/ })
