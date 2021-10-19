@@ -31,6 +31,12 @@
         </div>
         @php session()->forget('flash_message') @endphp
     @endif
+    @if (session('my_project_message'))
+        <div class="flash_message">
+            {{ session('my_project_message') }}
+        </div>
+        @php session()->forget('my_project_message') @endphp
+    @endif
    <div class="project_list">
         @foreach($projects as $project)
         <!--<div class="project">-->
