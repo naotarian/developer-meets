@@ -1,16 +1,5 @@
-Order Deny,Allow
-Deny from all
-
-# デフォルトの All ではなく Any を指定します
-# Any にしないと Basic認証を通過してもホストが許可されていないため表示出来ません
-Satisfy Any
-
-# マッチしたホストを許可する
-SetEnvIf HOST "^(3.133.44.198|localhost)$" allowedHost
-Allow from env=allowedHost
-
 AuthUserfile /home/ec2-user/environment/public/.htpasswd
-#AuthGroupfile /dev/null
+AuthGroupfile /dev/null
 AuthName "Please enter your ID and password"
 AuthType Basic
 require valid-user
@@ -54,4 +43,4 @@ require valid-user
 
 <IfModule mod_mime.c>
   AddType image/webp .webp
-</IfModule> 
+</IfModule>

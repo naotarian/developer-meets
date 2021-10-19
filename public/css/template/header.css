@@ -28,7 +28,7 @@
 }
 
 @media only screen and (max-width: 768px) {
-  .nav_menu {
+  .nav {
     position: fixed;
     right: -320px; /* 右から出てくる */
     top: 0;
@@ -100,7 +100,7 @@
   }
 
   /* 表示された時用のCSS */
-  .nav-open .nav_menu {
+  .nav-open .nav {
     right: 0;
   }
   .nav-open .black_bg {

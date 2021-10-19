@@ -5,7 +5,6 @@ use Validator;
 use Illuminate\Http\Request;
 use App\User;
 use App\Project;
-use App\ProjectApplication;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -13,7 +12,7 @@ class DynamicController extends Controller
 {
     
     public function __construct () {
-        $this->gender = config('app.gender');
+        $this->sex = config('app.sex');
         $this->gender = config('app.gender');
         $this->purposes = config('app.purposes');
         $this->tools = config('app.tools');
@@ -23,7 +22,11 @@ class DynamicController extends Controller
         return view('top');
     }
     
-    
+    public function seek_project() {
+        $languages = $this->languages;
+        $purposes = $this->purposes;
+        return view('seek_project', ['languages' => $languages, 'purposes' => $purposes]);
+    }
    
     public function make_project() {
         $languages = $this->languages;
@@ -34,12 +37,12 @@ class DynamicController extends Controller
         for($i = 15; $i < 60; $i++) {
             $datas['age'][$i] = $i;
         }
-        
         return view('make_project', ['datas' => $datas]);
     }
     public function make_project_post(Request $request) {
         $user = Auth::user();
         $datas = $request->all();
+        // dd($datas);
         $messages = [
             'required' => ' :attributeを入力してください',
             'project_name.max' => ':attributeは50文字までです'
@@ -80,8 +83,42 @@ class DynamicController extends Controller
         
         return redirect('/make')->with('flash_message', 'プロジェクト作成が完了しました');
     }
-    public function seek_project() {
+    public function project_list(Request $request) {
+        $validate_datas = $request->all();
         $projects = Project::all();
+        
+            // dd($request->method());
+        if($request->method() == 'POST') {
+            $messages = [
+                '*.required' => ':attributeが入力されていません。',
+                
+            ];
+            $validator = Validator::make($validate_datas,[
+                'language' => 'required',
+                'purpose' => 'required',
+            ],$messages);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        if(array_key_exists('99', $validate_datas['purpose']) && array_key_exists('99', $validate_datas['language'])) {
+            $projects = Project::all();
+        } elseif(array_key_exists('99', $validate_datas['purpose'])) {
+            $projects = Project::where('language', $validate_datas['language'])->get();
+        } elseif(array_key_exists('99', $validate_datas['language'])) {
+            $projects = Project::where('purpose', $validate_datas['purpose'])->get();
+        } else {
+            $projects = Project::where('purpose', '=', $validate_datas["purpose"])->where(function($query) use ($validate_datas) {
+                    $query->where('language', '=', $validate_datas["language"])
+                    ->orWhere('sub_language', '=', $validate_datas["language"]);
+                })->get();
+        }
+            
+        }
+
+        
+        
+
         foreach($projects as $project) {
             $project->purpose = $this->purposes[$project->purpose];
             $project->men_and_women = $this->gender[$project->men_and_women];
@@ -91,52 +128,22 @@ class DynamicController extends Controller
             $project->year = $project->minimum_years_old . '歳~' . $project->max_years_old . '歳';
             $project->user = User::where('id', $project->user_id)->first();
         }
-        $array_datas = [];
-        $array_datas['languages'] = $this->languages;
-        $array_datas['purposes'] = $this->purposes;
-        $array_datas['gender'] = $this->gender;
-        
-        return view('seek_project', ['datas' => $array_datas, 'projects' => $projects]);
+        return view('project_list', ['projects' => $projects]);
     }
     
-    public function my_page($user_name = 0) {
-        $target_user = Auth::user();
-        if($user_name) {
-            $target_user = User::where('user_name', $user_name)->first();
+    public function my_page(Request $request) {
+        $login_user = Auth::user();
+        if($request->method() == 'POST') {
+            $login_user = User::find($request['user_id'])->first();
         }
-        $target_user['sex'] = $this->gender[$target_user['sex']];
-        //掲載中のプロジェクト
-        $now_available_projects = Project::where('user_id', $target_user->id)->get();
-        
-        return view('personal.my_page', ['login_user_infomation' => $target_user, 'now_available_projects' => $now_available_projects]);
+        $login_user_infomation = User::where('id', $login_user->id)->first();
+        $login_user_infomation->sex = $this->sex[$login_user_infomation->sex];
+        return view('personal.my_page', ['login_user_infomation' => $login_user_infomation]);
     }
     
     public function question(Request $request) {
         $project_info = json_decode($request['project_info'], true);
-    }
-    public function application(Request $request) {
-        $target_user = Auth::user();
-        $project_info = json_decode($request['project_info'], true);
-        //既存のものがあれば追加しない
-        $upsert = ProjectApplication::updateOrCreate(
-            ['application_id' => $target_user->id, 'project_id' => $project_info['id']],
-            ['status' => '1', 'application_id' => $target_user->id, 'author_id' => $project_info['user_id'], 'project_id' => $project_info['id']]
-        );
-        if($upsert->wasRecentlyCreated) {
-            $message = '申請が完了しました。';
-        } else {
-            $message = '既に申請済みです。';
-        }
-        return back()->with('flash_message', $message);
+        dd($project_info);
     }
     
-    public function application_list(Request $request) {
-        $target_user = Auth::user();
-        $application_list = ProjectApplication::where('author_id', $target_user->id)->join('projects','project_applications.project_id','=','projects.id')->get();
-        foreach($application_list as $app) {
-            $app->application_user_info = User::select('user_name')->where('id', $app->application_id)->get();
-            $app->application_date = ProjectApplication::select('created_at')->where('application_id', $app->application_id)->get();
-        }
-        return view('personal.application', ['application_list' => $application_list]);
-    }
 }
