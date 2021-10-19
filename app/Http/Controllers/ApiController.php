@@ -75,6 +75,7 @@ class ApiController extends Controller
             [],
             JSON_UNESCAPED_UNICODE
         );
+  
         
     }
 }
