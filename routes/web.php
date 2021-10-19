@@ -12,11 +12,12 @@
 */
 
 // Route::get('/', function () {
-    
+
 // });
 Route::get('/welcome', function() {
     return view('welcome');
 });
+Route::get('/sample', 'SampleController@react');
 Route::get('/', 'DynamicController@index')->name('top');
 Route::get('/seek', 'DynamicController@seek_project')->name('seek_project');
 Route::get('/make', 'DynamicController@make_project')->name('make_project')->middleware('auth');
