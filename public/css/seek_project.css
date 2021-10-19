@@ -1,13 +1,12 @@
 .wrapper {
-    margin-top: 3.6rem;
-    padding-top: 0;
+    margin-top: 5rem;
 }
 .seek_list {
     width: 1024px;
     margin: 0 auto;
 }
 .language, .purposes {
-    margin-top: 1.5rem;
+    margin-top: 3rem;
 }
 .language ul, .purposes ul {
     display: flex;
@@ -30,83 +29,11 @@
     color: #fff;
     font-weight: bold;
 }
-
-.search-header {
-    position: relative;
-    background: #f6f8fa;
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 12px;
-}
-
-.form{
-    cursor: pointer;
-    padding: 15px;
-    background:#f8f8f8;
-    border:1px solid rgba(0, 0, 0, 0.075);
-    margin-bottom:25px;
-    color:#727272 !important;
-    font-size:13px;
-    -webkit-transition: all 0.4s;
-    -moz-transition: all 0.4s;
-    transition: all 0.4s;
-    
-  }
-
-  .form:hover{
-    border:1px solid #8BC3A3;
-  }
-
-  .form:focus{
-    color: white;
-    outline: none;
-    border:1px solid #8BC3A3;
-  }
-  .icon_color {
-      color: gray;
-  }
-  .card {
-      width: 48%;
-  }
-  .search_icon {
-      display: inline-block;
-  }
-  .flash_message {
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 1rem;
-    background: gray;
-    color: white;
-    margin-bottom: 2rem;
-    opacity: 0.9;
-  }
 @media only screen and (max-width: 768px) {
     .seek_list {
         width: 100%;
     }
     .language ul, .purposes ul {
         display: block;
-    }
-    .card {
-      width: 100%;
-    }
-    .search-header {
-        display: none;
-        position: relative;
-        text-align: left;
-        background: #f6f8fa;
-        margin-bottom: 2rem;
-        padding-left: 2rem;
-        font-size: 12px;
-    }
-     .search_icon {
-      display: block;
-    }
-    .acodion_seek {
-        padding: 1rem;
-        text-align: center;
-        background: gray;
-        color: white;
     }
 }
