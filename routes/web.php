@@ -31,3 +31,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/application', 'DynamicController@application')->name('application')->middleware('auth');
 Route::get('/application_list', 'DynamicController@application_list')->name('application_list')->middleware('auth');
 Route::post('/cancel', 'DynamicController@cancel')->name('cancel')->middleware('auth');
+// jsからのリクエスト
+Route::get('/api/test', 'Api\ApiController@test');
