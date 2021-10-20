@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from "styled-components";
-import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { green } from '@mui/material/colors';
@@ -17,23 +16,14 @@ const StyledText = styled(Typography)`
   font-size: small !important;
 `;
 
-const SkillTags = ({ skillTags }) => {
+const SkillTag = ({ skill, index }) => {
   return (
-    <Stack
-      direction={{ xs: 'column', sm: 'row' }}
-      spacing={{ xs: 1, sm: 2, md: 4 }}
-    >
-      { skillTags.map((skill, index) => {
-        return (
-          <Item key={index}>
-            <StyledText>
-              {skill}
-            </StyledText>
-          </Item>
-        );
-      })}
-    </Stack>
+    <Item key={index}>
+      <StyledText>
+        {skill}
+      </StyledText>
+    </Item>
   );
 };
 
-export default SkillTags;
+export default SkillTag;

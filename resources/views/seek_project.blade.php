@@ -31,6 +31,10 @@
         </div>
         @php session()->forget('flash_message') @endphp
     @endif
+    <!-- プロジェクトカード差し込み -->
+    <div id="project_card"></div>
+    <script src="{{ mix('/js/components/Organisms/ProjectCard.js') }}"></script>
+
    <div class="project_list">
         @foreach($projects as $key => $project)
         <!--<div class="project">-->
@@ -67,7 +71,7 @@
                     <td>年齢</td>
                     <td>{{$project['year']}}</td>
                 </tr>
-                
+
             </table>
             <div class="actions">
                 <button type="button" class="detail btn btn-outline-primary">詳細を見る</button>
@@ -77,14 +81,14 @@
             <div class="att_name">
                 <div class="create_user">作成者 : <a href="/user_info/{{$project['user']['user_name']}}">{{$project['user']['user_name']}}</a></div>
             </div>{{--att_name--}}
-            
+
             <div class="popup">
               <div class="content">
                 <p>{{$project['project_detail']}}</p>
                 <button id="close" class="close">閉じる</button>
               </div>
             </div>{{--popup(詳細を見るボタン)--}}
-            
+
             <div class="modal fade" id="exampleModalCenter{{$key}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
