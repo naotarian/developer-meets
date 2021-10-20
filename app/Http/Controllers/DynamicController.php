@@ -126,6 +126,7 @@ class DynamicController extends Controller
     }
     public function application(Request $request) {
         $target_user = Auth::user();
+        dd($request);
         $project_info = json_decode($request['project_info'], true);
         if($target_user->id == $project_info['user_id']) {
             return back()->with('my_project_message', '自身の作成プロジェクトへは参加申請を出せません。');

@@ -31,16 +31,17 @@
         </div>
         @php session()->forget('flash_message') @endphp
     @endif
-    @if (session('my_project_message'))
-        <div class="flash_message">
-            {{ session('my_project_message') }}
-        </div>
-        @php session()->forget('my_project_message') @endphp
-    @endif
+
+    <!-- プロジェクトカード差し込み -->
+    <div id="project_card"></div>
+    <script src="{{ mix('/js/components/Organisms/ProjectCard.js') }}"></script>
+
    <div class="project_list">
-        @foreach($projects as $project)
+        @foreach($projects as $key => $project)
         <!--<div class="project">-->
         <div class="card p2 mb2">
+            <!-- Button trigger modal -->
+
             <p>{{$project['project_name']}}</p>
             <table class="project_detail_table">
                 <tr>
@@ -71,25 +72,46 @@
                     <td>年齢</td>
                     <td>{{$project['year']}}</td>
                 </tr>
-                
+
             </table>
             <div class="actions">
                 <button type="button" class="detail btn btn-outline-primary">詳細を見る</button>
-                {{Form::open(['route' => 'application', 'method' => 'post', 'enctype' => 'multipart/form-data'])}}
-                <input type="hidden" name="project_info" value="{{$project}}">
                 <button type="submit" class="btn btn-outline-secondary">質問したい</button>
-                <button type="submit" class="btn btn-outline-success">参加申請</button>
-                {{Form::close()}}
-            </div>
+                <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModalCenter{{$key}}">参加申請</button>
+            </div>{{--actinos--}}
             <div class="att_name">
                 <div class="create_user">作成者 : <a href="/user_info/{{$project['user']['user_name']}}">{{$project['user']['user_name']}}</a></div>
-            </div>
+            </div>{{--att_name--}}
+
             <div class="popup">
               <div class="content">
                 <p>{{$project['project_detail']}}</p>
                 <button id="close" class="close">閉じる</button>
               </div>
-            </div>
+            </div>{{--popup(詳細を見るボタン)--}}
+
+            <div class="modal fade" id="exampleModalCenter{{$key}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    {{Form::open(['route' => 'application', 'method' => 'post', 'enctype' => 'multipart/form-data'])}}
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">プロジェクト名 : {{$project['project_name']}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    このプロジェクトへの参加を申請しますか？
+                  </div>
+                  <div class="modal-footer">
+                  <input type="hidden" name="project_info" value="{{$project}}">
+                    <button type="submit" class="btn btn-primary">申請する</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                  </div>
+                  {{Form::close()}}
+                </div>
+              </div>
+            </div>{{--modal (参加申請ボタン)--}}
         </div>
         @endforeach
     </div>
@@ -100,6 +122,8 @@
 @endsection
 @section('scripts')
 $(function(){
+var f = @json($projects);
+console.log(f);
     $(document).on('click', '.detail', function(){
         $(this).parent().next().next('.popup')
         .addClass("show")
