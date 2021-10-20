@@ -31,6 +31,7 @@
         </div>
         @php session()->forget('flash_message') @endphp
     @endif
+
     <!-- プロジェクトカード差し込み -->
     <div id="project_card"></div>
     <script src="{{ mix('/js/components/Organisms/ProjectCard.js') }}"></script>
