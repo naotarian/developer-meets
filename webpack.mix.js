@@ -15,25 +15,25 @@ const glob = require("glob");
 
 // build Atoms/*js
 glob.sync('resources/js/components/Atoms/*.js').map((file_path) => {
-  mix.react(file_path, 'public/js/components/Atoms/').version()
+  mix.js(file_path, 'public/js/components/Atoms/').react().version()
 });
 // build Molecules/*js
 glob.sync('resources/js/components/Molecules/*.js').map((file_path) => {
-  mix.react(file_path, 'public/js/components/Molecules/').version()
+  mix.js(file_path, 'public/js/components/Molecules/').react().version()
 });
 // build Organisms/*js
 glob.sync('resources/js/components/Organisms/*.js').map((file_path) => {
-  mix.react(file_path, 'public/js/components/Organisms/').version()
+  mix.js(file_path, 'public/js/components/Organisms/').react().version()
 });
 // build Templates/*js
 glob.sync('resources/js/components/Templates/*.js').map((file_path) => {
-  mix.react(file_path, 'public/js/components/Templates/').version()
+  mix.js(file_path, 'public/js/components/Templates/').react().version()
 });
 // build Pages/*js
 glob.sync('resources/js/components/Pages/*.js').map((file_path) => {
-  mix.react(file_path, 'public/js/components/Pages/').version()
+  mix.js(file_path, 'public/js/components/Pages/').react().version()
 });
 // build *js
 glob.sync('resources/js/components/*.js').map((file_path) => {
-  mix.react(file_path, 'public/js/').version()
+  mix.js(file_path, 'public/js/').react().version()
 });
