@@ -45,7 +45,57 @@
         </div>
         @endforeach
       </div>
-    </div>
+      @if (session('delete_message'))
+        <div class="flash_message">
+            {{ session('delete_message') }}
+        </div>
+        @php session()->forget('delete_message') @endphp
+      @endif
+      
+      {{--自分のページのみ表示--}}
+      @if($display_flag)
+      <p class="mypage_title"><i class="fas fa-clipboard-list icon_color mr1"></i>参加申請中プロジェクト</p>
+      <div class="row">
+        @foreach($now_applications as $key => $now)
+        <div class="col-sm-6 mb2">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{$now->project_name}}</h5>
+              <p class="card-text">{{$now->project_detail}}</p>
+              <a href="#" class="btn btn-primary">このプロジェクトについて</a>
+              <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#cancelModalCenter{{$key}}">参加申請取り消し</button>
+              <!--<a href="/application_list" class="btn btn-primary">参加申請取り消し</a>-->
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal fade" id="cancelModalCenter{{$key}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                {{Form::open(['route' => 'cancel', 'method' => 'post', 'enctype' => 'multipart/form-data'])}}
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">プロジェクト名 : {{$now->project_name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                このプロジェクトへの参加申請をキャンセルしますか？
+              </div>
+              <div class="modal-footer">
+              <input type="hidden" name="project_info" value="{{$now}}">
+                <button type="submit" class="btn btn-primary">参加申請をキャンセルする</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+              </div>
+              {{Form::close()}}
+            </div>
+          </div>
+        </div>{{--closeModal--}}
+        @endforeach
+      </div>
+      @endif
+    </div>{{--myTabContent--}}
+    
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
       <dl class="my_infomations">
         <dt>ユーザー名</dt>

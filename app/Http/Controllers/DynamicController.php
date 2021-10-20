@@ -101,14 +101,24 @@ class DynamicController extends Controller
     
     public function my_page($user_name = 0) {
         $target_user = Auth::user();
+        $logging_id = $target_user->id;
         if($user_name) {
             $target_user = User::where('user_name', $user_name)->first();
         }
+        if($target_user->id == $logging_id) {
+            $display_flag = 1;
+        } else {
+            $display_flag = 0;
+        }
+        /*
+        display_flagがtrueの場合のみ、参加申請中を表示
+        */
+        $now_applications = Project::join('project_applications','projects.id','=','project_applications.project_id')->where('project_applications.application_id', $target_user->id)->where('project_applications.status', 1)->where('project_applications.deleted_at', null)->get();
         $target_user['sex'] = $this->gender[$target_user['sex']];
         //掲載中のプロジェクト
         $now_available_projects = Project::where('user_id', $target_user->id)->get();
         
-        return view('personal.my_page', ['login_user_infomation' => $target_user, 'now_available_projects' => $now_available_projects]);
+        return view('personal.my_page', ['login_user_infomation' => $target_user, 'now_available_projects' => $now_available_projects, 'now_applications' => $now_applications, 'display_flag' => $display_flag]);
     }
     
     public function question(Request $request) {
@@ -117,6 +127,9 @@ class DynamicController extends Controller
     public function application(Request $request) {
         $target_user = Auth::user();
         $project_info = json_decode($request['project_info'], true);
+        if($target_user->id == $project_info['user_id']) {
+            return back()->with('my_project_message', '自身の作成プロジェクトへは参加申請を出せません。');
+        }
         //既存のものがあれば追加しない
         $upsert = ProjectApplication::updateOrCreate(
             ['application_id' => $target_user->id, 'project_id' => $project_info['id']],
@@ -138,5 +151,20 @@ class DynamicController extends Controller
             $app->application_date = ProjectApplication::select('created_at')->where('application_id', $app->application_id)->get();
         }
         return view('personal.application', ['application_list' => $application_list]);
+    }
+    
+    public function cancel(Request $request) {
+        $datas = json_decode($request['project_info'], true);
+        $target_application = ProjectApplication::find($datas['id']);
+        $target_application['status'] = 0;
+        $target_application->save();
+        $delete_application = $target_application->delete();
+        
+        if($delete_application) {
+            $message = '申請を取り消しました。';
+        } else {
+            $message = '予期せぬエラー : 該当のプロジェクトはありません。';
+        }
+        return back()->with('delete_message', $message);
     }
 }
