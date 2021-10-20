@@ -116,6 +116,7 @@ class DynamicController extends Controller
     }
     public function application(Request $request) {
         $target_user = Auth::user();
+        dd($request);
         $project_info = json_decode($request['project_info'], true);
         //既存のものがあれば追加しない
         $upsert = ProjectApplication::updateOrCreate(
