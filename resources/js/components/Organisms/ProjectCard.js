@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import styled from "styled-components";
+import axios from 'axios';
 import LabelButton from '../Atoms/LabelButton';
 import ProjectColumn from '../Atoms/ProjectColumn';
 import SkillTags from '../Molecules/SkillTags';
@@ -20,6 +21,14 @@ const StyledCard = styled(Card)`
 const ProjectCard = ({ projectInfo }) => {
   const [confirmFlag, setConfirmFlag] = useState(false);
 
+  let execApi = () => {
+    console.log('>>API叩く')
+    axios.get(`http://localhost/api/test`)
+      .then(res => {
+        let response = res.data;
+      });
+  }
+
   return (
     <StyledCard sx={{ maxWidth: 400 }}>
       {/* プロジェクト画像は未定 */}
@@ -38,7 +47,8 @@ const ProjectCard = ({ projectInfo }) => {
       </CardContent>
       {/* ボタン系 */}
       <CardActions>
-        <LabelButton label="詳細を見る" variant="outlined" size="small" />
+        {/* APIのテスト発火 */}
+        <LabelButton label="詳細を見る" variant="outlined" size="small" onClick={() => execApi()} />
         <LabelButton label="質問したい" variant="outlined" size="small" />
         <LabelButton label="参加申請" variant="outlined" size="small" onClick={() => setConfirmFlag(true)} />
         {/* 参加申請の確認ダイアログ */}
