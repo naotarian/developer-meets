@@ -30,9 +30,21 @@
           </div>
         </div>
       </div>
+      @if (session('withdrawal_message'))
+        <div class="flash_message">
+            {{ session('withdrawal_message') }}
+        </div>
+        @php session()->forget('withdrawal_message') @endphp
+      @endif
+      @if (session('nothing_data'))
+        <div class="flash_message">
+            {{ session('nothing_data') }}
+        </div>
+        @php session()->forget('nothing_data') @endphp
+      @endif
       <p class="mypage_title"><i class="fas fa-clipboard-list icon_color mr1"></i>掲載中プロジェクト</p>
       <div class="row">
-        @foreach($now_available_projects as $project)
+        @foreach($now_available_projects as $key => $project)
         <div class="col-sm-6 mb2">
           <div class="card">
             <div class="card-body">
@@ -40,9 +52,34 @@
               <p class="card-text">{{$project->project_detail}}</p>
               <a href="#" class="btn btn-primary">このプロジェクトについて</a>
               <a href="/application_list/{{$project->id}}" class="btn btn-primary">参加申請</a>
+              <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#withdrawalModalCenter{{$key}}">掲載終了</button>
             </div>
           </div>
         </div>
+        {{--ここからmodal--}}
+        <div class="modal fade" id="withdrawalModalCenter{{$key}}" tabindex="-1" role="dialog" aria-labelledby="withdrawalModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">プロジェクト名 : {{$project->project_name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                このプロジェクトの掲載を終了しますか？
+              </div>
+              <div class="modal-footer">
+                {{--
+              <input type="hidden" name="project_info" value="{{$now}}">
+                <button type="submit" class="btn btn-primary">掲載を終了する</button>
+                --}}
+                <a href="/withdrawal/{{$project->id}}" class="btn btn-primary">掲載取りやめ</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+              </div>
+            </div>
+          </div>
+        </div>{{--closeModal--}}
         @endforeach
       </div>
       @if (session('delete_message'))

@@ -32,6 +32,7 @@ Route::post('/application', 'DynamicController@application')->name('application'
 Route::get('/application_list/{id}', 'DynamicController@application_list')->name('application_list')->middleware('auth');
 Route::post('/cancel', 'DynamicController@cancel')->name('cancel')->middleware('auth');
 Route::get('/rejected/{id}', 'DynamicController@rejected')->name('rejected')->middleware('auth');
+Route::get('/withdrawal/{id}', 'DynamicController@withdrawal')->name('withdrawal')->middleware('auth');
 
 // jsからのリクエスト
 Route::get('/api/test', 'Api\ApiController@test');
