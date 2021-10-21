@@ -15,7 +15,28 @@
 
 
 ## ステージング環境
-http://developer-meets.com/
+http://developer-meets.com/  
+ステージング : xserverレンサバ  
+nodebrewをインストール(xserverのレンサバはcurlが打てないっぽい)  
+`wget git.io/nodebrew`  
+セットアップ  
+`perl nodebrew setup`  
+パスを通す  
+`echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.bashrc`  
+`source ~/.bashrc`  
+  
+バージョン指定してnodeをインストール  
+`nodebrew install-binary vx.x.x`  
+  
+
+利用可能バージョン確認  
+`nodebrew ls`  
+  
+バージョンの切り替え  
+`nodebrew use vx.x.x`  
+`node -v`  
+切り替わっていればOK  
+
 
 ### 開発環境
 laravel6.0  
