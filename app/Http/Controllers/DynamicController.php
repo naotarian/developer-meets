@@ -40,6 +40,7 @@ class DynamicController extends Controller
     public function make_project_post(Request $request) {
         $user = Auth::user();
         $datas = $request->all();
+        // dd($datas);
         $messages = [
             'required' => ' :attributeを入力してください',
             'project_name.max' => ':attributeは50文字までです'
@@ -76,6 +77,22 @@ class DynamicController extends Controller
         $project_instance->purpose = $datas['purpose'];
         $project_instance->status = 1;
         $project_instance->remarks = !empty($datas['remarks']) ? $datas['remarks'] : '';
+        //作業頻度は個数が増えそうにないので固定で入れでもいいと思う
+        if(!empty($datas['work_frequency'])) {
+            if($datas['work_frequency'] == 0) {
+                $project_instance->work_frequency = '週1~2時間';
+            } elseif($datas['work_frequency'] == 1) {
+                $project_instance->work_frequency = '週3~4時間';
+            } elseif($datas['work_frequency'] == 2) {
+                $project_instance->work_frequency = '週1日';
+            } elseif($datas['work_frequency'] == 3) {
+                $project_instance->work_frequency = '週2~3日';
+            } else {
+                $project_instance->work_frequency = '週4~5日';
+            }
+        } else {
+            $project_instance->work_frequency = null;
+        }
         $project_instance->save();
         
         return redirect('/make')->with('flash_message', 'プロジェクト作成が完了しました');
