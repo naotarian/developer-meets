@@ -40,7 +40,6 @@ class DynamicController extends Controller
     public function make_project_post(Request $request) {
         $user = Auth::user();
         $datas = $request->all();
-        // dd($datas);
         $messages = [
             'required' => ' :attributeを入力してください',
             'project_name.max' => ':attributeは50文字までです'
@@ -143,7 +142,6 @@ class DynamicController extends Controller
     }
     public function application(Request $request) {
         $target_user = Auth::user();
-        // dd($request);
         $project_info = json_decode($request['project_info'], true);
         if($target_user->id == $project_info['user_id']) {
             return back()->with('my_project_message', '自身の作成プロジェクトへは参加申請を出せません。');
@@ -163,7 +161,14 @@ class DynamicController extends Controller
     
     public function application_list($id) {
         $target_user = Auth::user();
-        $application_list = Project::join('project_applications','projects.id','=','project_applications.project_id')->where('author_id', $target_user->id)->where('project_id', $id)->where('project_applications.deleted_at', null)->get();
+        $application_list = Project::join('project_applications','projects.id','=','project_applications.project_id')
+        ->where('author_id', $target_user->id)
+        ->where('project_id', $id)
+        ->where('project_applications.deleted_at', null)
+        ->get();
+        if(count($application_list) == 0) {
+            return back()->with('nothing_data', '該当のプロジェクトは存在していません。');
+        }
         foreach($application_list as $app) {
             $app->application_user_info = User::select('user_name')->where('id', $app->application_id)->get();
             //申請日をcreated_atから生成(project_id , application_idで絞る)
@@ -188,7 +193,6 @@ class DynamicController extends Controller
     }
     
     public function rejected($id) {
-        // dd($id);
         $rejectd_application = ProjectApplication::find($id);
         $rejectd_application->status = 0;
         $rejectd_application->save();
@@ -201,5 +205,16 @@ class DynamicController extends Controller
         }
         return back()->with('rejected_message', $message);
         
+    }
+    
+    public function withdrawal($id) {
+        $withdrawal_project = Project::find($id)->delete();
+        if($withdrawal_project) {
+            $message = '掲載を終了しました。';
+        } else {
+            $message = '予期せぬエラー。';
+        }
+        
+        return back()->with('withdrawal_message', $message);
     }
 }
