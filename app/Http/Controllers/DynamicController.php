@@ -121,6 +121,9 @@ class DynamicController extends Controller
         if($user_name) {
             $target_user = User::where('user_name', $user_name)->first();
         }
+        if(!$target_user) {
+            return back()->with('nothing_user', 'ユーザーがいません。');
+        }
         if($target_user->id == $logging_id) {
             $display_flag = 1;
         } else {
