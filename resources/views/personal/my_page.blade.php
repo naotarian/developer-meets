@@ -39,7 +39,7 @@
               <h5 class="card-title">{{$project->project_name}}</h5>
               <p class="card-text">{{$project->project_detail}}</p>
               <a href="#" class="btn btn-primary">このプロジェクトについて</a>
-              <a href="/application_list" class="btn btn-primary">参加申請</a>
+              <a href="/application_list/{{$project->id}}" class="btn btn-primary">参加申請</a>
             </div>
           </div>
         </div>

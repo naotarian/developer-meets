@@ -161,9 +161,9 @@ class DynamicController extends Controller
         return back()->with('flash_message', $message);
     }
     
-    public function application_list(Request $request) {
+    public function application_list($id) {
         $target_user = Auth::user();
-        $application_list = ProjectApplication::where('author_id', $target_user->id)->join('projects','project_applications.project_id','=','projects.id')->get();
+        $application_list = Project::join('project_applications','projects.id','=','project_applications.project_id')->where('author_id', $target_user->id)->where('project_id', $id)->where('project_applications.deleted_at', null)->get();
         foreach($application_list as $app) {
             $app->application_user_info = User::select('user_name')->where('id', $app->application_id)->get();
             $app->application_date = ProjectApplication::select('created_at')->where('application_id', $app->application_id)->get();
