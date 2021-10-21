@@ -31,6 +31,13 @@
         </div>
         @php session()->forget('flash_message') @endphp
     @endif
+    @if (session('nothing_user'))
+        <div class="flash_message">
+            {{ session('nothing_user') }}
+        </div>
+        @php session()->forget('nothing_user') @endphp
+    @endif
+    
 
     <!-- プロジェクトカード差し込み -->
     <div id="project_card"></div>
