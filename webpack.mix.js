@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const glob = require("glob");
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +12,28 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+
+// build Atoms/*js
+glob.sync('resources/js/components/Atoms/*.js').map((file_path) => {
+  mix.js(file_path, 'public/js/components/Atoms/').react().version()
+});
+// build Molecules/*js
+glob.sync('resources/js/components/Molecules/*.js').map((file_path) => {
+  mix.js(file_path, 'public/js/components/Molecules/').react().version()
+});
+// build Organisms/*js
+glob.sync('resources/js/components/Organisms/*.js').map((file_path) => {
+  mix.js(file_path, 'public/js/components/Organisms/').react().version()
+});
+// build Templates/*js
+glob.sync('resources/js/components/Templates/*.js').map((file_path) => {
+  mix.js(file_path, 'public/js/components/Templates/').react().version()
+});
+// build Pages/*js
+glob.sync('resources/js/components/Pages/*.js').map((file_path) => {
+  mix.js(file_path, 'public/js/components/Pages/').react().version()
+});
+// build *js
+glob.sync('resources/js/components/*.js').map((file_path) => {
+  mix.js(file_path, 'public/js/').react().version()
+});

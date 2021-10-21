@@ -7,14 +7,28 @@ body {
     margin: 0 auto;
     padding-top: 8rem;
 }
+.wi48 {
+    width: 48%;
+}
+.p1 {padding: 1rem;}
+.p2 {padding: 2rem;}
+.dib {
+    display: inline-block;
+}
 .m0 {
     margin: 0!important;
 }
 .mr2 {
     margin-right: 2rem;
 }
+.mr1 {
+    margin-right: 1rem;
+}
 .mt2 {
     margin-top: 2rem;
+}
+.mb2 {
+    margin-bottom: 2rem;
 }
 .tas {
     text-align: center;
@@ -28,9 +42,25 @@ body {
 label {
     cursor: pointer;
 }
+.sponly {
+    display: none;
+}
+.flash_message {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 1rem;
+    background: gray;
+    color: white;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
 @media only screen and (max-width: 768px) {
     .pconly {
         display: none!important;
+    }
+    .sponly {
+        display: block;
     }
 
 }

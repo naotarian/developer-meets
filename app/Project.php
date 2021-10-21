@@ -1,11 +1,12 @@
 <?php
 
 namespace App;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         'user_id', 
         'project_name', 
@@ -27,5 +28,17 @@ class Project extends Model
     public function questions()
     {
         return $this->hasMany('App\Question');
+    }
+    public function project_applications()
+    {
+        return $this->hasMany('App\ProjectApplication');
+    }
+    
+    protected static function boot() 
+    {
+        parent::boot();
+        self::deleting(function ($project) {
+          $project->project_applications()->delete();
+        });
     }
 }

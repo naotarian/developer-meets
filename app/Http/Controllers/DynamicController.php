@@ -5,6 +5,7 @@ use Validator;
 use Illuminate\Http\Request;
 use App\User;
 use App\Project;
+use App\ProjectApplication;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -12,7 +13,7 @@ class DynamicController extends Controller
 {
     
     public function __construct () {
-        $this->sex = config('app.sex');
+        $this->gender = config('app.gender');
         $this->gender = config('app.gender');
         $this->purposes = config('app.purposes');
         $this->tools = config('app.tools');
@@ -22,11 +23,7 @@ class DynamicController extends Controller
         return view('top');
     }
     
-    public function seek_project() {
-        $languages = $this->languages;
-        $purposes = $this->purposes;
-        return view('seek_project', ['languages' => $languages, 'purposes' => $purposes]);
-    }
+    
    
     public function make_project() {
         $languages = $this->languages;
@@ -37,12 +34,12 @@ class DynamicController extends Controller
         for($i = 15; $i < 60; $i++) {
             $datas['age'][$i] = $i;
         }
+        
         return view('make_project', ['datas' => $datas]);
     }
     public function make_project_post(Request $request) {
         $user = Auth::user();
         $datas = $request->all();
-        // dd($datas);
         $messages = [
             'required' => ' :attributeを入力してください',
             'project_name.max' => ':attributeは50文字までです'
@@ -79,46 +76,28 @@ class DynamicController extends Controller
         $project_instance->purpose = $datas['purpose'];
         $project_instance->status = 1;
         $project_instance->remarks = !empty($datas['remarks']) ? $datas['remarks'] : '';
+        //作業頻度は個数が増えそうにないので固定で入れでもいいと思う
+        if(!empty($datas['work_frequency'])) {
+            if($datas['work_frequency'] == 0) {
+                $project_instance->work_frequency = '週1~2時間';
+            } elseif($datas['work_frequency'] == 1) {
+                $project_instance->work_frequency = '週3~4時間';
+            } elseif($datas['work_frequency'] == 2) {
+                $project_instance->work_frequency = '週1日';
+            } elseif($datas['work_frequency'] == 3) {
+                $project_instance->work_frequency = '週2~3日';
+            } else {
+                $project_instance->work_frequency = '週4~5日';
+            }
+        } else {
+            $project_instance->work_frequency = null;
+        }
         $project_instance->save();
         
         return redirect('/make')->with('flash_message', 'プロジェクト作成が完了しました');
     }
-    public function project_list(Request $request) {
-        $validate_datas = $request->all();
+    public function seek_project() {
         $projects = Project::all();
-        
-            // dd($request->method());
-        if($request->method() == 'POST') {
-            $messages = [
-                '*.required' => ':attributeが入力されていません。',
-                
-            ];
-            $validator = Validator::make($validate_datas,[
-                'language' => 'required',
-                'purpose' => 'required',
-            ],$messages);
-
-        if($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-        if(array_key_exists('99', $validate_datas['purpose']) && array_key_exists('99', $validate_datas['language'])) {
-            $projects = Project::all();
-        } elseif(array_key_exists('99', $validate_datas['purpose'])) {
-            $projects = Project::where('language', $validate_datas['language'])->get();
-        } elseif(array_key_exists('99', $validate_datas['language'])) {
-            $projects = Project::where('purpose', $validate_datas['purpose'])->get();
-        } else {
-            $projects = Project::where('purpose', '=', $validate_datas["purpose"])->where(function($query) use ($validate_datas) {
-                    $query->where('language', '=', $validate_datas["language"])
-                    ->orWhere('sub_language', '=', $validate_datas["language"]);
-                })->get();
-        }
-            
-        }
-
-        
-        
-
         foreach($projects as $project) {
             $project->purpose = $this->purposes[$project->purpose];
             $project->men_and_women = $this->gender[$project->men_and_women];
@@ -128,22 +107,114 @@ class DynamicController extends Controller
             $project->year = $project->minimum_years_old . '歳~' . $project->max_years_old . '歳';
             $project->user = User::where('id', $project->user_id)->first();
         }
-        return view('project_list', ['projects' => $projects]);
+        $array_datas = [];
+        $array_datas['languages'] = $this->languages;
+        $array_datas['purposes'] = $this->purposes;
+        $array_datas['gender'] = $this->gender;
+        
+        return view('seek_project', ['datas' => $array_datas, 'projects' => $projects]);
     }
     
-    public function my_page(Request $request) {
-        $login_user = Auth::user();
-        if($request->method() == 'POST') {
-            $login_user = User::find($request['user_id'])->first();
+    public function my_page($user_name = 0) {
+        $target_user = Auth::user();
+        $logging_id = $target_user->id;
+        if($user_name) {
+            $target_user = User::where('user_name', $user_name)->first();
         }
-        $login_user_infomation = User::where('id', $login_user->id)->first();
-        $login_user_infomation->sex = $this->sex[$login_user_infomation->sex];
-        return view('personal.my_page', ['login_user_infomation' => $login_user_infomation]);
+        if($target_user->id == $logging_id) {
+            $display_flag = 1;
+        } else {
+            $display_flag = 0;
+        }
+        /*
+        display_flagがtrueの場合のみ、参加申請中を表示
+        */
+        $now_applications = Project::join('project_applications','projects.id','=','project_applications.project_id')->where('project_applications.application_id', $target_user->id)->where('project_applications.status', 1)->where('project_applications.deleted_at', null)->get();
+        $target_user['sex'] = $this->gender[$target_user['sex']];
+        //掲載中のプロジェクト
+        $now_available_projects = Project::where('user_id', $target_user->id)->get();
+        
+        return view('personal.my_page', ['login_user_infomation' => $target_user, 'now_available_projects' => $now_available_projects, 'now_applications' => $now_applications, 'display_flag' => $display_flag]);
     }
     
     public function question(Request $request) {
         $project_info = json_decode($request['project_info'], true);
-        dd($project_info);
+    }
+    public function application(Request $request) {
+        $target_user = Auth::user();
+        $project_info = json_decode($request['project_info'], true);
+        if($target_user->id == $project_info['user_id']) {
+            return back()->with('my_project_message', '自身の作成プロジェクトへは参加申請を出せません。');
+        }
+        //既存のものがあれば追加しない
+        $upsert = ProjectApplication::updateOrCreate(
+            ['application_id' => $target_user->id, 'project_id' => $project_info['id']],
+            ['status' => '1', 'application_id' => $target_user->id, 'author_id' => $project_info['user_id'], 'project_id' => $project_info['id']]
+        );
+        if($upsert->wasRecentlyCreated) {
+            $message = '申請が完了しました。';
+        } else {
+            $message = '既に申請済みです。';
+        }
+        return back()->with('flash_message', $message);
     }
     
+    public function application_list($id) {
+        $target_user = Auth::user();
+        $application_list = Project::join('project_applications','projects.id','=','project_applications.project_id')
+        ->where('author_id', $target_user->id)
+        ->where('project_id', $id)
+        ->where('project_applications.deleted_at', null)
+        ->get();
+        if(count($application_list) == 0) {
+            return back()->with('nothing_data', '該当のプロジェクトは存在していません。');
+        }
+        foreach($application_list as $app) {
+            $app->application_user_info = User::select('user_name')->where('id', $app->application_id)->get();
+            //申請日をcreated_atから生成(project_id , application_idで絞る)
+            $app->application_date = ProjectApplication::select('created_at')->where('application_id', $app->application_id)->where('project_id', $app->project_id)->get();
+        }
+        return view('personal.application', ['application_list' => $application_list]);
+    }
+    
+    public function cancel(Request $request) {
+        $datas = json_decode($request['project_info'], true);
+        $target_application = ProjectApplication::find($datas['id']);
+        $target_application['status'] = 0;
+        $target_application->save();
+        $delete_application = $target_application->delete();
+        
+        if($delete_application) {
+            $message = '申請を取り消しました。';
+        } else {
+            $message = '予期せぬエラー : 該当のプロジェクトはありません。';
+        }
+        return back()->with('delete_message', $message);
+    }
+    
+    public function rejected($id) {
+        $rejectd_application = ProjectApplication::find($id);
+        $rejectd_application->status = 0;
+        $rejectd_application->save();
+        $rejectd = $rejectd_application->delete();
+        
+        if($rejectd) {
+            $message = '申請を見送りました。';
+        } else {
+            $message = '予期せぬエラー : 該当のは参加申請はありません。';
+        }
+        return back()->with('rejected_message', $message);
+        
+    }
+    
+    public function withdrawal($id) {
+        $withdrawal_project = Project::find($id)->delete();
+        if($withdrawal_project) {
+            $message = '掲載を終了しました。';
+        } else {
+            $message = '予期せぬエラー。';
+        }
+        
+        return back()->with('withdrawal_message', $message);
+    }
 }
