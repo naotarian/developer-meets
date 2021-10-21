@@ -143,7 +143,7 @@ class DynamicController extends Controller
     }
     public function application(Request $request) {
         $target_user = Auth::user();
-        dd($request);
+        // dd($request);
         $project_info = json_decode($request['project_info'], true);
         if($target_user->id == $project_info['user_id']) {
             return back()->with('my_project_message', '自身の作成プロジェクトへは参加申請を出せません。');
@@ -166,7 +166,8 @@ class DynamicController extends Controller
         $application_list = Project::join('project_applications','projects.id','=','project_applications.project_id')->where('author_id', $target_user->id)->where('project_id', $id)->where('project_applications.deleted_at', null)->get();
         foreach($application_list as $app) {
             $app->application_user_info = User::select('user_name')->where('id', $app->application_id)->get();
-            $app->application_date = ProjectApplication::select('created_at')->where('application_id', $app->application_id)->get();
+            //申請日をcreated_atから生成(project_id , application_idで絞る)
+            $app->application_date = ProjectApplication::select('created_at')->where('application_id', $app->application_id)->where('project_id', $app->project_id)->get();
         }
         return view('personal.application', ['application_list' => $application_list]);
     }
@@ -184,5 +185,21 @@ class DynamicController extends Controller
             $message = '予期せぬエラー : 該当のプロジェクトはありません。';
         }
         return back()->with('delete_message', $message);
+    }
+    
+    public function rejected($id) {
+        // dd($id);
+        $rejectd_application = ProjectApplication::find($id);
+        $rejectd_application->status = 0;
+        $rejectd_application->save();
+        $rejectd = $rejectd_application->delete();
+        
+        if($rejectd) {
+            $message = '申請を見送りました。';
+        } else {
+            $message = '予期せぬエラー : 該当のは参加申請はありません。';
+        }
+        return back()->with('rejected_message', $message);
+        
     }
 }
