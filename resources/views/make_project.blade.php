@@ -57,6 +57,9 @@
                             {{Form::select('minimum_work_experience', ['0' => '未経験可', '1' => '~1年', '2' => '~2年', '3' => '~3年', '4' => '4年以上'], 'ordinarily', ['class' => 'form','id' => 'minimum_work_experience', 'placeholder' => '最低実務経験'])}}
                             {{Form::select('tool', ['0' => 'GitHub', '1' => 'GitLab', '2' => 'SVN', '3' => 'BitBucket', '4' => 'SouceTree', '5' => 'その他', '6' => 'なし'], 'ordinarily', ['class' => 'form','id' => 'tool', 'placeholder' => 'ソース管理'])}}
                         </div>
+                        <div class="col-xs-6 wow animated slideInLeft flex-form mt2" data-wow-delay=".5s">
+                            {{Form::select('work_frequency', ['0' => '週1~2時間', '1' => '週3~4時間', '2' => '週1日', '3' => '週2~3日', '4' => '週4~5日'], 'ordinarily', ['class' => 'form','id' => 'work_frequency', 'placeholder' => '作業頻度'])}}
+                        </div>
                        
                         <div class="col-xs-6 wow animated slideInRight tas" data-wow-delay=".5s">
                             <textarea name="project_detail" id="project_detail" class="form textarea"  placeholder="プロジェクト詳細"></textarea>
