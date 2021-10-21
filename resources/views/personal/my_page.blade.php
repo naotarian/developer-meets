@@ -36,12 +36,14 @@
         </div>
         @php session()->forget('withdrawal_message') @endphp
       @endif
+      {{--
       @if (session('nothing_data'))
         <div class="flash_message">
             {{ session('nothing_data') }}
         </div>
         @php session()->forget('nothing_data') @endphp
       @endif
+      --}}
       <p class="mypage_title"><i class="fas fa-clipboard-list icon_color mr1"></i>掲載中プロジェクト</p>
       <div class="row">
         @foreach($now_available_projects as $key => $project)

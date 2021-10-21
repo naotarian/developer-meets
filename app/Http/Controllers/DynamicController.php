@@ -169,9 +169,9 @@ class DynamicController extends Controller
         ->where('project_id', $id)
         ->where('project_applications.deleted_at', null)
         ->get();
-        if(count($application_list) == 0) {
-            return back()->with('nothing_data', '該当のプロジェクトは存在していません。');
-        }
+        // if(count($application_list) == 0) {
+        //     return back()->with('nothing_data', '該当のプロジェクトは存在していません。');
+        // }
         foreach($application_list as $app) {
             $app->application_user_info = User::select('user_name')->where('id', $app->application_id)->get();
             //申請日をcreated_atから生成(project_id , application_idで絞る)
