@@ -41,4 +41,11 @@ class ApiController extends Controller
             [$projects, $array_datas]
         );
     }
+    
+    public function project_detail($id) {
+        $target_project = Project::find($id);
+        $target_project = json_encode($target_project);
+        
+        return responce($target_project); 
+    }
 }
