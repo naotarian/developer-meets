@@ -36,6 +36,12 @@
         </div>
         @php session()->forget('withdrawal_message') @endphp
       @endif
+      @if (session('approval_message'))
+      <div class="flash_message">
+          {{ session('approval_message') }}
+      </div>
+      @php session()->forget('approval_message') @endphp
+    @endif
       {{--
       @if (session('nothing_data'))
         <div class="flash_message">

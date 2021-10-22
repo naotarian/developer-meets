@@ -33,6 +33,7 @@ Route::get('/application_list/{id}', 'DynamicController@application_list')->name
 Route::post('/cancel', 'DynamicController@cancel')->name('cancel')->middleware('auth');
 Route::get('/rejected/{id}', 'DynamicController@rejected')->name('rejected')->middleware('auth');
 Route::get('/withdrawal/{id}', 'DynamicController@withdrawal')->name('withdrawal')->middleware('auth');
+Route::get('/approval/{id}', 'DynamicController@approval')->name('approval')->middleware('auth');
 
 // jsからのリクエスト
 Route::get('/api/test', 'Api\ApiController@test');
