@@ -18,15 +18,18 @@ const StyledCard = styled(Card)`
   margin: 8px;
 `;
 
-const ProjectCard = ({ projectInfo }) => {
+const ProjectCard = ({ props }) => {
+  const { project_id } = props;
   const [confirmFlag, setConfirmFlag] = useState(false);
 
   let execApi = () => {
-    console.log('>>API叩く')
-    axios.get(`http://localhost/api/test`)
-      .then(res => {
-        let response = res.data;
-      });
+    // ページ遷移が走るリクエストを投げる
+    // let url = `${location.href}/detail/{${project_id}}`
+    // axios.get(url)
+    axios.get(`http://localhost/seek/detail/1`);
+      // .then(res => {
+      //   let response = res.data;
+      // });
   }
 
   return (
@@ -48,7 +51,7 @@ const ProjectCard = ({ projectInfo }) => {
       {/* ボタン系 */}
       <CardActions>
         {/* APIのテスト発火 */}
-        <LabelButton label="詳細を見る" variant="outlined" size="small" onClick={() => execApi()} />
+        <LabelButton label="詳細を見る" variant="outlined" size="small" onClick={() => goDetailPage()} />
         <LabelButton label="質問したい" variant="outlined" size="small" />
         <LabelButton label="参加申請" variant="outlined" size="small" onClick={() => setConfirmFlag(true)} />
         {/* 参加申請の確認ダイアログ */}

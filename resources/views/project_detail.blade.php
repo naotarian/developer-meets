@@ -4,7 +4,7 @@
 @endsection
 @section('contents')
 
-<div class="contents">
-    
-</div>
+<!-- 詳細コンポーネント差し込み -->
+<div id="project_detail"></div>
+<script src="{{ mix('/js/components/Pages/ProjectDetailPage.js') }}"></script>
 @endsection
