@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styled from "styled-components";
 import axios from 'axios';
@@ -21,12 +21,17 @@ const StyledCard = styled(Card)`
 const ProjectCard = ({ props }) => {
   const { project_id } = props;
   const [confirmFlag, setConfirmFlag] = useState(false);
+  const [host, setHost] = useState('');
 
-  let execApi = () => {
+  useEffect(() => {
+    setHost(location.host)
+  }, [])
+
+  let goDetailPage = () => {
     // ページ遷移が走るリクエストを投げる
-    // let url = `${location.href}/detail/{${project_id}}`
+    // let url = `${host}/detail/{${project_id}}`
     // axios.get(url)
-    axios.get(`http://localhost/seek/detail/1`);
+    axios.get(`http://${host}/seek/detail/1`);
       // .then(res => {
       //   let response = res.data;
       // });

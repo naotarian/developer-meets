@@ -11,21 +11,30 @@ const ContainerGrid = styled(Grid)`
 `;
 
 const ProjectDetailPage = () => {
+  const [host, setHost] = useState('');
+  const [data, setData] = useState(null);
   // const { project_id } = props;
   // const [confirmFlag, setConfirmFlag] = useState(false);
   useEffect(()=> {
+    setHost(location.host)
     // let url = location.href.replace('seek', 'api')
-    axios.get(`http://localhost/api/detail/1`)
-      .then(res => {
-        let response = res.data;
-        console.log('===ここにデータが帰って来ればOK===')
-        console.log('responce: ', response)
-      });
+
   }, [])
+
+  useEffect(() => {
+    if (host) {
+      axios.get(`http://${host}/api/detail/1`)
+        .then(res => {
+          setData(res.data)
+        });
+    }
+  }, [host])
 
   return (
     <ContainerGrid>
       詳細コンポーネント
+      帰ってきたデータたち
+      <Grid>{data ? data : 'データなし'}</Grid>
     </ContainerGrid>
   );
 };
