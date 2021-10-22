@@ -38,3 +38,4 @@ Route::get('/seek/detail/{id}', function() {
 })->name('detail_get');
 // jsからのリクエスト
 Route::get('/api/test', 'Api\ApiController@test');
+Route::get('/api/detail/{id}', 'Api\ApiController@project_detail');
