@@ -5,6 +5,6 @@
 @section('contents')
 
 <div class="contents">
-    
+    sss
 </div>
 @endsection

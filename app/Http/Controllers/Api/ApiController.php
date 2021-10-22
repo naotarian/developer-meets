@@ -43,6 +43,7 @@ class ApiController extends Controller
     }
     
     public function project_detail($id) {
+        dd($id);
         $target_project = Project::find($id);
         $target_project = json_encode($target_project);
         
