@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Project;
 use App\ProjectApplication;
+use App\Http\Library\CallTwitterApi;
 
 class ApiController extends Controller
 {
@@ -40,5 +41,17 @@ class ApiController extends Controller
         return response(
             [$projects, $array_datas]
         );
+    }
+    
+    public function twitterApi(Request $request)
+    {
+        $t = new CallTwitterApi();
+        $d = $t->serachTweets("JavaScript");
+
+        $array = array();
+        foreach($d as $d) {
+          $array[] = array($t->statusesOembed($d->id));
+        }
+        return view('top', ['twitter' => $array]);
     }
 }

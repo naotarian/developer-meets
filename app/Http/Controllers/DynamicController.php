@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Project;
 use App\ProjectApplication;
+use App\Http\Library\CallTwitterApi;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -20,7 +21,14 @@ class DynamicController extends Controller
         $this->languages = config('app.languages');
     }
     public function index() {
-        return view('top');
+        $t = new CallTwitterApi();
+        $d = $t->serachTweets("JavaScript");
+
+        $array = array();
+        foreach($d as $d) {
+          $array[] = array($t->statusesOembed($d->id));
+        }
+        return view('top', ['twitter' => $array]);
     }
     
     
