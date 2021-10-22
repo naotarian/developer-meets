@@ -33,8 +33,8 @@ const ProjectDetailPage = () => {
   return (
     <ContainerGrid>
       詳細コンポーネント
-      帰ってきたデータたち
-      <Grid>{data ? data : 'データなし'}</Grid>
+      帰ってきたデータたち:
+      <Grid>{ data? data.project_name : 'データなし'}</Grid>
     </ContainerGrid>
   );
 };
