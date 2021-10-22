@@ -37,13 +37,15 @@
         </div>
         @php session()->forget('nothing_user') @endphp
     @endif
-    
 
+
+    {{-- <div id="project_card"></div>
+    <script src="{{ mix('/js/components/Organisms/ProjectCard.js') }}"></script> --}}
     <!-- プロジェクトカード差し込み -->
-    <div id="project_card"></div>
-    <script src="{{ mix('/js/components/Organisms/ProjectCard.js') }}"></script>
+    <div id="project_list"></div>
+    <script src="{{ mix('/js/components/Pages/ProjectListPage.js') }}"></script>
 
-   <div class="project_list">
+   {{-- <div class="project_list">
         @foreach($projects as $key => $project)
         <!--<div class="project">-->
         <div class="card p2 mb2">
@@ -85,17 +87,17 @@
                 <button type="button" class="detail btn btn-outline-primary">詳細を見る</button>
                 <button type="submit" class="btn btn-outline-secondary">質問したい</button>
                 <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModalCenter{{$key}}">参加申請</button>
-            </div>{{--actinos--}}
+            </div>
             <div class="att_name">
                 <div class="create_user">作成者 : <a href="/user_info/{{$project['user']['user_name']}}">{{$project['user']['user_name']}}</a></div>
-            </div>{{--att_name--}}
+            </div>
 
             <div class="popup">
               <div class="content">
                 <p>{{$project['project_detail']}}</p>
                 <button id="close" class="close">閉じる</button>
               </div>
-            </div>{{--popup(詳細を見るボタン)--}}
+            </div>
 
             <div class="modal fade" id="exampleModalCenter{{$key}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
@@ -118,10 +120,10 @@
                   {{Form::close()}}
                 </div>
               </div>
-            </div>{{--modal (参加申請ボタン)--}}
+            </div>
         </div>
         @endforeach
-    </div>
+    </div> --}}
 </div>
 @section('reed_scripts')
 <script src="/js/project_seek.js"></script>
