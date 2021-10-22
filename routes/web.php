@@ -35,6 +35,6 @@ Route::get('/rejected/{id}', 'DynamicController@rejected')->name('rejected')->mi
 Route::get('/withdrawal/{id}', 'DynamicController@withdrawal')->name('withdrawal')->middleware('auth');
 Route::get('/seek/detail/{id}', function() {
     return view('project_detail');
-})->name('detail_get')->middleware('auth');
+})->name('detail_get');
 // jsからのリクエスト
 Route::get('/api/test', 'Api\ApiController@test');
