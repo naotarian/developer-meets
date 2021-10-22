@@ -52,7 +52,7 @@
             <div class="card-body">
               <h5 class="card-title">{{$project->project_name}}</h5>
               <p class="card-text">{{$project->project_detail}}</p>
-              <a href="#" class="btn btn-primary">このプロジェクトについて</a>
+              <a href="/seek/detail/{{$project->id}}" class="btn btn-primary">このプロジェクトについて</a>
               <a href="/application_list/{{$project->id}}" class="btn btn-primary">参加申請</a>
               <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#withdrawalModalCenter{{$key}}">掲載終了</button>
             </div>
@@ -101,9 +101,8 @@
             <div class="card-body">
               <h5 class="card-title">{{$now->project_name}}</h5>
               <p class="card-text">{{$now->project_detail}}</p>
-              <a href="#" class="btn btn-primary">このプロジェクトについて</a>
+              <a href="/seek/detail/{{$now->id}}" class="btn btn-primary">このプロジェクトについて</a>
               <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#cancelModalCenter{{$key}}">参加申請取り消し</button>
-              <!--<a href="/application_list" class="btn btn-primary">参加申請取り消し</a>-->
             </div>
           </div>
         </div>
