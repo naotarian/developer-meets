@@ -45,3 +45,4 @@ Route::get('/seek/detail/{id}', function() {
 Route::get('/api/test', 'Api\ApiController@test');
 Route::get('/api/detail/{id}', 'Api\ApiController@project_detail');
 Route::get('/api/all_projejct', 'Api\ApiController@all_projejct');
+Route::post('/api/application', 'Api\ApiController@application');
