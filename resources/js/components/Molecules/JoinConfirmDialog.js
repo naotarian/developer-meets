@@ -6,12 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const JoinConfirmDialog = ({ open, handleClose}) => {
-  const sendJoinRequests = () => {
-    console.log('ここでAPIを叩く');
-    handleClose();
-  }
-
+const JoinConfirmDialog = ({ open, handleClose, handleSend }) => {
   return (
       <Dialog
         open={open}
@@ -30,7 +25,7 @@ const JoinConfirmDialog = ({ open, handleClose}) => {
         <DialogActions>
           <Button
             variant="outlined"
-            onClick={sendJoinRequests}
+            onClick={handleSend}
           >
             申請する
           </Button>

@@ -3,54 +3,45 @@ import ReactDOM from 'react-dom';
 import styled from "styled-components";
 import axios from 'axios';
 import LabelButton from '../Atoms/LabelButton';
-import JoinConfirmDialog from '../Molecules/JoinConfirmDialog';
+// import JoinConfirmDialog from '../Molecules/JoinConfirmDialog';
+import JoinRequest from '../Organisms/JoinRequest';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 
 const ContainerGrid = styled(Grid)`
-  width: 100%;
-  height: 100%;
-  background-color: red;
+  width: max-content;
+  max-width: 1040px;
+  margin: auto;
 `;
 
 const ProjectDetailPage = () => {
   const [host, setHost] = useState('');
+  const [path, setPath] = useState('');
   const [data, setData] = useState(null);
   const [confirmFlag, setConfirmFlag] = useState(false);
 
   useEffect(()=> {
-    setHost(location.host)
-  }, [])
+    setHost(location.host);
+    setPath(location.pathname);
+  }, []);
 
   useEffect(() => {
-    if (host) {
-      let url = `http://${host}/api/detail/1`
-      axios.get(url).then(res => {
-        console.log(res.data)
-        setData(res.data)
-      });
+    if (host && path) {
+      let p_id = path.replace('/seek/detail/', '');
+      let url = `http://${host}/api/detail/${p_id}`;
+      try {
+        axios.get(url).then(res => {
+          setData(res.data);
+        });
+      } catch (e) {
+        console.error(e);
+      }
     }
-  }, [host])
+  }, [host, path]);
 
   return (
     <ContainerGrid>
-      <Typography>id: {data ? data.id : ''}</Typography>
-      <Typography>project_name: { data? data.project_name : ''}</Typography>
-      <Typography>project_detail: {data ? data.project_detail : ''}</Typography>
-      <Typography>remarks: {data ? data.remarks : ''}</Typography>
-      <Typography>created_at: {data ? data.created_at : ''}</Typography>
-      <Typography>language: {data ? data.language : ''}</Typography>
-      <Typography>sub_language: {data ? data.sub_language : ''}</Typography>
-      <Typography>tools: {data ? data.tools : ''}</Typography>
-      <Typography>max_years_old: {data ? data.max_years_old : ''}</Typography>
-      <Typography>minimum_years_old: {data ? data.minimum_years_old : ''}</Typography>
-      <Typography>men_and_women: {data ? data.men_and_women : ''}</Typography>
-      <Typography>number_of_application: {data ? data.number_of_application : ''}</Typography>
-      <Typography>purpose: {data ? data.purpose : ''}</Typography>
-      <Typography>user_id: {data ? data.user_id : ''}</Typography>
+      <JoinRequest host={host} postdata={data} />
       <LabelButton label="質問したい" variant="outlined" size="small" />
-      <LabelButton label="参加申請" variant="outlined" size="small" onClick={() => setConfirmFlag(true)} />
-      <JoinConfirmDialog open={confirmFlag} handleClose={() => setConfirmFlag(false)} />
     </ContainerGrid>
   );
 };
