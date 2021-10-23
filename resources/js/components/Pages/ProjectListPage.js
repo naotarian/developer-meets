@@ -15,7 +15,7 @@ const ContainerGrid = styled(Grid)`
 
 const ProjectListPage = () => {
   const [host, setHost] = useState('');
-  const [data, setData] = useState([]);
+  const [projects, setProjects] = useState([]);
 
   useEffect(()=> {
     setHost(location.host)
@@ -25,8 +25,8 @@ const ProjectListPage = () => {
     if (host) {
       let url = `http://${host}/api/all_projejct` // ここのエンドポイントは適当だから検討
       axios.get(url).then(res => {
-        setData(res.data)
-        console.log(res.data)//データ取れてるはず
+        console.log('レスポンス：', res.data)//データ取れてるはず
+        setProjects(res.data) // レスの中に'user'がないから怒られてる)
       });
     }
   }, [host])
@@ -116,12 +116,12 @@ const ProjectListPage = () => {
   return (
     <ContainerGrid>
       {
-        sampleData.length &&
-          sampleData.map((sampleData, index) => {
+        projects.length > 0 &&
+          projects.map((project, index) => {
             return (
               <ProjectCard
                 key={index}
-                project_data={sampleData}
+                project_data={project}
               />
             );
           })
