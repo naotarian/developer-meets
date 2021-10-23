@@ -20,15 +20,17 @@
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
       <p class="mypage_title"><i class="fas fa-tasks icon_color mr1"></i>プロジェクト参加履歴</p>
       <div class="row">
+        @foreach($join_projects as $join_project)
         <div class="col-sm-6 mb2">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">プロジェクトタイトル</h5>
-              <p class="card-text">プロジェクトの詳細</p>
-              <a href="#" class="btn btn-primary">このプロジェクトについて</a>
+              <h5 class="card-title">{{$join_project->project_name}}</h5>
+              <p class="card-text">{{$join_project->detail}}</p>
+              <a href="/seek/detail/{{$join_project->id}}" class="btn btn-primary">このプロジェクトについて</a>
             </div>
           </div>
         </div>
+        @endforeach
       </div>
       @if (session('withdrawal_message'))
         <div class="flash_message">
