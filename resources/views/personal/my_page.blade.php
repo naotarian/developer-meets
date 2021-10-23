@@ -103,7 +103,7 @@
             <div class="card-body">
               <h5 class="card-title">{{$now->project_name}}</h5>
               <p class="card-text">{{$now->project_detail}}</p>
-              <a href="/seek/detail/{{$now->id}}" class="btn btn-primary">このプロジェクトについて</a>
+              <a href="/seek/detail/{{$now->project_id}}" class="btn btn-primary">このプロジェクトについて</a>
               <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#cancelModalCenter{{$key}}">参加申請取り消し</button>
             </div>
           </div>
