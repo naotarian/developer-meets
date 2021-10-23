@@ -10,8 +10,8 @@ const StyledStack = styled(Stack)`
 const SkillTags = ({ skills }) => {
   return (
     <StyledStack
-      direction={{ xs: 'column', sm: 'row' }}
-      spacing={{ xs: 1, sm: 2, md: 4 }}
+      direction="row"
+      spacing={1}
     >
       { skills.map((skill, index) => {
         return (

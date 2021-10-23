@@ -56,11 +56,12 @@ const ProjectCard = ({ project_data }) => {
             {project_data.project_name}
           </Typography>
           {/* プロジェクト情報（言語とかツールをタグ的な感じに） */}
-          <SkillTags skills={[project_data.language, project_data.sub_language, project_data.tools]} />
+          <SkillTags skills={[project_data.language, project_data.sub_language]} />
           {/* プロジェクト情報（上記以外からいくつかpick up） */}
           { project_data.work_frequency && <ProjectColumn column="time" text={project_data.work_frequency} /> }
-          <ProjectColumn column="location" text="全国/フルリモート(在宅OK)" />
-          <ProjectColumn column="people" text="募集2人" />
+          {/* <ProjectColumn column="location" text="全国/フルリモート(在宅OK)" /> */}
+          { project_data.purpose && <ProjectColumn column="purpose" text={`${project_data.purpose}`} /> }
+          { project_data.number_of_application && <ProjectColumn column="people" text={`募集 ${project_data.number_of_application}人`} /> }
         </CardContent>
         {/* ボタン系 */}
         <CardActions>
