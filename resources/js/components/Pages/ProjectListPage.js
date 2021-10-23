@@ -21,15 +21,15 @@ const ProjectListPage = () => {
     setHost(location.host)
   }, [])
 
-  // useEffect(() => {
-  //   if (host) {
-  //     let url = `http://${host}/api/all_projejct` // ここのエンドポイントは適当だから検討
-  //     axios.get(url).then(res => {
-  //       setData(res.data)
-  //     });
-  //   }
-  // }, [host])
-
+  useEffect(() => {
+    if (host) {
+      let url = `http://${host}/api/all_projejct` // ここのエンドポイントは適当だから検討
+      axios.get(url).then(res => {
+        setData(res.data)
+        console.log(res.data)//データ取れてるはず
+      });
+    }
+  }, [host])
   // サンプルデータ作成
   // 上のUseEffectでAPIを叩くと、同じ形で全プロジェクトのデータが帰って来ればそのまま使える。
   let sampleData = [
@@ -117,11 +117,11 @@ const ProjectListPage = () => {
     <ContainerGrid>
       {
         sampleData.length &&
-          sampleData.map((project_data, index) => {
+          sampleData.map((sampleData, index) => {
             return (
               <ProjectCard
                 key={index}
-                project_data={project_data}
+                project_data={sampleData}
               />
             );
           })

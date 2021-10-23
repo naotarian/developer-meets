@@ -48,4 +48,11 @@ class ApiController extends Controller
 
         return response($target_project);
     }
+    
+    public function all_projejct() {
+        $all_project = Project::all();
+        $all_project = json_encode($all_project);
+        
+        return response($all_project);
+    }
 }

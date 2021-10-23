@@ -36,6 +36,8 @@ Route::get('/withdrawal/{id}', 'DynamicController@withdrawal')->name('withdrawal
 Route::get('/seek/detail/{id}', function() {
     return view('project_detail');
 })->name('detail_get');
+
 // jsからのリクエスト
 Route::get('/api/test', 'Api\ApiController@test');
 Route::get('/api/detail/{id}', 'Api\ApiController@project_detail');
+Route::get('/api/all_projejct', 'Api\ApiController@all_projejct');
