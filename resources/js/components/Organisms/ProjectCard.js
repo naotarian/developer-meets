@@ -34,19 +34,10 @@ const ProjectCard = ({ project_data }) => {
 
   }, [])
 
-  let goDetailPage = () => {
-    // ページ遷移が走るリクエストを投げる
-    console.log('ページ遷移発火')
-    let url = `http://${host}/seek/detail/1`
-    axios.get(url).then(res => {
-      console.log('res: ', res)
-    });
-  }
-
   return (
     <StyledCard sx={{ maxWidth: 400 }}>
       <StyledCardActionArea
-        onClick={()=> goDetailPage}
+        href={`http://${host}/seek/detail/${project_data.id}`}
       >
         {/* プロジェクト画像は未定 */}
         {/* <CardMedia component="img" image="~/path/xxx.jpg" /> */}
@@ -65,9 +56,9 @@ const ProjectCard = ({ project_data }) => {
         </CardContent>
         {/* ボタン系 */}
         <CardActions>
-          {/* <LabelButton label="詳細を見る" variant="outlined" size="small" onClick={() => goDetailPage()} />
-          <LabelButton label="質問したい" variant="outlined" size="small" />
-          <LabelButton label="参加申請" variant="outlined" size="small" onClick={() => setConfirmFlag(true)} /> */}
+          {/* <LabelButton label="詳細を見る" variant="outlined" size="small" onClick={() => goDetailPage()} /> */}
+          {/* <LabelButton label="質問したい" variant="outlined" size="small" /> */}
+          {/* <LabelButton label="参加申請" variant="outlined" size="small" onClick={() => setConfirmFlag(true)} /> */}
           {/* 参加申請の確認ダイアログ */}
           {/* <JoinConfirmDialog open={confirmFlag} handleClose={() => setConfirmFlag(false)} /> */}
         </CardActions>
