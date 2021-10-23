@@ -47,6 +47,12 @@
                 <!--<li><a href="" class="btn btn-flat"><span>新規登録</span></a></li>-->
             </ul>
         @endauth
+        
+        <div class="twitter">
+        @foreach ($twitter as $twitter)
+                {!! $twitter[0] !!}<br>
+        @endforeach
+        </div>
     </div>
 
 
@@ -74,5 +80,6 @@
                 <li></li>
         </ul>
     </div>
+    
 </div>
 @endsection

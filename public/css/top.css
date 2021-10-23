@@ -132,6 +132,16 @@ body{
     animation-duration: 11s;
 }
 
+.twitter {
+    margin: 0 auto;
+    height: 500px;
+    overflow: auto;
+    width: 800px;
+    margin-bottom: 5rem;
+}
+.twitter-tweet {
+    margin: 0 auto;
+}
 
 
 @keyframes animate {
@@ -314,6 +324,9 @@ body{
         position: absolute;
         top:25vh;
         z-index: 100;
+    }
+    .twitter {
+        width: 100%;
     }
 }
 
