@@ -137,18 +137,22 @@ class DynamicController extends Controller
         ->where('project_applications.status', 1)
         ->where('project_applications.deleted_at', null)
         ->get();
-        // $join_projects = Project::join('project_applications','projects.id','=','project_applications.project_id')
-        // ->where('project_applications.application_id', $target_user->id)
-        // ->where('project_applications.status', 2)
-        // ->where('project_applications.deleted_at', null)
-        // ->get();
+        $join_projects = Project::join('project_applications','projects.id','=','project_applications.project_id')
+        ->where('project_applications.application_id', $target_user->id)
+        ->where('project_applications.status', 2)
+        ->where('project_applications.deleted_at', null)
+        ->get();
       
-        // dd($join_projects);
         $target_user['sex'] = $this->gender[$target_user['sex']];
         //掲載中のプロジェクト
         $now_available_projects = Project::where('user_id', $target_user->id)->where('status', 1)->get();
         
-        return view('personal.my_page', ['login_user_infomation' => $target_user, 'now_available_projects' => $now_available_projects, 'now_applications' => $now_applications, 'display_flag' => $display_flag]);
+        return view('personal.my_page', ['login_user_infomation' => $target_user,
+                                         'now_available_projects' => $now_available_projects, 
+                                         'now_applications' => $now_applications, 
+                                         'display_flag' => $display_flag,
+                                         'join_projects' => $join_projects
+                                         ]);
     }
     
     public function question(Request $request) {
@@ -226,6 +230,7 @@ class DynamicController extends Controller
         $withdrawal_project = Project::find($id);
         $withdrawal_project->status = 2;
         $withdrawal_project->save();
+        $withdrawal_project->delete();
         if($withdrawal_project->status == 2) {
             $message = '掲載を終了しました。';
         } else {
