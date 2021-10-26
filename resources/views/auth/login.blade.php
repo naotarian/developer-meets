@@ -99,6 +99,9 @@
   <button class="btn m0" type="submit">Log in</button>
   <h6>その他のログイン方法</h6>
   <div class="social">
+  <button class="tw btn">Twitter</button>
+  <!--<button class="fb btn">Facebook</button>-->
+  <a href="/login/github" style="color: black;">GitHubでログイン</a>
  <!--<a class="btn btn-icon btn-twitter" href="#"><i class="fa fa-twitter"></i><span>Twitter</span></a>-->
   <a href="auth/login/twitter" style="color: black;">Twitter</a>
   <button class="fb btn">Facebook</button>
