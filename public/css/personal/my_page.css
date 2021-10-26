@@ -1,11 +1,9 @@
-dt{
-  float: left;
-}
+/*dt{*/
+/*  float: left;*/
+/*}*/
 
 dd{
-  margin-left: 160px;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid gray;
+  margin-bottom: 0;
 }
 .wrapper {
     margin: 0 auto;
@@ -20,7 +18,7 @@ dd{
     margin-top: 8rem;
 }
 .contents {
-    max-width: 1024px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 .mypage_title {
@@ -46,6 +44,44 @@ dd{
     width: 100px;
     height: 100px;
 }
+.sc200 {
+    width: 200px;
+    height: 200px;
+}
+.left_bar .nav {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    height: 100vh;
+    width: 200px;
+    background: darkgray;
+}
+.sidebar_fixed {
+    justify-content: center;
+    width: 100%;
+}
+.nav {
+    padding-right: 0;
+    padding-left: 0;
+    padding-top: 0;
+}
+.fade dl {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    }
+.fade dt {
+    flex-basis: 15%;
+    padding: 20px;
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #ccc;
+    }
+.fade dd {
+    flex-basis: 85%;
+    padding: 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    }
 @media only screen and (max-width: 768px) {
     .my_infomations {
         width: 100%;
@@ -67,5 +103,26 @@ dd{
         text-align: center;
         font-size: 1.5rem;
         color: gray;
+    }
+    .list-group {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: row;
+        padding-left: 0;
+        margin-bottom: 0;
+        flex-wrap: wrap;
+    }
+    .list-group li {
+        width: 50%;
+        text-align: center;
+        border: 1px solid gray;
+    }
+    .fade dl {
+        flex-flow: column;
+    }
+    .col-9 {
+        max-width: 100%!important;
+        flex: 0 0 100%;
     }
 }
