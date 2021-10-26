@@ -4,21 +4,26 @@
 @endsection
 @section('contents')
 
+    
 <div class="contents">
-  <div class="row center">
-    <div class="left_bar card">
+  <div class="left_bar card pconly">
       <div class="nav flex-column nav-pills my_nav card-body" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-      <img src="{{$login_user_infomation['icon_image']}}" class="sc100">
+      <img src="{{$login_user_infomation['icon_image']}}" class="sc200">
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><a class="cg" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
         <li class="list-group-item"><a class="cg" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fa fa-address-card"></i>Profile</a></li>
         <li class="list-group-item"><a class="cg" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fa fa-cog"></i>Settings</a></li>
       </ul>
-        
-        
-
       </div>
     </div>
+    <div class="my_page_sp_menu sponly">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><a class="cg" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
+        <li class="list-group-item"><a class="cg" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fa fa-address-card"></i>Profile</a></li>
+        <li class="list-group-item"><a class="cg" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fa fa-cog"></i>Settings</a></li>
+      </ul>
+    </div>
+  <div class="row center sidebar_fixed">
     <div class="col-9 spmt4">
       <div class="tab-content" id="v-pills-tabContent">{{--HOME--}}
         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
@@ -166,5 +171,8 @@
     </div>
   </div>
 </div>
+
+<br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 @endsection
