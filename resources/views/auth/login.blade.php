@@ -99,7 +99,8 @@
   <h6>その他のログイン方法</h6>
   <div class="social">
   <button class="tw btn">Twitter</button>
-  <button class="fb btn">Facebook</button>
+  <!--<button class="fb btn">Facebook</button>-->
+  <a href="/login/github" style="color: black;">GitHubでログイン</a>
   <button class="google fb btn">Google+</button>
   </div>
   <a href="/password/reset"><p class="forget">パスワードを忘れた方はこちら</p></a>

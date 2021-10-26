@@ -40,7 +40,11 @@ Route::get('/seek/detail/{id}', function() {
     return view('project_detail');
 })->name('detail_get');
 
+// GitHubの認証ページに遷移するためのルーティング
+Route::get('/login/github', 'Auth\LoginController@redirectToProvider');
 
+// GitHubの認証後に戻るためのルーティング
+Route::get('/auth/github/callback', 'Auth\LoginController@handleProviderCallback');
 // jsからのリクエスト
 Route::get('/api/test', 'Api\ApiController@test');
 Route::get('/api/detail/{id}', 'Api\ApiController@project_detail');
