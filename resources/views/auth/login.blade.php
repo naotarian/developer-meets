@@ -75,6 +75,7 @@
 @extends('template.base')
 @section('individual_stylesheet')
 <link rel="stylesheet" href="/css/auth/login.css">
+<link rel="stylesheet" href="/css/auth/sns_button.css">
 @endsection
 @section('contents')
 
@@ -101,6 +102,9 @@
   <button class="tw btn">Twitter</button>
   <!--<button class="fb btn">Facebook</button>-->
   <a href="/login/github" style="color: black;">GitHubでログイン</a>
+ <!--<a class="btn btn-icon btn-twitter" href="#"><i class="fa fa-twitter"></i><span>Twitter</span></a>-->
+  <a href="auth/login/twitter" style="color: black;">Twitter</a>
+  <button class="fb btn">Facebook</button>
   <button class="google fb btn">Google+</button>
   </div>
   <a href="/password/reset"><p class="forget">パスワードを忘れた方はこちら</p></a>

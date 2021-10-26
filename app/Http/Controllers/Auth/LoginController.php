@@ -69,4 +69,9 @@ class LoginController extends Controller
    auth()->login($authUser); // ログイン
    return redirect()->to('/'); // homeページに転送
  }
+    
+    public function redirectToTwitterProvider()
+   {
+       return Socialite::driver('twitter')->redirect();
+   }
 }

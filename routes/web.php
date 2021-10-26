@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\TwitterLoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,6 +42,8 @@ Route::get('/seek/detail/{id}', function() {
 
 // GitHubの認証ページに遷移するためのルーティング
 Route::get('/login/github', 'Auth\LoginController@redirectToProvider');
+Route::get('auth/login/twitter', [TwitterLoginController::class, 'redirectToProvider']);
+Route::get('auth/twitter/callback',[TwitterLoginController::class, 'handleProviderCallback']);
 
 // GitHubの認証後に戻るためのルーティング
 Route::get('/auth/github/callback', 'Auth\LoginController@handleProviderCallback');
