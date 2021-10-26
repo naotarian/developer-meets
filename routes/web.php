@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\TwitterLoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,6 +40,8 @@ Route::get('/seek/detail/{id}', function() {
     return view('project_detail');
 })->name('detail_get');
 
+Route::get('auth/login/twitter', [TwitterLoginController::class, 'redirectToProvider']);
+Route::get('auth/twitter/callback',[TwitterLoginController::class, 'handleProviderCallback']);
 
 // jsからのリクエスト
 Route::get('/api/test', 'Api\ApiController@test');
