@@ -75,6 +75,7 @@
 @extends('template.base')
 @section('individual_stylesheet')
 <link rel="stylesheet" href="/css/auth/login.css">
+<link rel="stylesheet" href="/css/auth/sns_button.css">
 @endsection
 @section('contents')
 
@@ -98,7 +99,8 @@
   <button class="btn m0" type="submit">Log in</button>
   <h6>その他のログイン方法</h6>
   <div class="social">
-  <button class="tw btn">Twitter</button>
+ <!--<a class="btn btn-icon btn-twitter" href="#"><i class="fa fa-twitter"></i><span>Twitter</span></a>-->
+  <a href="auth/login/twitter" style="color: black;">Twitter</a>
   <button class="fb btn">Facebook</button>
   <button class="google fb btn">Google+</button>
   </div>
