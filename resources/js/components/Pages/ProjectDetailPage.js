@@ -53,7 +53,6 @@ const ProjectName = styled(Grid)`
   font-weight: bold;
   font-size: 1.6rem;
   margin-bottom: 1rem;
-  //test
 `;
 
 const ProjectDetailPage = () => {
