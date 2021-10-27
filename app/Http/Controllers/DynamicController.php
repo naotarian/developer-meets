@@ -151,8 +151,18 @@ class DynamicController extends Controller
         ->where('project_applications.status', 2)
         ->where('project_applications.deleted_at', null)
         ->get();
-      
-        $target_user['sex'] = $this->gender[$target_user['sex']];
+        if($target_user['sex']) {
+            $target_user['sex'] = $this->gender[$target_user['sex']];
+        } else {
+            $target_user['sex'] = '未設定';
+        }
+        if($target_user['engineer_history'] == null) {
+            $target_user['engineer_history'] = '未設定';
+        }
+        if($target_user['age'] == null) {
+            $target_user['age'] = '未設定';
+        }
+        // dd($target_user['icon_image']);
         //掲載中のプロジェクト
         $now_available_projects = Project::where('user_id', $target_user->id)->where('status', 1)->get();
         
