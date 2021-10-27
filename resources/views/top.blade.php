@@ -3,8 +3,15 @@
 <link rel="stylesheet" href="/css/top.css">
 @endsection
 @section('contents')
-
 <div class="contents">
+
+
+<!-- バナー（リンクあり） -->
+<a class="news-banner" href="ここにリンクを記入">
+  <div class="news-banner__content">
+    <p>お知らせテキストをここに入れてください！</p>
+  </div>
+</a>
     <div class="main_visual">
         <div class="btn_area_top pconly">
             <a href="seek" class="btn-animation-01"><span>プロジェクトを探す<span></a>

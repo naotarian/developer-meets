@@ -1,26 +1,33 @@
 /*dt{*/
+
 /*  float: left;*/
+
 /*}*/
 
-dd{
-  margin-bottom: 0;
+dd {
+    margin-bottom: 0;
 }
+
 .wrapper {
     margin: 0 auto;
-     padding-top: 0; 
+    padding-top: 0;
 }
+
 .my_infomations {
     /*width: 1024px;*/
     margin: 0 auto;
     padding: 1rem;
 }
+
 .wrapper {
     margin-top: 8rem;
 }
+
 .contents {
     max-width: 1200px;
     margin: 0 auto;
 }
+
 .mypage_title {
     width: 50%;
     margin: 3rem auto;
@@ -28,6 +35,7 @@ dd{
     font-size: 2rem;
     color: gray;
 }
+
 .nav-tabs {
     display: -ms-flexbox;
     display: flex;
@@ -37,17 +45,21 @@ dd{
     margin-bottom: 0;
     list-style: none;
 }
+
 .cg {
     color: gray;
 }
+
 .sc100 {
     width: 100px;
     height: 100px;
 }
+
 .sc200 {
     width: 200px;
     height: 200px;
 }
+
 .left_bar .nav {
     position: fixed;
     top: 60px;
@@ -56,32 +68,38 @@ dd{
     width: 200px;
     background: darkgray;
 }
+
 .sidebar_fixed {
     justify-content: center;
     width: 100%;
 }
+
 .nav {
     padding-right: 0;
     padding-left: 0;
     padding-top: 0;
 }
+
 .fade dl {
     display: flex;
     flex-flow: row wrap;
     width: 100%;
-    }
+}
+
 .fade dt {
     flex-basis: 15%;
     padding: 20px;
     background-color: #f1f1f1;
     border-bottom: 1px solid #ccc;
-    }
+}
+
 .fade dd {
     flex-basis: 85%;
     padding: 20px;
     background-color: #fff;
     border-bottom: 1px solid #ccc;
-    }
+}
+
 @media only screen and (max-width: 768px) {
     .my_infomations {
         width: 100%;
