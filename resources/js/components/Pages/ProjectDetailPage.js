@@ -12,6 +12,7 @@ import Card from '@mui/material/Card';
 import { green } from '@mui/material/colors';
 import ApplicationButton from '../Atoms/ApplicationButton';
 import QuestionButton from '../Atoms/QuestionButton';
+import MediaQuery from "react-responsive";
 
 const WrapperGrid = styled(Grid)`
   width: 80%;
@@ -36,6 +37,10 @@ const FlexGrid = styled(Grid)`
   display: flex;
   justify-content:flex-start;
 `;
+const FlexGridSp = styled(Grid)`
+  width: 100%;
+  display: block;
+`;
 const StyledCard = styled(Card)`
   width: 20%;
   height: 100px;
@@ -45,6 +50,15 @@ const StyledCard = styled(Card)`
   margin-left: 2rem;
   margin-bottom: 2rem;
 `;
+const StyledCardSp = styled(Card)`
+  width: 90%;
+  height: 100px;
+  padding: 0.7rem 1rem 0 1rem;
+  border: 2px solid ${green[500]}!important;
+  border-radius:20px!important;
+  margin-left: 1rem;
+  margin-bottom: 2rem;
+`;
 const FontColorGreenGrid = styled(Grid)`
   color: ${green[500]};
 `;
@@ -52,6 +66,14 @@ const ProjectName = styled(Grid)`
   margin-left: 2rem;
   font-weight: bold;
   font-size: 1.6rem;
+  margin-bottom: 1rem;
+`;
+const ProjectNameSp = styled(Grid)`
+  margin-left: 1rem;
+  margin-right:1rem;
+  margin-top: 1.5rem;
+  font-weight: bold;
+  font-size: 1.2rem;
   margin-bottom: 1rem;
 `;
 
@@ -80,31 +102,58 @@ const ProjectDetailPage = () => {
   return (
     <WrapperGrid>
       <ContainerGrid>
-        <img src="/images/share/no_image.jpeg" alt="noimage" height="350" width="100%"/>
-        {data &&
-          <SkillTags skills={[data.language, data.sub_language]} detail/>
-        }
         
-        <ProjectName>{data &&data.project_name}</ProjectName>
         
-        <FlexGrid>
-          <StyledCard variant="outlined">
-            <FontColorGreenGrid>稼働時間</FontColorGreenGrid>
-            {data &&data.work_frequency}
-          </StyledCard>
-          <StyledCard variant="outlined">
-            <FontColorGreenGrid>募集人数</FontColorGreenGrid>
-            {data &&data.number_of_application}人
-          </StyledCard>
-          <StyledCard variant="outlined">
-            <FontColorGreenGrid>エンジニア歴</FontColorGreenGrid>
-            {data &&data.minimum_experience}年以上
-          </StyledCard>
-          <StyledCard variant="outlined">
-            <FontColorGreenGrid>エリア</FontColorGreenGrid>
-            全国<br />フルリモート(在宅)
-          </StyledCard>
-        </FlexGrid>
+        <MediaQuery query="(min-width: 767px)">
+          <img src="/images/share/no_image.jpeg" alt="noimage" height="350" width="100%"/>
+          {data &&
+            <SkillTags skills={[data.language, data.sub_language]} detail/>
+          }
+          <ProjectName>{data &&data.project_name}</ProjectName>
+          <FlexGrid>
+            <StyledCard variant="outlined">
+              <FontColorGreenGrid>稼働時間</FontColorGreenGrid>
+              {data &&data.work_frequency}
+            </StyledCard>
+            <StyledCard variant="outlined">
+              <FontColorGreenGrid>募集人数</FontColorGreenGrid>
+              {data &&data.number_of_application}人
+            </StyledCard>
+            <StyledCard variant="outlined">
+              <FontColorGreenGrid>エンジニア歴</FontColorGreenGrid>
+              {data &&data.minimum_experience}年以上
+            </StyledCard>
+            <StyledCard variant="outlined">
+              <FontColorGreenGrid>エリア</FontColorGreenGrid>
+              全国<br />フルリモート(在宅)
+            </StyledCard>
+          </FlexGrid>
+        </MediaQuery>
+        <MediaQuery query="(max-width: 767px)">
+          <img src="/images/share/no_image.jpeg" alt="noimage" height="200" width="100%"/>
+          {data &&
+            <SkillTags skills={[data.language, data.sub_language]} detail/>
+          }
+          <ProjectNameSp>{data &&data.project_name}</ProjectNameSp>
+          <FlexGridSp>
+            <StyledCardSp variant="outlined">
+              <FontColorGreenGrid>稼働時間</FontColorGreenGrid>
+              {data &&data.work_frequency}
+            </StyledCardSp>
+            <StyledCardSp variant="outlined">
+              <FontColorGreenGrid>募集人数</FontColorGreenGrid>
+              {data &&data.number_of_application}人
+            </StyledCardSp>
+            <StyledCardSp variant="outlined">
+              <FontColorGreenGrid>エンジニア歴</FontColorGreenGrid>
+              {data &&data.minimum_experience}年以上
+            </StyledCardSp>
+            <StyledCardSp variant="outlined">
+              <FontColorGreenGrid>エリア</FontColorGreenGrid>
+              全国<br />フルリモート(在宅)
+            </StyledCardSp>
+          </FlexGridSp>
+        </MediaQuery>
       </ContainerGrid>
       <ApplicationButton onClick={() => setConfirmFlag(true)} variant="contained" size="large" />
       <QuestionButton variant="outlined" size="large" />
