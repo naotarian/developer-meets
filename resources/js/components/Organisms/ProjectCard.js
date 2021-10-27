@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import styled from "styled-components";
+import axios from 'axios';
 import ProjectColumn from '../Atoms/ProjectColumn';
 import SkillTags from '../Molecules/SkillTags';
 import UserInfo from '../Molecules/UserInfo';
 import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardActionArea from '@mui/material/CardActionArea';
 // import CardMedia from '@mui/material/CardMedia';
@@ -44,6 +47,8 @@ const ProjectCard = ({ project_data }) => {
           { project_data.number_of_application && <ProjectColumn column="people" text={`募集 ${project_data.number_of_application}人`} /> }
           <UserInfo username={project_data.user.user_name} />
         </CardContent>
+        {/* <CardActions> */}
+        {/* </CardActions> */}
       </StyledCardActionArea>
     </StyledCard>
   );

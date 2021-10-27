@@ -8,7 +8,6 @@ use App\User;
 use App\Project;
 use App\ProjectApplication;
 use App\Http\Library\CallTwitterApi;
-use Illuminate\Support\Facades\Auth;
 
 class ApiController extends Controller
 {
@@ -77,24 +76,5 @@ class ApiController extends Controller
           $array[] = array($t->statusesOembed($d->id));
         }
         return view('top', ['twitter' => $array]);
-    }
-    
-    public function application(Request $request) {
-        $target_user = Auth::user();
-        if($target_user->id == $request['user_id']) {
-            $message = '自身の作成プロジェクトへは参加申請を出せません。';
-            return response($message);
-        }
-        //既存のものがあれば追加しない
-        $upsert = ProjectApplication::updateOrCreate(
-            ['application_id' => $target_user->id, 'project_id' => $request['id']],
-            ['status' => '1', 'application_id' => $target_user->id, 'author_id' => $request['user_id'], 'project_id' => $request['id']]
-        );
-        if($upsert->wasRecentlyCreated) {
-            $message = '申請が完了しました。';
-        } else {
-            $message = '既に申請済みです。';
-        }
-        return response($message);
     }
 }
