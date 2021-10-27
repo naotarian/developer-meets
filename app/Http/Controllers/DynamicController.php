@@ -145,6 +145,7 @@ class DynamicController extends Controller
         ->where('project_applications.status', 1)
         ->where('project_applications.deleted_at', null)
         ->get();
+        
         $join_projects = Project::join('project_applications','projects.id','=','project_applications.project_id')
         ->where('project_applications.application_id', $target_user->id)
         ->where('project_applications.status', 2)
