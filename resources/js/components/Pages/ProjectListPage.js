@@ -18,19 +18,15 @@ const ProjectListPage = () => {
   const [projects, setProjects] = useState([]);
 
   useEffect(()=> {
-    setHost(location.host);
+    setHost(location.host)
   }, [])
 
   useEffect(() => {
     if (host) {
       let url = `http://${host}/api/all_projejct` // ここのエンドポイントは適当だから検討
-      try {
-        axios.get(url).then(res => {
-          setProjects(res.data);
-        });
-      } catch (e) {
-        console.error(e);
-      }
+      axios.get(url).then(res => {
+        setProjects(res.data)
+      });
     }
   }, [host])
 

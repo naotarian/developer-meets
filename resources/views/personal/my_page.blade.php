@@ -69,28 +69,6 @@
               </div>
             </div>
           </div>
-        </div>{{--closeModal--}}
-        @endforeach
-      </div>
-      @if (session('delete_message'))
-        <div class="flash_message">
-            {{ session('delete_message') }}
-        </div>
-        @php session()->forget('delete_message') @endphp
-      @endif
-      
-      {{--自分のページのみ表示--}}
-      @if($display_flag)
-      <p class="mypage_title"><i class="fas fa-clipboard-list icon_color mr1"></i>参加申請中プロジェクト</p>
-      <div class="row">
-        @foreach($now_applications as $key => $now)
-        <div class="col-sm-6 mb2">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">{{$now->project_name}}</h5>
-              <p class="card-text">{{$now->project_detail}}</p>
-              <a href="/seek/detail/{{$now->project_id}}" class="btn btn-primary">このプロジェクトについて</a>
-              <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#cancelModalCenter{{$key}}">参加申請取り消し</button>
           {{--ここからmodal--}}
           <div class="modal fade" id="withdrawalModalCenter{{$key}}" tabindex="-1" role="dialog" aria-labelledby="withdrawalModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">

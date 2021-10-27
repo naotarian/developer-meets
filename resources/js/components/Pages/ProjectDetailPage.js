@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import styled from "styled-components";
 import axios from 'axios';
 import LabelButton from '../Atoms/LabelButton';
-// import JoinConfirmDialog from '../Molecules/JoinConfirmDialog';
-import JoinRequest from '../Organisms/JoinRequest';
+import JoinConfirmDialog from '../Molecules/JoinConfirmDialog';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import SkillTags from '../Molecules/SkillTags';
@@ -58,30 +57,25 @@ const ProjectName = styled(Grid)`
 
 const ProjectDetailPage = () => {
   const [host, setHost] = useState('');
-  const [path, setPath] = useState('');
   const [data, setData] = useState(null);
   const [confirmFlag, setConfirmFlag] = useState(false);
   
  
 
   useEffect(()=> {
-    setHost(location.host);
-    setPath(location.pathname);
-  }, []);
+    setHost(location.host)
+  }, [])
 
   useEffect(() => {
-    if (host && path) {
-      let p_id = path.replace('/seek/detail/', '');
-      let url = `http://${host}/api/detail/${p_id}`;
-      try {
-        axios.get(url).then(res => {
-          setData(res.data);
-        });
-      } catch (e) {
-        console.error(e);
-      }
+    if (host) {
+      let url = `http://${host}/api/detail/1`
+      axios.get(url).then(res => {
+        console.log('ここです')
+        console.log(res.data)
+        setData(res.data)
+      });
     }
-  }, [host, path]);
+  }, [host])
 
   return (
     <WrapperGrid>
