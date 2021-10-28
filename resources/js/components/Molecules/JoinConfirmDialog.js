@@ -1,26 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
+import axios from 'axios';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const JoinConfirmDialog = ({ open, handleClose}) => {
+const JoinConfirmDialog = ({ open, handleClose, data }) => {
   const sendJoinRequests = () => {
     console.log('ここでAPIを叩く');
+    axios.get(`http://3.133.44.198/api/application/${data.id}`)
+      .then(res => {
+        let response = res;
+      });
     handleClose();
   }
 
-  return (
-      <Dialog
+  return (<Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"プロジェクト名"}
+          {data && data.project_name}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -41,8 +45,7 @@ const JoinConfirmDialog = ({ open, handleClose}) => {
             キャンセル
           </Button>
         </DialogActions>
-      </Dialog>
-  );
+      </Dialog>);
 };
 
 export default JoinConfirmDialog;
