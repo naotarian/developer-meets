@@ -326,8 +326,10 @@ body {
 }
 
 .news-banner {
-    display: block;
+    isplay: block;
     height: 45px;
+    position: fixed;
+    top: 44px;
     margin-top: 1rem;
     width: 100%;
     background-color: #00AE95;
