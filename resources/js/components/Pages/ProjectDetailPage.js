@@ -106,8 +106,13 @@ const ProjectDetailPage = () => {
       console.log('ここです')
       let url = `http://${host}/api/detail/${param}`
       axios.get(url).then(res => {
-        if (res.data['application_flag'] == true) {
+        if (res.data['application_flag'] == 1) {
+          console.log("d");
           setbuttonText('申請済み');
+        }
+        if (res.data['application_flag'] == 3) {
+
+          setbuttonText('公開済み');
         }
         setData(res.data)
       });

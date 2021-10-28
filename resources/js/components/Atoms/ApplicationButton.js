@@ -15,6 +15,18 @@ const StyledButton = styled(Button)
   margin-right: 2rem;
   padding: 8px 22px!important;
 `;
+const StyledButtonDisabled = styled(Button)
+`
+  outline: none !important;
+  background: #ccc;!important;
+  // border: 1px solid ${green[500]}!important;
+  color: #fff!important;
+  borer-radius: 10px;
+  display: block;
+  margin-right: 2rem;
+  padding: 8px 22px!important;
+`;
+
 
 const StyledGrid = styled(Grid)
 `
@@ -24,13 +36,24 @@ const StyledGrid = styled(Grid)
 `;
 
 const ApplicationButton = ({ ...props }) => {
-  return (
-    <StyledGrid>
-        <StyledButton {...props}>
-          {props.text}
-        </StyledButton>
-    </StyledGrid>
-  );
+  if (props.text == '申請済み' || props.text == '公開済み') {
+    return (
+      <StyledGrid>
+          <StyledButtonDisabled {...props} disabled>
+            {props.text}
+          </StyledButtonDisabled>
+      </StyledGrid>
+    );
+  }
+  else {
+    return (
+      <StyledGrid>
+          <StyledButton {...props}>
+            {props.text}
+          </StyledButton>
+      </StyledGrid>
+    );
+  }
 };
 
 export default ApplicationButton;

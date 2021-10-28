@@ -12,14 +12,22 @@ import CardActionArea from '@mui/material/CardActionArea';
 // import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 
-const StyledCard = styled(Card)`
+const StyledCard = styled(Card)
+`
   width: 375px;
   // padding-left: 8px;
   margin: 8px;
 `;
 
-const StyledCardActionArea = styled(CardActionArea)`
+const StyledCardActionArea = styled(CardActionArea)
+`
   outline: none !important;
+`;
+const TypographyOverflow = styled(Typography)
+`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis!important;
 `;
 
 const ProjectCard = ({ project_data }) => {
@@ -37,9 +45,9 @@ const ProjectCard = ({ project_data }) => {
         {/* プロジェクト画像は未定 */}
         {/* <CardMedia component="img" image="~/path/xxx.jpg" /> */}
         <CardContent>
-          <Typography gutterBottom variant="h6" component="div">
+          <TypographyOverflow gutterBottom variant="h6" component="div">
             {project_data.project_name}
-          </Typography>
+          </TypographyOverflow>
           <SkillTags skills={[project_data.language, project_data.sub_language]} />
           { project_data.work_frequency && <ProjectColumn column="time" text={project_data.work_frequency} /> }
           {/* <ProjectColumn column="location" text="全国/フルリモート(在宅OK)" /> */}
