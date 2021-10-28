@@ -14,34 +14,41 @@ import ApplicationButton from '../Atoms/ApplicationButton';
 import QuestionButton from '../Atoms/QuestionButton';
 import MediaQuery from "react-responsive";
 
-const WrapperGrid = styled(Grid)`
+
+const WrapperGrid = styled(Grid)
+`
   width: 80%;
   height: auto;
   margin: 0 auto;
 `;
-const ContainerGrid = styled(Grid)`
+const ContainerGrid = styled(Grid)
+`
   width: 100%;
   height: auto;
   margin-bottom: 2rem;
   border: 1px solid #e2e2e2;
 `;
-const DetailContainer = styled(Grid)`
+const DetailContainer = styled(Grid)
+`
   width: 100%;
   height: auto;
   margin-bottom: 2rem;
   border: 1px solid #e2e2e2;
   padding: 1.5rem;
 `;
-const FlexGrid = styled(Grid)`
+const FlexGrid = styled(Grid)
+`
   width: 100%;
   display: flex;
   justify-content:flex-start;
 `;
-const FlexGridSp = styled(Grid)`
+const FlexGridSp = styled(Grid)
+`
   width: 100%;
   display: block;
 `;
-const StyledCard = styled(Card)`
+const StyledCard = styled(Card)
+`
   width: 20%;
   height: 100px;
   padding: 0.7rem 1rem 0 1rem;
@@ -50,7 +57,8 @@ const StyledCard = styled(Card)`
   margin-left: 2rem;
   margin-bottom: 2rem;
 `;
-const StyledCardSp = styled(Card)`
+const StyledCardSp = styled(Card)
+`
   width: 90%;
   height: 100px;
   padding: 0.7rem 1rem 0 1rem;
@@ -59,16 +67,19 @@ const StyledCardSp = styled(Card)`
   margin-left: 1rem;
   margin-bottom: 2rem;
 `;
-const FontColorGreenGrid = styled(Grid)`
+const FontColorGreenGrid = styled(Grid)
+`
   color: ${green[500]};
 `;
-const ProjectName = styled(Grid)`
+const ProjectName = styled(Grid)
+`
   margin-left: 2rem;
   font-weight: bold;
   font-size: 1.6rem;
   margin-bottom: 1rem;
 `;
-const ProjectNameSp = styled(Grid)`
+const ProjectNameSp = styled(Grid)
+`
   margin-left: 1rem;
   margin-right:1rem;
   margin-top: 1.5rem;
@@ -79,21 +90,25 @@ const ProjectNameSp = styled(Grid)`
 
 const ProjectDetailPage = () => {
   const [host, setHost] = useState('');
+  const [buttonText, setbuttonText] = useState('参加申請する');
   const [data, setData] = useState(null);
   const [confirmFlag, setConfirmFlag] = useState(false);
-  
- 
 
-  useEffect(()=> {
+
+  useEffect(() => {
     setHost(location.host)
   }, [])
 
   useEffect(() => {
     if (host) {
-      let url = `http://${host}/api/detail/1`
+      var param = location.pathname;
+      param = param.replace('/seek/detail/', '');
+      console.log('ここです')
+      let url = `http://${host}/api/detail/${param}`
       axios.get(url).then(res => {
-        console.log('ここです')
-        console.log(res.data)
+        if (res.data['application_flag'] == true) {
+          setbuttonText('申請済み');
+        }
         setData(res.data)
       });
     }
@@ -155,9 +170,9 @@ const ProjectDetailPage = () => {
           </FlexGridSp>
         </MediaQuery>
       </ContainerGrid>
-      <ApplicationButton onClick={() => setConfirmFlag(true)} variant="contained" size="large" />
+      <ApplicationButton onClick={() => setConfirmFlag(true)} variant="contained" size="large" text={buttonText} />
       <QuestionButton variant="outlined" size="large" />
-      <JoinConfirmDialog open={confirmFlag} handleClose={() => setConfirmFlag(false)} />
+      <JoinConfirmDialog open={confirmFlag} handleClose={() => setConfirmFlag(false)} data={data}/>
       <DetailContainer>
         <Typography>▼案件詳細</Typography>
         <Typography>{data && data.project_detail}</Typography>

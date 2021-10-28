@@ -45,7 +45,12 @@ class ApiController extends Controller
 
     public function project_detail($id) {
         $target_project = Project::find($id);
+        //ログインuserが既に申請済みだったらtrue
+        $flag = false;
+        $target_project['application_flag'] = $flag;
         $target_project = json_encode($target_project);
+        
+        
 
         return response($target_project);
     }
@@ -64,6 +69,12 @@ class ApiController extends Controller
         $all_project = json_encode($projects);
         return response($all_project);
 
+    }
+    
+    public function application($id) {
+        \Log::info($id);
+        $result = true;
+        return response()->json($result);
     }
 
     public function twitterApi(Request $request)
