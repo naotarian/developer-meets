@@ -54,6 +54,7 @@ Route::get('/api/all_projejct', 'Api\ApiController@all_projejct');
 Route::get('/api/application/{id}', 'Api\ApiController@application');
 
 // admin権限ユーザーのみアクセス可能
+Route::get('/admin', 'AdminController@index')->name('admin');
 Route::get('/admin/slide_text', 'AdminController@slide_text')->name('slide_text');
 Route::post('/admin/slide_text', 'AdminController@slide_text_post')->name('slide_text_post');
 Route::get('/admin/slide_text_edit/{id}', 'AdminController@slide_text_edit')->name('slide_text_edit');

@@ -9,7 +9,11 @@
 <!-- バナー（リンクあり） -->
 <a class="news-banner" href="ここにリンクを記入">
   <div class="news-banner__content">
-    <p>お知らせテキストをここに入れてください！</p>
+        <p>
+            @foreach($slide_text_sorted as $data)
+                    <span style="margin-right: 100px;">{{$data['slide_text']}}</span>
+            @endforeach
+        </p>
   </div>
 </a>
     <div class="main_visual">

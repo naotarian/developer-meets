@@ -13,6 +13,9 @@
         <li class="list-group-item"><a class="cg" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
         <li class="list-group-item"><a class="cg" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fa fa-address-card"></i>Profile</a></li>
         <li class="list-group-item"><a class="cg" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fa fa-cog"></i>Settings</a></li>
+      @if($login_user_infomation['id'] == 1)
+        <li><a href="/admin" class="btn btn-primary">管理ページ</a></li>
+      @endif
       </ul>
       </div>
     </div>
@@ -21,6 +24,9 @@
         <li class="list-group-item"><a class="cg" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
         <li class="list-group-item"><a class="cg" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fa fa-address-card"></i>Profile</a></li>
         <li class="list-group-item"><a class="cg" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fa fa-cog"></i>Settings</a></li>
+      @if($login_user_infomation['id'] == 1)
+        <li><a href="/admin" class="btn btn-primary">管理ページ</a></li>
+      @endif
       </ul>
     </div>
   <div class="row center sidebar_fixed">

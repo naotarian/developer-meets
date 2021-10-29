@@ -4,8 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\SlideText;
+use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
+    
+    public function __construct () {
+        $this->middleware(function ($request, $next) {
+            // ココに書く
+            $user = Auth::user();
+            if($user['id'] != 1) {
+                return redirect('/');
+            }
+            return $next($request);
+        });
+    }
+    
+    public function index() {
+        return view('admin.index');
+    }
     public function slide_text() {
         $slide_text = SlideText::where('status', 0)->get();
         $slide_text_diasbled = SlideText::where('status', 1)->get();
@@ -38,7 +54,6 @@ class AdminController extends Controller
     }
     
     public function slide_text_edit_post(Request $request) {
-        
         $target_data = SlideText::find($request['slide_text_id']);
         $target_data['slide_text'] = $request['slide_text_edit'];
         $target_data['sort'] = $request['sort'];
@@ -53,6 +68,5 @@ class AdminController extends Controller
         }else {
             return redirect('/admin/slide_text')->withInput('error', 'エラーです');
         }
-
     }
 }
