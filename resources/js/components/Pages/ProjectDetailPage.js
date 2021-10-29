@@ -104,7 +104,12 @@ const ProjectDetailPage = () => {
       var param = location.pathname;
       param = param.replace('/seek/detail/', '');
       console.log('ここです')
+      console.log(host)
       let url = `http://${host}/api/detail/${param}`
+      if (host == 'developer-meets.com') {
+        let url = `https://${host}/api/detail/${param}`
+      }
+
       axios.get(url).then(res => {
         if (res.data['application_flag'] == 1) {
           console.log("d");
