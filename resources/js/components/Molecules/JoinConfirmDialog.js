@@ -7,10 +7,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const JoinConfirmDialog = ({ open, handleClose, data }) => {
+const JoinConfirmDialog = ({ open, handleClose, data, host }) => {
   const sendJoinRequests = () => {
     console.log('ここでAPIを叩く');
-    axios.get(`http://3.133.44.198/api/application/${data.id}`)
+    axios.get(`http://${host}/api/application/${data.id}`)
       .then(res => {
         let response = res;
       });

@@ -177,7 +177,7 @@ const ProjectDetailPage = () => {
       </ContainerGrid>
       <ApplicationButton onClick={() => setConfirmFlag(true)} variant="contained" size="large" text={buttonText} />
       <QuestionButton variant="outlined" size="large" />
-      <JoinConfirmDialog open={confirmFlag} handleClose={() => setConfirmFlag(false)} data={data}/>
+      <JoinConfirmDialog open={confirmFlag} handleClose={() => setConfirmFlag(false)} data={data} host={host} />
       <DetailContainer>
         <Typography>▼案件詳細</Typography>
         <Typography>{data && data.project_detail}</Typography>
