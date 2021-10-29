@@ -34,7 +34,8 @@ Route::post('/cancel', 'DynamicController@cancel')->name('cancel')->middleware('
 Route::get('/rejected/{id}', 'DynamicController@rejected')->name('rejected')->middleware('auth');
 Route::get('/withdrawal/{id}', 'DynamicController@withdrawal')->name('withdrawal')->middleware('auth');
 Route::get('/twitter', 'Api\ApiController@twitterApi');
-
+Route::get('/edit_proifile/{id}', 'DynamicController@edit_proifile');
+Route::post('/edit_proifile', 'DynamicController@edit_proifile_post')->name('edit_proifile_post');
 Route::get('/approval/{id}', 'DynamicController@approval')->name('approval')->middleware('auth');
 Route::get('/seek/detail/{id}', function() {
     return view('project_detail');

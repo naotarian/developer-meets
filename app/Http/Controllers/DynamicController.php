@@ -175,6 +175,32 @@ class DynamicController extends Controller
                                          ]);
     }
     
+    public function edit_proifile($id) {
+        $login_user = Auth::user();
+        if($login_user->id != $id) {
+            return redirect('/my_page');
+        }
+        $edit_user = User::find($id);
+        return view('personal.edit_user', ['login_user_infomation' => $edit_user]);
+    }
+    
+    public function edit_proifile_post(Request $request) {
+        $target_user = User::where('user_name', $request['user_name'])->first();
+        $target_user['age'] = $request['age'];
+        $target_user['comment'] = $request['edit_comment'];
+        $target_user['email'] = $request['edit_email'];
+        $target_user['self_introduction'] = $request['edit_self_introduction'];
+        $target_user['free_url'] = $request['edit_url'];
+        $target_user['sex'] = $request['edit_gender'];
+        $save = $target_user->save();
+        if($save) {
+            $message = '変更しました。';
+        } else {
+            $message = '変更できませんでした。';
+        }
+        return redirect('/edit_proifile/' . $target_user['id'])->with('edit_message', $message);
+    }
+    
     public function question(Request $request) {
         $project_info = json_decode($request['project_info'], true);
     }

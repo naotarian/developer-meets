@@ -153,6 +153,9 @@
           
           </div>
         <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+          @if($display_flag)
+            <a href="/edit_proifile/{{$login_user_infomation['id']}}" class="btn btn-primary" style="float: right;">編集</a>
+          @endif
           <dl class="my_infomations">
             <dt>ユーザー名</dt>
             <dd>{{$login_user_infomation->user_name}}<br>
@@ -166,10 +169,10 @@
             <dt>エンジニア歴</dt>
             <dd>{{$login_user_infomation->engineer_history}}年</dd>
             <dt>URL</dt>
-            <dd>{{$login_user_infomation->free_url}}</dd>
+            <dd><a href="{{$login_user_infomation->free_url}}" target="_blank">{{$login_user_infomation->free_url}}</a></dd>
             <dt>プロフィール</dt>
             <dd>{{$login_user_infomation->self_introduction}}</dd>
-          <dl>
+          </dl>
         </div>
         <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
         <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
