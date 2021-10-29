@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Project;
 use App\ProjectApplication;
+use App\SlideText;
 use App\Http\Library\CallTwitterApi;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,7 +29,9 @@ class DynamicController extends Controller
         foreach($d as $d) {
           $array[] = array($t->statusesOembed($d->id));
         }
-        return view('top', ['twitter' => $array]);
+        $slide_text = SlideText::where('status', 0)->get();
+        $slide_text_sorted = $slide_text->sortBy('sort')->values()->toArray();
+        return view('top', ['twitter' => $array, 'slide_text_sorted' => $slide_text_sorted]);
     }
     
     
@@ -161,7 +164,6 @@ class DynamicController extends Controller
         if($target_user['age'] == null) {
             $target_user['age'] = '未設定';
         }
-        // dd($target_user['icon_image']);
         //掲載中のプロジェクト
         $now_available_projects = Project::where('user_id', $target_user->id)->where('status', 1)->get();
         
@@ -260,7 +262,6 @@ class DynamicController extends Controller
     
     public function approval($id) {
         $target_application = ProjectApplication::find($id);
-        // dd($target_application);
         if($target_application->status == 2) {
             return back()->with('approval_message', '既に承認済みです。');
         }
