@@ -107,7 +107,7 @@ const ProjectDetailPage = () => {
       console.log(host)
       let url = `http://${host}/api/detail/${param}`
       if (host == 'developer-meets.com') {
-        let url = `https://${host}/api/detail/${param}`
+        url = `https://${host}/api/detail/${param}`
       }
 
       axios.get(url).then(res => {
