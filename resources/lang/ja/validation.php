@@ -156,6 +156,11 @@ return [
         'sub_skil'=>'サブ言語',
         'minimum_work_experience'=>'最低実務経験',
         'tool'=>'ソース管理',
+        'sex'=>'性別',
+        'user_name'=>'ユーザー名',
+        'age'=>'年齢',
+        'engineer_history'=>'エンジニア歴',
+        'password_confirmation'=>'パスワード確認',
     ],
 
 ];

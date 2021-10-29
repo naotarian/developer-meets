@@ -5,6 +5,15 @@
 @section('contents')
 
 <div class="contents">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="page_title">ユーザー登録</div>
         {{ Form::open(['action' => 'Auth\RegisterController@register', 'method' => 'post', 'enctype' => 'multipart/form-data']) }}
     <div class="main_contents">
@@ -23,7 +32,7 @@
                         <div class="col-xs-6 wow animated slideInRight flex-form mt2" data-wow-delay=".5s">
                             <!-- Name -->
                             {{Form::password('password', ['class' => 'form','id' => 'password', 'placeholder' => 'パスワード'])}}
-                            {{Form::password('password_confirm', ['class' => 'form','id' => 'password_confirm', 'placeholder' => 'パスワード確認'])}}
+                            {{Form::password('password_confirmation', ['class' => 'form','id' => 'password_confirm', 'placeholder' => 'パスワード確認'])}}
                         </div>
                         <div class="col-xs-6 wow animated slideInLeft flex-form mt2" data-wow-delay=".5s">
                             {{Form::select('age', ['20' => '20'], 'ordinarily', ['class' => 'form','id' => 'age', 'placeholder' => '年齢'])}}
@@ -33,7 +42,7 @@
                             {{Form::email('email', null, ['class' => 'form','id' => 'email','placeholder' => 'Eメール'])}}
                         </div>
                         <div class="relative fullwidth col-xs-12">
-                            <button type="submit" id="submit" name="submit" class="form-btn semibold">Send Message</button> 
+                            <button type="submit" id="submit" name="submit" class="form-btn semibold">登録する</button> 
                         </div>
                         <div class="clear"></div>
 
