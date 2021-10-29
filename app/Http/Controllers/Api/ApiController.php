@@ -46,6 +46,8 @@ class ApiController extends Controller
 
     public function project_detail($id) {
         $target_project = Project::find($id);
+        $target_project['language'] = $this->languages[$target_project['language']];
+        $target_project['sub_language'] = $this->languages[$target_project['sub_language']];
         $target_user = Auth::user();
         if($target_project['user_id'] == $target_user->id) {
             $flag = 3;
