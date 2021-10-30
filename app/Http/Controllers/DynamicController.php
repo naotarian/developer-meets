@@ -9,6 +9,8 @@ use App\ProjectApplication;
 use App\SlideText;
 use App\Http\Library\CallTwitterApi;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 
 class DynamicController extends Controller
@@ -185,6 +187,37 @@ class DynamicController extends Controller
     }
     
     public function edit_proifile_post(Request $request) {
+        // dd($request);
+        $login_user = Auth::user();
+        if(!empty($request->file("icon_image"))) {
+            //拡張子取得
+            $extension = $request->file("icon_image")->getClientOriginalExtension();
+            $now = Carbon::now('Asia/Tokyo');
+            //画像名は年月日時分秒にして被らないようにする
+            $image_name = $now->year . $now->month . $now->day . $now->hour . $now->minute . $now->second . '.' . $extension;
+            //画像を保存するディレクトリpath
+            $path = storage_path('app') . '/images/' . $login_user->url_code . '/icon';
+            $fileExists = file_exists($path);
+            //なければ作成
+            if(!$fileExists) {
+                Storage::disk('images')->makeDirectory($login_user->url_code . '/icon');
+            }
+            //storeAsからのicon保存先path
+            $str_path = "/images/" . $login_user->url_code . '/icon';
+            //現状の画像ファイルは削除
+            $files = Storage::allFiles('images/' . $login_user->url_code . '/icon');
+            if($files) {
+                foreach($files as $f) {
+                    $del = Storage::delete($f);
+                }
+            }
+            //画像を保存
+            $save_image = $request->file('icon_image')->storeAs($str_path,$image_name);
+        } else {
+            $image_name = null;
+        }
+        
+        
         $target_user = User::where('user_name', $request['user_name'])->first();
         $target_user['age'] = $request['age'];
         $target_user['comment'] = $request['edit_comment'];
@@ -192,6 +225,9 @@ class DynamicController extends Controller
         $target_user['self_introduction'] = $request['edit_self_introduction'];
         $target_user['free_url'] = $request['edit_url'];
         $target_user['sex'] = $request['edit_gender'];
+        if($image_name != null) {
+            $target_user['icon_image'] = $image_name;
+        }
         $save = $target_user->save();
         if($save) {
             $message = '変更しました。';
@@ -302,4 +338,13 @@ class DynamicController extends Controller
         $target_project->save();
         return redirect('/my_page')->with('approval_message', '参加申請を承認しました。');
     }
+    public function get_request_user_image(Request $request){
+        $data = $request->all();
+        \Log::info('ここです');
+        \Log::info($data["id"]);
+        \Log::info($data["name"]);
+        $path = storage_path("app/images/" . $data["id"] . "/icon/".$data["name"]);
+        return Response()->file($path);
+    }
+    
 }

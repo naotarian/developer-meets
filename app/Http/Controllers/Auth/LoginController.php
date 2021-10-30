@@ -66,6 +66,10 @@ class LoginController extends Controller
      'email' => $user->getEmail(),
      'user_name' => $userName
    ]);
+   if(!$authUser['url_code']) {
+       $authUser['url_code'] = hash('crc32', $authUser['id']);
+       $authUser->save();
+   }
    auth()->login($authUser); // ログイン
    return redirect()->to('/'); // homeページに転送
  }

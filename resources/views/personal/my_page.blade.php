@@ -8,7 +8,7 @@
 <div class="contents">
   <div class="left_bar card pconly">
       <div class="nav flex-column nav-pills my_nav card-body" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-      <img src="{{$login_user_infomation['icon_image']}}" class="sc200">
+      <img src="/get_request_user_image?id={{$login_user_infomation['url_code']}}&name={{$login_user_infomation['icon_image']}}" style="width:200px;">
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><a class="cg" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
         <li class="list-group-item"><a class="cg" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fa fa-address-card"></i>Profile</a></li>
@@ -159,7 +159,8 @@
           <dl class="my_infomations">
             <dt>ユーザー名</dt>
             <dd>{{$login_user_infomation->user_name}}<br>
-            複数行でも崩れません。</dd>
+            <dt>アイコン画像</dt>
+            <dd><img src="{{$login_user_infomation->icon_image}}">{{$login_user_infomation->icon_image}}<br></dd>
             <dt>性別</dt>
             <dd>{{$login_user_infomation->sex}}</dd>
             <dt>年齢</dt>

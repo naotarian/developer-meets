@@ -16,7 +16,8 @@
         "laravel/socialite": "^5.2",
         "laravel/tinker": "^2.5",
         "laravel/ui": "1.*",
-        "laravelcollective/html": "6.*"
+        "laravelcollective/html": "6.*",
+        "nesbot/carbon": "^2.53"
     },
     "require-dev": {
         "facade/ignition": "^1.16.15",

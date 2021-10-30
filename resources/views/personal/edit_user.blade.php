@@ -10,10 +10,12 @@
   @php session()->forget('edit_message') @endphp
 @endif
   <dl class="my_infomations">
-    {{Form::open(['route' => 'edit_proifile_post', 'method' => 'post', 'enctype' => 'multipart/form-data', 'style' => 'width:100%;'])}}
+    {{Form::open(['route' => 'edit_proifile_post', 'method' => 'post','files'=> true, 'enctype' => 'multipart/form-data', 'style' => 'width:100%;'])}}
         <dt>ユーザー名</dt>
         <dd>{{Form::text('edit_user_name', $login_user_infomation->user_name, ['class' => 'form-control', 'id' => 'edit_user_name', 'style' => 'width: auto;', 'disabled' => 'disabled'])}}<br>
         変更できません。</dd>
+        <dt>アイコン画像</dt>
+        <dd><input type="file" name="icon_image" files="true" id="imageUpload" accept='image/'></dd>
         <dt>性別</dt>
         <dd>{{Form::select('edit_gender', ['1' => '男', '2' => '女', '3' => 'その他'], $login_user_infomation->sex, ['class' => 'form-control','id' => 'edit_gender', 'style' => 'width: auto;'])}}</dd>
         <dt>性別</dt>
@@ -32,4 +34,14 @@
         <button type="submit" class="btn btn-outline-success">変更する</button>
     {{Form::close()}}
   </dl>
+@endsection
+
+@section('read_script')
+$('#imageUpload').on('change', function (e) {
+    let reader = new FileReader();
+    reader.onload = function (e) {
+        $("#preview").attr('src', e.target.result)
+    }
+    reader.readAsDataURL(e.target.files[0]);
+});
 @endsection

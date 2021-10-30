@@ -102,6 +102,9 @@ class RegisterController extends Controller
             'engineer_history' => $data['engineer_history'],
             'age' => $data['age'],
         ]);
+        
+        $register['url_code'] = hash('crc32', $register['id']);
+        $register->save();
         return redirect('/');
     }
 }
