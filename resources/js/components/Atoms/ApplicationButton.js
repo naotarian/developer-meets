@@ -32,7 +32,7 @@ const StyledGrid = styled(Grid)`
 const ApplicationButton = ({ text, openConfirmDialog }) => {
   return (
     <StyledButton size="large" variant="contained" onClick={openConfirmDialog}>
-      申請する
+      {text}
     </StyledButton>
   );
   // if (text == '申請済み' || text == '公開済み') {

@@ -53,12 +53,18 @@ const ProjectDetailPage = () => {
 
       axios.get(url).then(res => {
         setData(res.data)
-        // if (res.data['application_flag'] == 1) {
-        //   setButtonText('申請済み');
-        // }
-        // if (res.data['application_flag'] == 3) {
-        //   setButtonText('公開済み');
-        // }
+        console.log('res.data: ',res.data)
+        //res.data['application_flag'] 1: 申請済み, 2: 未申請, 3: 自分のプロジェクト
+
+        if (res.data['application_flag'] === 1) {
+          setButtonText('申請済み');
+        }
+        if (res.data['application_flag'] === 2) {
+          setButtonText('申請する');
+        }
+        if (res.data['application_flag'] === 3) {
+          setButtonText('公開済み');
+        }
       });
     }
   }, [host])
@@ -71,7 +77,7 @@ const ProjectDetailPage = () => {
           <ButtonsContainer container>
             <ApplicationButton
               item
-              // text={buttonText}
+              text={buttonText}
               openConfirmDialog={() => setConfirmFlag(true)}
             />
             <QuestionButton item/>
