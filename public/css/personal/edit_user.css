@@ -19,6 +19,20 @@ dd {
     padding: 1rem;
 }
 
+.cropper-container {
+    /*max-width: 300px;*/
+}
+.cropper-view-box,
+.cropper-face {
+    border-radius: 50%;
+}
+
+/* 下記はできれば必要なスタイルかと思います。（厳密にはスタイルなど必要ありませんが、最低現のスタイルとしてという意味です。） */
+
+.cropper-container {
+    width: 100%;
+}
+
 .wrapper {
     margin-top: 8rem;
 }

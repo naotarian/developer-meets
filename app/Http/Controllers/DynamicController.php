@@ -11,6 +11,7 @@ use App\Http\Library\CallTwitterApi;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Intervention\Image\ImageManagerStatic as Image;
 
 
 class DynamicController extends Controller
@@ -187,7 +188,19 @@ class DynamicController extends Controller
     }
     
     public function edit_proifile_post(Request $request) {
-        // dd($request);
+        $datas = $request->all();
+        $messages = [
+            'image' => '指定されたファイルが画像ではありません。',
+            'mimes' => '指定された拡張子（PNG/JPG/GIF）ではありません。',
+            'max' => '1MBを超えています。',
+        ];
+        $validator = Validator::make($datas,[
+            'icon_image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
+        ],$messages);
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+            $messages = array_values($messages);
+        }
         $login_user = Auth::user();
         if(!empty($request->file("icon_image"))) {
             //拡張子取得
@@ -211,8 +224,19 @@ class DynamicController extends Controller
                     $del = Storage::delete($f);
                 }
             }
+            $save_path = storage_path('app/images/' . $login_user->url_code . '/icon/') . $image_name;
+            // dd($save_path);
+            $image = Image::make($request->file('icon_image'))
+                      ->crop(
+                             $request->get('image_w'),
+                             $request->get('image_h'),
+                             $request->get('image_x'),
+                             $request->get('image_y')
+                           )->resize(128,128) //サムネイル用にリサイズ
+                            ->save($save_path);
             //画像を保存
-            $save_image = $request->file('icon_image')->storeAs($str_path,$image_name);
+            // $save_image = $request->file('icon_image')->storeAs($str_path,$image_name);
+            // $save_image = $image->storeAs($str_path,$image_name);
         } else {
             $image_name = null;
         }

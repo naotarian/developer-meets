@@ -159,8 +159,6 @@
           <dl class="my_infomations">
             <dt>ユーザー名</dt>
             <dd>{{$login_user_infomation->user_name}}<br>
-            <dt>アイコン画像</dt>
-            <dd><img src="{{$login_user_infomation->icon_image}}">{{$login_user_infomation->icon_image}}<br></dd>
             <dt>性別</dt>
             <dd>{{$login_user_infomation->sex}}</dd>
             <dt>年齢</dt>

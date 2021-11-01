@@ -24,6 +24,7 @@ body {
     text-align: center;
     color: #fff;
     font-size: 50px;
+    font-family: serif;
 }
 
 
@@ -326,7 +327,8 @@ body {
 }
 
 .news-banner {
-    isplay: block;
+    display: block;
+    z-index: 199;
     height: 45px;
     position: fixed;
     top: 44px;

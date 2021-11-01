@@ -1,8 +1,23 @@
 @extends('template.base')
 @section('individual_stylesheet')
 <link rel="stylesheet" href="/css/personal/edit_user.css">
+<link href="/css/cropper.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
 @endsection
 @section('contents')
+@if($errors->any())
+    <div class="error">
+        <strong>【内容にエラー】</strong><br>
+            
+            <p>下記項目をご確認ください。</p>
+            <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+    </div>
+@endif
 @if (session('edit_message'))
   <div class="flash_message">
       {{ session('edit_message') }}
@@ -10,12 +25,23 @@
   @php session()->forget('edit_message') @endphp
 @endif
   <dl class="my_infomations">
+  
     {{Form::open(['route' => 'edit_proifile_post', 'method' => 'post','files'=> true, 'enctype' => 'multipart/form-data', 'style' => 'width:100%;'])}}
         <dt>ユーザー名</dt>
         <dd>{{Form::text('edit_user_name', $login_user_infomation->user_name, ['class' => 'form-control', 'id' => 'edit_user_name', 'style' => 'width: auto;', 'disabled' => 'disabled'])}}<br>
         変更できません。</dd>
         <dt>アイコン画像</dt>
-        <dd><input type="file" name="icon_image" files="true" id="imageUpload" accept='image/'></dd>
+        <dd><img src="/get_request_user_image?id={{$login_user_infomation['url_code']}}&name={{$login_user_infomation['icon_image']}}" style="width:200px;"><br>
+        
+        <input type="file" name="icon_image" files="true" id="input-user_image" accept='image/' style="max-width: 100%;">
+        
+        <!--<input type="file" id="input-user_image" name="image">-->
+        <img id="select-image" style="max-width:100%; max-height: 50vh;">
+        <input type="hidden" id="upload-image-x" name="image_x" value="0">
+        <input type="hidden" id="upload-image-y" name="image_y" value="0">
+        <input type="hidden" id="upload-image-w" name="image_w" value="0">
+        <input type="hidden" id="upload-image-h" name="image_h" value="0">
+        </dd>
         <dt>性別</dt>
         <dd>{{Form::select('edit_gender', ['1' => '男', '2' => '女', '3' => 'その他'], $login_user_infomation->sex, ['class' => 'form-control','id' => 'edit_gender', 'style' => 'width: auto;'])}}</dd>
         <dt>性別</dt>
@@ -37,11 +63,35 @@
 @endsection
 
 @section('read_script')
-$('#imageUpload').on('change', function (e) {
-    let reader = new FileReader();
-    reader.onload = function (e) {
-        $("#preview").attr('src', e.target.result)
-    }
-    reader.readAsDataURL(e.target.files[0]);
-});
+
+
+<script>
+      
+</script>
 @endsection
+<!--<script-->
+<!--  src="https://code.jquery.com/jquery-3.3.1.min.js"-->
+<!--  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="-->
+<!--  crossorigin="anonymous"></script>-->
+  @section('scripts')
+  $(function(){
+    var options = {
+        aspectRatio: 1 / 1,
+        <!--viewMode: 1,-->
+        crop: function(e) {
+            cropData = $('#select-image').cropper("getData");
+            $("#upload-image-x").val(Math.floor(cropData.x));
+            $("#upload-image-y").val(Math.floor(cropData.y));
+            $("#upload-image-w").val(Math.floor(cropData.width));
+            $("#upload-image-h").val(Math.floor(cropData.height));
+        },
+        zoomable: true,
+        minCropBoxWidth: 200,
+        minCropBoxHeight: 200
+    }
+    $('#select-image').cropper(options);
+    $("#input-user_image").change(function(){
+        $('#select-image').cropper('replace', URL.createObjectURL(this.files[0]));
+    });
+});
+  @endsection
