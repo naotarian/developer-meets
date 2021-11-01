@@ -64,29 +64,31 @@ const ProjectDetailPage = () => {
   }, [host])
 
   return (
-    <WrapperGrid>
-      { data && <DetailHeader data={data} /> }
-      <ButtonsContainer container>
-        <ApplicationButton
-          item
-          // text={buttonText}
-          openConfirmDialog={() => setConfirmFlag(true)}
-        />
-        <QuestionButton item/>
-      </ButtonsContainer>
-      <JoinConfirmDialog
-        open={confirmFlag}
-        data={data}
-        host={host}
-        handleClose={() => setConfirmFlag(false)}
-      />
+    <React.Fragment>
       { data &&
-        <DetailContainer>
-          <Typography>▼案件詳細</Typography>
-          <Typography>{data && data.project_detail}</Typography>
-        </DetailContainer>
+        <WrapperGrid>
+          <DetailHeader data={data} />
+          <ButtonsContainer container>
+            <ApplicationButton
+              item
+              // text={buttonText}
+              openConfirmDialog={() => setConfirmFlag(true)}
+            />
+            <QuestionButton item/>
+          </ButtonsContainer>
+          <JoinConfirmDialog
+            open={confirmFlag}
+            data={data}
+            host={host}
+            handleClose={() => setConfirmFlag(false)}
+          />
+          <DetailContainer>
+            <Typography>▼案件詳細</Typography>
+            <Typography>{data && data.project_detail}</Typography>
+          </DetailContainer>
+        </WrapperGrid>
       }
-    </WrapperGrid>
+    </React.Fragment>
   );
 };
 
