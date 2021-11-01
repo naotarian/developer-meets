@@ -87,24 +87,28 @@ class ApiController extends Controller
     }
 
     public function application(Request $request) {
-        \Log::info($request);
-        $target_user = Auth::user();
-        $project_info = Project::find($id);
-        if($target_user->id == $project_info['user_id']) {
-            $result = true;
-            return response()->json($result);
-        }
-        //既存のものがあれば追加しない
-        $upsert = ProjectApplication::updateOrCreate(
-            ['application_id' => $target_user->id, 'project_id' => $project_info['id'], 'deleted_at' => null],
-            ['status' => '1', 'application_id' => $target_user->id, 'author_id' => $project_info['user_id'], 'project_id' => $project_info['id']]
-        );
-        if($upsert->wasRecentlyCreated) {
-            $result = true;
-            return response()->json($result);
-        } else {
-            $result = true;
-            return response()->json($result);
+        try {
+            $target_user = Auth::user();
+            $project_info = $request->all();
+            \Log::info($project_info);
+            if($target_user->id == $project_info['user_id']) {
+                $result = true;
+                return response()->json(['status' => '200', 'data' => $project_info]);
+            }
+            //既存のものがあれば追加しない
+            $upsert = ProjectApplication::updateOrCreate(
+                ['application_id' => $target_user->id, 'project_id' => $project_info['id'], 'deleted_at' => null],
+                ['status' => '1', 'application_id' => $target_user->id, 'author_id' => $project_info['user_id'], 'project_id' => $project_info['id']]
+            );
+            if($upsert->wasRecentlyCreated) {
+                $result = true;
+                return response()->json(['status' => '200', 'data' => $project_info]);
+            } else {
+                $result = true;
+                return response()->json(['status' => '200']);
+            }
+        } catch(Exception $ex) {
+            return response()->json(['status' => '400', 'data' => $ex]);
         }
 
     }
