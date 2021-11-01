@@ -14,7 +14,7 @@
         <li class="list-group-item"><a class="cg" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fa fa-address-card"></i>Profile</a></li>
         <li class="list-group-item"><a class="cg" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fa fa-cog"></i>Settings</a></li>
       @if($login_user_infomation['id'] == 1)
-        <li><a href="/admin" class="btn btn-primary">管理ページ</a></li>
+       <li class="list-group-item"><a class="cg" href="/admin">管理ページ</a></li>
       @endif
       </ul>
       </div>
@@ -25,7 +25,7 @@
         <li class="list-group-item"><a class="cg" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fa fa-address-card"></i>Profile</a></li>
         <li class="list-group-item"><a class="cg" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fa fa-cog"></i>Settings</a></li>
       @if($login_user_infomation['id'] == 1)
-        <li><a href="/admin" class="btn btn-primary">管理ページ</a></li>
+        <li class="list-group-item"><a href="/admin">管理ページ</a></li>
       @endif
       </ul>
     </div>
@@ -117,7 +117,10 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">{{$now->project_name}}</h5>
+                {{--
                 <p class="card-text">{{$now->project_detail}}</p>
+                --}}
+                <div class="card-text">{{$now->project_detail}}</div>
                 <a href="/seek/detail/{{$now->project_id}}" class="btn btn-primary">このプロジェクトについて</a>
                 <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#cancelModalCenter{{$key}}">参加申請取り消し</button>
               </div>

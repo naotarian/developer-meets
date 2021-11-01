@@ -31,7 +31,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/seek';
     // protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
