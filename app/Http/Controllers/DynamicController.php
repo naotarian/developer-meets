@@ -208,6 +208,7 @@ class DynamicController extends Controller
             $now = Carbon::now('Asia/Tokyo');
             //画像名は年月日時分秒にして被らないようにする
             $image_name = $now->year . $now->month . $now->day . $now->hour . $now->minute . $now->second . '.' . $extension;
+            $image_name_sp = $now->year . $now->month . $now->day . $now->hour . $now->minute . $now->second . '_sp.' . $extension;
             //画像を保存するディレクトリpath
             $path = storage_path('app') . '/images/' . $login_user->url_code . '/icon';
             $fileExists = file_exists($path);
@@ -225,6 +226,7 @@ class DynamicController extends Controller
                 }
             }
             $save_path = storage_path('app/images/' . $login_user->url_code . '/icon/') . $image_name;
+            $save_path_sp = storage_path('app/images/' . $login_user->url_code . '/icon/') . $image_name_sp;
             // dd($save_path);
             $image = Image::make($request->file('icon_image'))
                       ->crop(
@@ -234,6 +236,14 @@ class DynamicController extends Controller
                              $request->get('image_y')
                            )->resize(128,128) //サムネイル用にリサイズ
                             ->save($save_path);
+            $image_sp = Image::make($request->file('icon_image'))
+                      ->crop(
+                             $request->get('image_w'),
+                             $request->get('image_h'),
+                             $request->get('image_x'),
+                             $request->get('image_y')
+                           )->resize(375,150) //サムネイル用にリサイズ
+                            ->save($save_path_sp);
             //画像を保存
             // $save_image = $request->file('icon_image')->storeAs($str_path,$image_name);
             // $save_image = $image->storeAs($str_path,$image_name);
@@ -251,6 +261,9 @@ class DynamicController extends Controller
         $target_user['sex'] = $request['edit_gender'];
         if($image_name != null) {
             $target_user['icon_image'] = $image_name;
+        }
+        if($image_name_sp != null) {
+            $target_user['icon_image_sp'] = $image_name_sp;
         }
         $save = $target_user->save();
         if($save) {

@@ -21,6 +21,14 @@ body {
     padding: 2rem;
 }
 
+.p3 {
+    padding: 3rem;
+}
+
+.fwb {
+    font-weight: bold;
+}
+
 .dib {
     display: inline-block;
 }
