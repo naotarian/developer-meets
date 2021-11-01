@@ -132,7 +132,6 @@
 @section('scripts')
 $(function(){
 var f = @json($projects);
-console.log(f);
     $(document).on('click', '.detail', function(){
         $(this).parent().next().next('.popup')
         .addClass("show")

@@ -6,13 +6,10 @@ import Grid from '@mui/material/Grid';
 
 const StyledButton = styled(Button)`
   outline: none !important;
-  background: ${red[500]}!important;
-  border: 1px solid ${red[500]}!important;
-  color: #fff!important;
+  background: ${red[500]} !important;
+  border: 1px solid ${red[500]};
   borer-radius: 10px;
-  display: block;
-  margin-right: 2rem;
-  padding: 8px 22px!important;
+  color: #ffffff !important;
 `;
 
 const StyledGrid = styled(Grid)`
@@ -21,13 +18,11 @@ const StyledGrid = styled(Grid)`
   margin-bottom: 2rem;
 `;
 
-const QuestionButton = ({...props}) => {
+const QuestionButton = () => {
   return (
-    <StyledGrid>
-        <StyledButton {...props}>
-          質問したい
-        </StyledButton>
-    </StyledGrid>
+    <StyledButton size="large" variant="contained">
+      質問したい
+    </StyledButton>
   );
 };
 

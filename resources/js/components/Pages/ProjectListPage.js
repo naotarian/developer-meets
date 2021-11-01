@@ -5,8 +5,7 @@ import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import ProjectCard from '../Organisms/ProjectCard';
 
-const ContainerGrid = styled(Grid)
-`
+const ContainerGrid = styled(Grid)`
   width: 100%;
   height: 100%;
   display: flex;
@@ -24,9 +23,8 @@ const ProjectListPage = () => {
 
   useEffect(() => {
     if (host) {
-      console.log(host)
-      let url = `http://${host}/api/all_projejct` // ここのエンドポイントは適当だから検討
-      if (host == 'developer-meets.com') {
+      let url = `http://${host}/api/all_projejct`
+      if (host === 'developer-meets.com') {
         url = `https://${host}/api/all_projejct`
       }
       axios.get(url).then(res => {
@@ -47,7 +45,6 @@ const ProjectListPage = () => {
               />
             );
           })
-
       }
     </ContainerGrid>
   );

@@ -8,6 +8,7 @@ const Item = styled(Grid)`
   background-color: ${green[500]};
   text-align: center;
   border-radius: 4px;
+  max-width: 100px;
 `;
 
 const StyledText = styled(Typography)`

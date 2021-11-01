@@ -12,19 +12,15 @@ import CardActionArea from '@mui/material/CardActionArea';
 // import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 
-const StyledCard = styled(Card)
-`
+const StyledCard = styled(Card)`
   width: 375px;
-  // padding-left: 8px;
   margin: 8px;
 `;
 
-const StyledCardActionArea = styled(CardActionArea)
-`
+const StyledCardActionArea = styled(CardActionArea)`
   outline: none !important;
 `;
-const TypographyOverflow = styled(Typography)
-`
+const TypographyOverflow = styled(Typography)`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis!important;
@@ -55,8 +51,6 @@ const ProjectCard = ({ project_data }) => {
           { project_data.number_of_application && <ProjectColumn column="people" text={`募集 ${project_data.number_of_application}人`} /> }
           <UserInfo username={project_data.user.user_name} />
         </CardContent>
-        {/* <CardActions> */}
-        {/* </CardActions> */}
       </StyledCardActionArea>
     </StyledCard>
   );

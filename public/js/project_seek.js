@@ -16,7 +16,7 @@ $('.search-icon').on('click', function() {
         'purpose': purpose,
         'gender': gender,
         //left値と該当idを渡す
-        
+
         //ここはサーバーに贈りたい情報
      },
     })
@@ -24,15 +24,12 @@ $('.search-icon').on('click', function() {
     .done( (data) => {
         var from_json = JSON.parse(JSON.stringify(data));
          var test = Object.entries(data).map(([key, value]) => ({'key': key, 'value': value}));
-        console.log(test);
         if(data.datas.length == 0) {
           $('.project_list').html('検索結果がありません');
         } else {
             $(data.datas).each(function(index, element){
                 // var data = JSON.stringify(from_json.datas);
-                
-                console.log(from_json.datas[0]);
-                
+
                 if(index == 0) {
                    $('.project_list').html('');
                 }
@@ -67,7 +64,7 @@ $('.search-icon').on('click', function() {
                             <td>年齢</td>
                             <td>${element['minimum_years_old']}歳 ~ ${element['max_years_old']}歳</td>
                         </tr>
-                        
+
                     </table>
                     <div class='actions'>
                         <button type="button" class="detail btn btn-outline-primary">詳細を見る</button>
@@ -75,7 +72,7 @@ $('.search-icon').on('click', function() {
                         <button type="submit" class="btn btn-outline-secondary">質問したい</button>
                         <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModalCenter${index}">参加申請</button>
                     </div>
-                    
+
                     <div class="att_name">
                         <div class="create_user">作成者 : <a href="/user_info/${element['user']['user_name']}">${element['user']['user_name']}</a></div>
                     </div>
@@ -110,7 +107,7 @@ $('.search-icon').on('click', function() {
                 </div>`);
               });
             }
-      
+
     })
     // Ajaxリクエストが失敗した時発動
     .fail( (data) => {
@@ -120,5 +117,3 @@ $('.search-icon').on('click', function() {
     .always( (data) => {
   });
 });
-
-
