@@ -14,9 +14,23 @@ dd {
 }
 
 .my_infomations {
-    /*width: 1024px;*/
+    width: 1024px;
     margin: 0 auto;
     padding: 1rem;
+}
+
+.cropper-container {
+    /*max-width: 300px;*/
+}
+.cropper-view-box,
+.cropper-face {
+    border-radius: 50%;
+}
+
+/* 下記はできれば必要なスタイルかと思います。（厳密にはスタイルなど必要ありませんが、最低現のスタイルとしてという意味です。） */
+
+.cropper-container {
+    width: 100%;
 }
 
 .wrapper {
@@ -81,32 +95,24 @@ dd {
     padding-top: 0;
 }
 
-.fade dl {
+dl {
     display: flex;
     flex-flow: row wrap;
     width: 100%;
 }
 
-.fade dt {
+dt {
     flex-basis: 15%;
     padding: 20px;
     background-color: #f1f1f1;
     border-bottom: 1px solid #ccc;
 }
 
-.fade dd {
+dd {
     flex-basis: 85%;
     padding: 20px;
     background-color: #fff;
     border-bottom: 1px solid #ccc;
-}
-
-.card-text,
-.card-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis!important;
-    height: 30px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -145,7 +151,7 @@ dd {
         text-align: center;
         border: 1px solid gray;
     }
-    .fade dl {
+    dl {
         flex-flow: column;
     }
     .col-9 {

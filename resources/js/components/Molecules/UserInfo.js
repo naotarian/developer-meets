@@ -16,7 +16,7 @@ const UserInfo = ({ username }) => {
   return (
     <FlexGrid>
       <UserIcon size={24} />
-      <StyledText>{username ? username : 'ユーザー名'}</StyledText>
+      <StyledText>{username}</StyledText>
     </FlexGrid>
   );
 };

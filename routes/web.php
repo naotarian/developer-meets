@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\TwitterLoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,6 +33,34 @@ Route::get('/application_list/{id}', 'DynamicController@application_list')->name
 Route::post('/cancel', 'DynamicController@cancel')->name('cancel')->middleware('auth');
 Route::get('/rejected/{id}', 'DynamicController@rejected')->name('rejected')->middleware('auth');
 Route::get('/withdrawal/{id}', 'DynamicController@withdrawal')->name('withdrawal')->middleware('auth');
+Route::get('/twitter', 'Api\ApiController@twitterApi');
+Route::get('/edit_proifile/{id}', 'DynamicController@edit_proifile');
+Route::post('/edit_proifile', 'DynamicController@edit_proifile_post')->name('edit_proifile_post');
+Route::get('/approval/{id}', 'DynamicController@approval')->name('approval')->middleware('auth');
+Route::get('/seek/detail/{id}', function() {
+    return view('project_detail');
+})->name('detail_get');
 
+// GitHubの認証ページに遷移するためのルーティング
+Route::get('/login/github', 'Auth\LoginController@redirectToProvider');
+Route::get('auth/login/twitter', [TwitterLoginController::class, 'redirectToProvider']);
+Route::get('auth/twitter/callback',[TwitterLoginController::class, 'handleProviderCallback']);
+
+// GitHubの認証後に戻るためのルーティング
+Route::get('/auth/github/callback', 'Auth\LoginController@handleProviderCallback');
 // jsからのリクエスト
 Route::get('/api/test', 'Api\ApiController@test');
+Route::get('/api/detail/{id}', 'Api\ApiController@project_detail');
+Route::get('/api/all_projejct', 'Api\ApiController@all_projejct');
+Route::get('/api/application/{id}', 'Api\ApiController@application');
+
+// admin権限ユーザーのみアクセス可能
+Route::get('/admin', 'AdminController@index')->name('admin');
+Route::get('/admin/slide_text', 'AdminController@slide_text')->name('slide_text');
+Route::post('/admin/slide_text', 'AdminController@slide_text_post')->name('slide_text_post');
+Route::get('/admin/slide_text_edit/{id}', 'AdminController@slide_text_edit')->name('slide_text_edit');
+Route::post('/admin/slide_text_edit_post', 'AdminController@slide_text_edit_post')->name('slide_text_edit_post');
+
+
+Route::get('/get_request_user_image', 'DynamicController@get_request_user_image');
+Route::get('/hash', 'DynamicController@hash_code');

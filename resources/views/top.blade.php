@@ -3,8 +3,19 @@
 <link rel="stylesheet" href="/css/top.css">
 @endsection
 @section('contents')
-
 <div class="contents">
+
+
+<!-- バナー（リンクあり） -->
+<a class="news-banner" href="ここにリンクを記入">
+  <div class="news-banner__content">
+        <p>
+            @foreach($slide_text_sorted as $data)
+                    <span style="margin-right: 100px;">{{$data['slide_text']}}</span>
+            @endforeach
+        </p>
+  </div>
+</a>
     <div class="main_visual">
         <div class="btn_area_top pconly">
             <a href="seek" class="btn-animation-01"><span>プロジェクトを探す<span></a>
@@ -47,6 +58,12 @@
                 <!--<li><a href="" class="btn btn-flat"><span>新規登録</span></a></li>-->
             </ul>
         @endauth
+        
+        <div class="twitter">
+        @foreach ($twitter as $twitter)
+                {!! $twitter[0] !!}<br>
+        @endforeach
+        </div>
     </div>
 
 
@@ -74,5 +91,6 @@
                 <li></li>
         </ul>
     </div>
+    
 </div>
 @endsection

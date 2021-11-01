@@ -66,6 +66,34 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $data = $request->all();
+        $messages = [
+            'required' => ' :attributeを入力してください',
+            'user_name.unique' => ':attributeはすでに使用されています。',
+            'string' => ':attributeは文字で入力してください。',
+            'email' => ':attributeはメールアドレス形式で入力してください。',
+            'max' => ':attributeは255文字までで入力してください。',
+            'integer' => ':attributeは整数で入力してください。',
+            'sex.integer' => ':attributeを正しく入力してください。',
+            'age.between' => ':attributeは16~99で入力してください。',
+            'sex.between' => ':attributeを正しく入力してください。',
+            'engineer_history.between' => ':attributeを正しく選択してください。',
+            'engineer_history.integer' => ':attributeを正しく選択してください。',
+            'password.min' => ':attributeは6文字以上で入力してください。',
+            'password.confirmed' => ':attribute確認が異なっています。',
+        ];
+        $validator = Validator::make($data,[
+            'user_name' => 'required|unique:users|max:255',
+            'email' => 'required|unique:users|string|email|max:255',
+            'age' => 'integer|between:16,99',
+            'sex' => 'integer|between:1,3',
+            'engineer_history' => 'integer|between:0,5',
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required',
+        ],$messages);
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+            $messages = array_values($messages);
+        }
         $register = User::create([
             'user_name' => $data['user_name'],
             'email' => $data['email'],
@@ -74,6 +102,9 @@ class RegisterController extends Controller
             'engineer_history' => $data['engineer_history'],
             'age' => $data['age'],
         ]);
+        
+        $register['url_code'] = hash('crc32', $register['id']);
+        $register->save();
         return redirect('/');
     }
 }

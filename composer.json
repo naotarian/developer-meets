@@ -9,12 +9,16 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5|^8.0",
+        "abraham/twitteroauth": "^3.1",
         "doctrine/dbal": "^2.6",
         "fideloper/proxy": "^4.4",
+        "intervention/image": "^2.7",
         "laravel/framework": "^6.20.26",
+        "laravel/socialite": "^5.2",
         "laravel/tinker": "^2.5",
         "laravel/ui": "1.*",
-        "laravelcollective/html": "6.*"
+        "laravelcollective/html": "6.*",
+        "nesbot/carbon": "^2.53"
     },
     "require-dev": {
         "facade/ignition": "^1.16.15",

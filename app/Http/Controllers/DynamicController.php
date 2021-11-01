@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Project;
 use App\ProjectApplication;
+use App\SlideText;
+use App\Http\Library\CallTwitterApi;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+use Intervention\Image\ImageManagerStatic as Image;
 
 
 class DynamicController extends Controller
@@ -20,7 +25,16 @@ class DynamicController extends Controller
         $this->languages = config('app.languages');
     }
     public function index() {
-        return view('top');
+        $t = new CallTwitterApi();
+        $d = $t->serachTweets("JavaScript");
+
+        $array = array();
+        foreach($d as $d) {
+          $array[] = array($t->statusesOembed($d->id));
+        }
+        $slide_text = SlideText::where('status', 0)->get();
+        $slide_text_sorted = $slide_text->sortBy('sort')->values()->toArray();
+        return view('top', ['twitter' => $array, 'slide_text_sorted' => $slide_text_sorted]);
     }
     
     
@@ -97,7 +111,7 @@ class DynamicController extends Controller
         return redirect('/make')->with('flash_message', 'プロジェクト作成が完了しました');
     }
     public function seek_project() {
-        $projects = Project::all();
+        $projects = Project::where('status', 1)->get();
         foreach($projects as $project) {
             $project->purpose = $this->purposes[$project->purpose];
             $project->men_and_women = $this->gender[$project->men_and_women];
@@ -132,12 +146,119 @@ class DynamicController extends Controller
         /*
         display_flagがtrueの場合のみ、参加申請中を表示
         */
-        $now_applications = Project::join('project_applications','projects.id','=','project_applications.project_id')->where('project_applications.application_id', $target_user->id)->where('project_applications.status', 1)->where('project_applications.deleted_at', null)->get();
-        $target_user['sex'] = $this->gender[$target_user['sex']];
+        $now_applications = Project::join('project_applications','projects.id','=','project_applications.project_id')
+        ->where('project_applications.application_id', $target_user->id)
+        ->where('project_applications.status', 1)
+        ->where('project_applications.deleted_at', null)
+        ->get();
+        $join_projects = Project::join('project_applications','projects.id','=','project_applications.project_id')
+        ->where('project_applications.application_id', $target_user->id)
+        ->where('project_applications.status', 2)
+        ->where('project_applications.deleted_at', null)
+        ->get();
+        if($target_user['sex']) {
+            $target_user['sex'] = $this->gender[$target_user['sex']];
+        } else {
+            $target_user['sex'] = '未設定';
+        }
+        if($target_user['engineer_history'] == null) {
+            $target_user['engineer_history'] = '未設定';
+        }
+        if($target_user['age'] == null) {
+            $target_user['age'] = '未設定';
+        }
         //掲載中のプロジェクト
-        $now_available_projects = Project::where('user_id', $target_user->id)->get();
+        $now_available_projects = Project::where('user_id', $target_user->id)->where('status', 1)->get();
         
-        return view('personal.my_page', ['login_user_infomation' => $target_user, 'now_available_projects' => $now_available_projects, 'now_applications' => $now_applications, 'display_flag' => $display_flag]);
+        return view('personal.my_page', ['login_user_infomation' => $target_user,
+                                         'now_available_projects' => $now_available_projects, 
+                                         'now_applications' => $now_applications, 
+                                         'display_flag' => $display_flag,
+                                         'join_projects' => $join_projects
+                                         ]);
+    }
+    
+    public function edit_proifile($id) {
+        $login_user = Auth::user();
+        if($login_user->id != $id) {
+            return redirect('/my_page');
+        }
+        $edit_user = User::find($id);
+        return view('personal.edit_user', ['login_user_infomation' => $edit_user]);
+    }
+    
+    public function edit_proifile_post(Request $request) {
+        $datas = $request->all();
+        $messages = [
+            'image' => '指定されたファイルが画像ではありません。',
+            'mimes' => '指定された拡張子（PNG/JPG/GIF）ではありません。',
+            'max' => '1MBを超えています。',
+        ];
+        $validator = Validator::make($datas,[
+            'icon_image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
+        ],$messages);
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+            $messages = array_values($messages);
+        }
+        $login_user = Auth::user();
+        if(!empty($request->file("icon_image"))) {
+            //拡張子取得
+            $extension = $request->file("icon_image")->getClientOriginalExtension();
+            $now = Carbon::now('Asia/Tokyo');
+            //画像名は年月日時分秒にして被らないようにする
+            $image_name = $now->year . $now->month . $now->day . $now->hour . $now->minute . $now->second . '.' . $extension;
+            //画像を保存するディレクトリpath
+            $path = storage_path('app') . '/images/' . $login_user->url_code . '/icon';
+            $fileExists = file_exists($path);
+            //なければ作成
+            if(!$fileExists) {
+                Storage::disk('images')->makeDirectory($login_user->url_code . '/icon');
+            }
+            //storeAsからのicon保存先path
+            $str_path = "/images/" . $login_user->url_code . '/icon';
+            //現状の画像ファイルは削除
+            $files = Storage::allFiles('images/' . $login_user->url_code . '/icon');
+            if($files) {
+                foreach($files as $f) {
+                    $del = Storage::delete($f);
+                }
+            }
+            $save_path = storage_path('app/images/' . $login_user->url_code . '/icon/') . $image_name;
+            // dd($save_path);
+            $image = Image::make($request->file('icon_image'))
+                      ->crop(
+                             $request->get('image_w'),
+                             $request->get('image_h'),
+                             $request->get('image_x'),
+                             $request->get('image_y')
+                           )->resize(128,128) //サムネイル用にリサイズ
+                            ->save($save_path);
+            //画像を保存
+            // $save_image = $request->file('icon_image')->storeAs($str_path,$image_name);
+            // $save_image = $image->storeAs($str_path,$image_name);
+        } else {
+            $image_name = null;
+        }
+        
+        
+        $target_user = User::where('user_name', $request['user_name'])->first();
+        $target_user['age'] = $request['age'];
+        $target_user['comment'] = $request['edit_comment'];
+        $target_user['email'] = $request['edit_email'];
+        $target_user['self_introduction'] = $request['edit_self_introduction'];
+        $target_user['free_url'] = $request['edit_url'];
+        $target_user['sex'] = $request['edit_gender'];
+        if($image_name != null) {
+            $target_user['icon_image'] = $image_name;
+        }
+        $save = $target_user->save();
+        if($save) {
+            $message = '変更しました。';
+        } else {
+            $message = '変更できませんでした。';
+        }
+        return redirect('/edit_proifile/' . $target_user['id'])->with('edit_message', $message);
     }
     
     public function question(Request $request) {
@@ -169,9 +290,9 @@ class DynamicController extends Controller
         ->where('project_id', $id)
         ->where('project_applications.deleted_at', null)
         ->get();
-        if(count($application_list) == 0) {
-            return back()->with('nothing_data', '該当のプロジェクトは存在していません。');
-        }
+        // if(count($application_list) == 0) {
+        //     return back()->with('nothing_data', '該当のプロジェクトは存在していません。');
+        // }
         foreach($application_list as $app) {
             $app->application_user_info = User::select('user_name')->where('id', $app->application_id)->get();
             //申請日をcreated_atから生成(project_id , application_idで絞る)
@@ -187,6 +308,7 @@ class DynamicController extends Controller
         $target_application->save();
         $delete_application = $target_application->delete();
         
+
         if($delete_application) {
             $message = '申請を取り消しました。';
         } else {
@@ -211,8 +333,11 @@ class DynamicController extends Controller
     }
     
     public function withdrawal($id) {
-        $withdrawal_project = Project::find($id)->delete();
-        if($withdrawal_project) {
+        $withdrawal_project = Project::find($id);
+        $withdrawal_project->status = 2;
+        $withdrawal_project->save();
+        $withdrawal_project->delete();
+        if($withdrawal_project->status == 2) {
             $message = '掲載を終了しました。';
         } else {
             $message = '予期せぬエラー。';
@@ -220,4 +345,30 @@ class DynamicController extends Controller
         
         return back()->with('withdrawal_message', $message);
     }
+    
+    public function approval($id) {
+        $target_application = ProjectApplication::find($id);
+        if($target_application->status == 2) {
+            return back()->with('approval_message', '既に承認済みです。');
+        }
+        $target_project = Project::find($target_application['project_id']);
+        
+        $target_application->status = 2;
+        $target_application->save();
+        $target_project->number_of_application -= 1;
+        if($target_project->number_of_application == 0) {
+            $target_project->status = 4;
+        }
+        $target_project->save();
+        return redirect('/my_page')->with('approval_message', '参加申請を承認しました。');
+    }
+    public function get_request_user_image(Request $request){
+        $data = $request->all();
+        \Log::info('ここです');
+        \Log::info($data["id"]);
+        \Log::info($data["name"]);
+        $path = storage_path("app/images/" . $data["id"] . "/icon/".$data["name"]);
+        return Response()->file($path);
+    }
+    
 }
