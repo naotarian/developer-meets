@@ -110,6 +110,9 @@ dd {
 }
 
 @media only screen and (max-width: 768px) {
+    .wrapper {
+        margin-top: 3.5rem;
+    }
     .my_infomations {
         width: 100%;
         margin: 0 auto;
@@ -151,5 +154,6 @@ dd {
     .col-9 {
         max-width: 100%!important;
         flex: 0 0 100%;
+        padding: 0;
     }
 }

@@ -19,6 +19,10 @@
       </ul>
       </div>
     </div>
+    <div class="sp_icon sponly">
+      <img src="/get_request_user_image?id={{$login_user_infomation['url_code']}}&name={{$login_user_infomation['icon_image_sp']}}">
+      <p class="p1 fwb">{{$login_user_infomation->user_name}}</p>
+    </div>
     <div class="my_page_sp_menu sponly">
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><a class="cg" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
@@ -157,9 +161,10 @@
           </div>
         <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
           @if($display_flag)
-            <a href="/edit_proifile/{{$login_user_infomation['id']}}" class="btn btn-primary" style="float: right;">編集</a>
+            <a href="/edit_proifile/{{$login_user_infomation['id']}}" class="btn btn-primary">編集</a>
           @endif
-          <dl class="my_infomations">
+          
+          <dl class="my_infomations pconly">
             <dt>ユーザー名</dt>
             <dd>{{$login_user_infomation->user_name}}<br>
             <dt>性別</dt>
