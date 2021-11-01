@@ -10,9 +10,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 const JoinConfirmDialog = ({ open, handleClose, data, host }) => {
 
   const sendJoinRequests = () => {
-    let url = `http://${host}/api/application/${data.id}`;
+    let url = `http://${host}/api/application/`;
     if (host == 'developer-meets.com') {
-      url = `https://${host}/api/application/${data.id}`;
+      url = `https://${host}/api/application/`;
     }
     axios.post(url, data.id).then(res => {
       console.log('res: ',res.data);
