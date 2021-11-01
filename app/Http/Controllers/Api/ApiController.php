@@ -53,7 +53,7 @@ class ApiController extends Controller
             $flag = 3;
             $target_project['application_flag'] = $flag;
             $target_project = json_encode($target_project);
-    
+
             return response($target_project);
         }
         //ログインuserが既に申請済みだったらtrue
@@ -63,7 +63,7 @@ class ApiController extends Controller
         } else {
             $flag = 1;
         }
-        
+
         $target_project['application_flag'] = $flag;
         $target_project = json_encode($target_project);
 
@@ -85,8 +85,9 @@ class ApiController extends Controller
         return response($all_project);
 
     }
-    
-    public function application($id) {
+
+    public function application(Request $request) {
+        \Log::info($request);
         $target_user = Auth::user();
         $project_info = Project::find($id);
         if($target_user->id == $project_info['user_id']) {
@@ -105,7 +106,7 @@ class ApiController extends Controller
             $result = true;
             return response()->json($result);
         }
-        
+
     }
 
     public function twitterApi(Request $request)
