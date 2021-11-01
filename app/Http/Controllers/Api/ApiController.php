@@ -93,7 +93,7 @@ class ApiController extends Controller
             \Log::info($project_info);
             if($target_user->id == $project_info['user_id']) {
                 $result = true;
-                return response()->json(['status' => '200', 'data' => $project_info]);
+                return response()->json(['status_code' => '400', 'err_msg' => '自分が作成したプロジェクトです。']);
             }
             //既存のものがあれば追加しない
             $upsert = ProjectApplication::updateOrCreate(
@@ -102,15 +102,14 @@ class ApiController extends Controller
             );
             if($upsert->wasRecentlyCreated) {
                 $result = true;
-                return response()->json(['status' => '200', 'data' => $project_info]);
+                return response()->json(['status_code' => '200', 'msg' => 'Success', 'data' => $project_info]);
             } else {
                 $result = true;
-                return response()->json(['status' => '200']);
+                return response()->json(['status_code' => '400', 'err_msg' => 'すでに申請ずみです。', 'data' => $project_info]);
             }
-        } catch(Exception $ex) {
-            return response()->json(['status' => '400', 'data' => $ex]);
+        } catch(\Exception $ex) {
+            return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
         }
-
     }
 
     public function twitterApi(Request $request)
