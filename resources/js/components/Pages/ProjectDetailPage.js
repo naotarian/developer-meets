@@ -39,20 +39,18 @@ const ProjectDetailPage = () => {
     setHost(location.host)
   }, [])
 
-  const getDetail = () => {
-    let param = location.pathname;
-    param = param.replace('/seek/detail/', '');
-    let protocol = host === 'developer-meets.com' ? 'https' : 'http';
-    let url = `${protocol}://${host}/api/detail/${param}`
-    axios.get(url).then(res => {
-      console.log('res.data: ', res.data)
-      setData(res.data);
-      setApplyFlag(res.data.application_flag);
-    });
-  }
-
   useEffect(() => {
-    if (host) getDetail();
+    if (host) {
+      let param = location.pathname;
+      param = param.replace('/seek/detail/', '');
+      let protocol = host === 'developer-meets.com' ? 'https' : 'http';
+      let url = `${protocol}://${host}/api/detail/${param}`
+      axios.get(url).then(res => {
+        console.log('res.data: ', res.data)
+        setData(res.data);
+        setApplyFlag(res.data.application_flag);
+      });
+    };
   }, [host])
 
   return (
