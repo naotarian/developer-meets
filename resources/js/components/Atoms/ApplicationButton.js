@@ -38,7 +38,7 @@ const ApplicationButton = ({ openConfirmDialog, applyFlag }) => {
       }
       { applyFlag === "not_login" &&
         <StyledButton size="large" variant="contained" style={{ background: green[500] }} >
-          <StyledA href={`${location.origin}/login`}>ログインして申請する</StyledA>
+          <StyledA href={`${location.origin}/login`}>未ログイン</StyledA>
         </StyledButton>
       }
     </React.Fragment>

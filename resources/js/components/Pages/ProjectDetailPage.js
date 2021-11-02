@@ -9,20 +9,17 @@ import JoinConfirmDialog from '../Molecules/JoinConfirmDialog';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-const WrapperGrid = styled(Grid)
-`
+const WrapperGrid = styled(Grid)`
   width: 80%;
   margin: auto;
 `;
 
-const ButtonsContainer = styled(Grid)
-`
+const ButtonsContainer = styled(Grid)`
   margin-top: 2rem;
   margin-bottom: 2rem;
 `;
 
-const DetailContainer = styled(Grid)
-`
+const DetailContainer = styled(Grid)`
   width: 100%;
   height: auto;
   border: 1px solid #e2e2e2;
