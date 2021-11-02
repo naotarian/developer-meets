@@ -20,7 +20,9 @@ const ProjectListPage = () => {
   const [host, setHost] = useState('');
   const [searchLanguage, setSearchLanguage] = useState([]);
   const [searchPurpose, setSearchPurpose] = useState('');
+  const [searchGender, setSearchGender] = useState('');
   const [projects, setProjects] = useState([]);
+  const [filterResult, setFilterResult] = useState([]);
 
   useEffect(() => {
     setHost(location.host);
@@ -37,15 +39,22 @@ const ProjectListPage = () => {
   }, [host])
 
   useEffect(() => {
-    console.log('発火！！！')
-    if (searchLanguage) {
-      console.log('言語でフィルターをかけます')
-    }
-    if (searchPurpose) {
-      console.log('目的でフィルターをかけます')
-    }
+    let result = [];
 
-  }, [searchLanguage, searchPurpose])
+    projects.map((pj) => {
+      if (searchLanguage.length > 0) {
+        if (searchLanguage.includes(pj.language) || searchLanguage.includes(pj.sub_language)) result.push(pj);
+      }
+      if (searchPurpose !== 'すべて' && searchPurpose !== '') {
+        if (searchPurpose === pj.purpose) result.push(pj);
+      }
+      if (searchGender !== '制限なし' && searchGender !== '') {
+        if (searchGender === pj.men_and_women) result.push(pj);
+      }
+    })
+
+    setFilterResult(result);
+  }, [projects, searchLanguage, searchPurpose, searchGender])
 
   return (
     <WrapperGrid>
@@ -54,19 +63,21 @@ const ProjectListPage = () => {
         setSearchLanguage={(val) => setSearchLanguage(val)}
         searchPurpose={searchPurpose}
         setSearchPurpose={(val) => setSearchPurpose(val)}
+        searchGender={searchGender}
+        setSearchGender={(val) => setSearchGender(val)}
       />
       <ContainerGrid container justifyContent="center">
         {
-          projects.length > 0 &&
-            projects.map((project, index) => {
-              if (searchLanguage.length > 0) {
-                if (searchLanguage.includes(project.language) || searchLanguage.includes(project.sub_language)) {
-                  return <ProjectCard item key={index} project_data={project} />
-                }
-              } else {
-                return <ProjectCard item key={index} project_data={project} />
-              }
+          filterResult.length > 0 ? (
+            filterResult.map((project, index) => {
+              return <ProjectCard item key={index} project_data={project} />
             })
+          ) : (
+            projects.length > 0 &&
+              projects.map((project, index) => {
+                return <ProjectCard item key={index} project_data={project} />
+              })
+          )
         }
       </ContainerGrid>
     </WrapperGrid>

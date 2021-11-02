@@ -53,7 +53,7 @@ const LanguageSelectBox = ({ searchLanguage, setSearchLanguage }) => {
 
 
   return (
-    <FormControl sx={{ m: 1, width: 300 }}>
+    <FormControl sx={{ m: 1, width: 300, marginLeft: 3, marginRight: 3 }}>
       <InputLabel id="demo-multiple-checkbox-label">言語</InputLabel>
       <StyledSelect
         labelId="multiple-checkbox-label"

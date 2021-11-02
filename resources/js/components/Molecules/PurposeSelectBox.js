@@ -11,7 +11,7 @@ const PurposeSelectBox = ({ searchPurpose, setSearchPurpose }) => {
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{ minWidth: 120, marginLeft: 3, marginRight: 3 }}>
       <FormControl fullWidth>
         <InputLabel id="simple-select-label">目的</InputLabel>
         <Select
@@ -24,8 +24,8 @@ const PurposeSelectBox = ({ searchPurpose, setSearchPurpose }) => {
           <MenuItem value={'繋がり'}>繋がり</MenuItem>
           <MenuItem value={'リリース'}>リリース</MenuItem>
           <MenuItem value={'学習'}>学習</MenuItem>
-          <MenuItem value={'わいわい'}>わいわい</MenuItem>
-          <MenuItem value={''}>指定なし</MenuItem>
+          <MenuItem value={'ワイワイ'}>わいわい</MenuItem>
+          <MenuItem value={'すべて'}>指定なし</MenuItem>
         </Select>
       </FormControl>
     </Box>
