@@ -45,29 +45,22 @@ class ApiController extends Controller
     }
 
     public function project_detail($id) {
-        $target_project = Project::find($id);
-        $target_project['language'] = $this->languages[$target_project['language']];
-        $target_project['sub_language'] = $this->languages[$target_project['sub_language']];
-        $target_user = Auth::user();
-        if($target_project['user_id'] == $target_user->id) {
-            $flag = 3;
-            $target_project['application_flag'] = $flag;
-            $target_project = json_encode($target_project);
+        $project_data = Project::find($id);
+        $project_data['language'] = $this->languages[$project_data['language']];
+        $project_data['sub_language'] = $this->languages[$project_data['sub_language']];
+        $login_user = Auth::user();
+        if($project_data['user_id'] == $login_user->id) {
+            $project_data['application_flag'] = "my_projejct";
+            $project_data = json_encode($project_data);
 
-            return response($target_project);
+            return response($project_data);
         }
         //ログインuserが既に申請済みだったらtrue
-        $application_check = ProjectApplication::where('project_id', $target_project['id'])->where('application_id', $target_user->id)->first();
-        if(!$application_check) {
-            $flag = 2;
-        } else {
-            $flag = 1;
-        }
+        $application_check = ProjectApplication::where('project_id', $project_data['id'])->where('application_id', $login_user->id)->first();
+        $project_data['application_flag'] = $application_check ? "applied" : "unapplied";
+        $project_data = json_encode($project_data);
 
-        $target_project['application_flag'] = $flag;
-        $target_project = json_encode($target_project);
-
-        return response($target_project);
+        return response($project_data);
     }
 
     public function all_projejct() {
@@ -83,29 +76,24 @@ class ApiController extends Controller
         }
         $all_project = json_encode($projects);
         return response($all_project);
-
     }
 
     public function application(Request $request) {
         try {
-            $target_user = Auth::user();
-            $project_info = $request->all();
-            \Log::info($project_info);
-            if($target_user->id == $project_info['user_id']) {
-                $result = true;
-                return response()->json(['status_code' => '400', 'err_msg' => '自分が作成したプロジェクトです。']);
+            $login_user = Auth::user();
+            $project_data = $request->all();
+            if($login_user->id == $project_data['user_id']) {
+                return response()->json(['status_code' => '400', 'msg' => '自分が作成したプロジェクトです', 'flag' => 'my_project']);
             }
             //既存のものがあれば追加しない
             $upsert = ProjectApplication::updateOrCreate(
-                ['application_id' => $target_user->id, 'project_id' => $project_info['id'], 'deleted_at' => null],
-                ['status' => '1', 'application_id' => $target_user->id, 'author_id' => $project_info['user_id'], 'project_id' => $project_info['id']]
+                ['application_id' => $login_user->id, 'project_id' => $project_data['id'], 'deleted_at' => null],
+                ['status' => '1', 'application_id' => $login_user->id, 'author_id' => $project_data['user_id'], 'project_id' => $project_data['id']]
             );
             if($upsert->wasRecentlyCreated) {
-                $result = true;
-                return response()->json(['status_code' => '200', 'msg' => 'Success', 'data' => $project_info]);
+                return response()->json(['status_code' => '200', 'msg' => '申請に成功しました', 'flag' => 'applied']);
             } else {
-                $result = true;
-                return response()->json(['status_code' => '400', 'err_msg' => 'すでに申請ずみです。', 'data' => $project_info]);
+                return response()->json(['status_code' => '400', 'err_msg' => '既に申請済みです', 'flag' => 'unapplied']);
             }
         } catch(\Exception $ex) {
             return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);

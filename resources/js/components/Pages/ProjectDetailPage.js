@@ -8,12 +8,6 @@ import QuestionButton from '../Atoms/QuestionButton';
 import JoinConfirmDialog from '../Molecules/JoinConfirmDialog';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import SkillTags from '../Molecules/SkillTags';
-// import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import { green } from '@mui/material/colors';
-// import MediaQuery from "react-responsive";
-
 
 const WrapperGrid = styled(Grid)`
   width: 80%;
@@ -35,38 +29,27 @@ const DetailContainer = styled(Grid)`
 const ProjectDetailPage = () => {
   const [host, setHost] = useState('');
   const [data, setData] = useState(null);
-  const [buttonText, setButtonText] = useState('');
+  const [applyFlag, setApplyFlag] = useState('');
   const [confirmFlag, setConfirmFlag] = useState(false);
 
   useEffect(() => {
     setHost(location.host)
   }, [])
 
+  const getDetail = () => {
+    let param = location.pathname;
+    param = param.replace('/seek/detail/', '');
+    let protocol = host === 'developer-meets.com' ? 'https' : 'http';
+    let url = `${protocol}://${host}/api/detail/${param}`
+    axios.get(url).then(res => {
+      console.log('res.data: ', res.data)
+      setData(res.data);
+      setApplyFlag(res.data.application_flag);
+    });
+  }
+
   useEffect(() => {
-    if (host) {
-      var param = location.pathname;
-      param = param.replace('/seek/detail/', '');
-      let url = `http://${host}/api/detail/${param}`
-      if (host === 'developer-meets.com') {
-        url = `https://${host}/api/detail/${param}`
-      }
-
-      axios.get(url).then(res => {
-        setData(res.data)
-        console.log('res.data: ',res.data)
-        //res.data['application_flag'] 1: 申請済み, 2: 未申請, 3: 自分のプロジェクト
-
-        if (res.data['application_flag'] === 1) {
-          setButtonText('申請済み');
-        }
-        if (res.data['application_flag'] === 2) {
-          setButtonText('申請する');
-        }
-        if (res.data['application_flag'] === 3) {
-          setButtonText('公開済み');
-        }
-      });
-    }
+    if (host) getDetail();
   }, [host])
 
   return (
@@ -77,8 +60,9 @@ const ProjectDetailPage = () => {
           <ButtonsContainer container>
             <ApplicationButton
               item
-              text={buttonText}
+              // text={buttonText}
               openConfirmDialog={() => setConfirmFlag(true)}
+              applyFlag={applyFlag}
             />
             <QuestionButton item/>
           </ButtonsContainer>
@@ -87,6 +71,7 @@ const ProjectDetailPage = () => {
             data={data}
             host={host}
             handleClose={() => setConfirmFlag(false)}
+            setApplyFlag={(f) => setApplyFlag(f)}
           />
           <DetailContainer>
             <Typography>▼案件詳細</Typography>

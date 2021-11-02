@@ -1,58 +1,35 @@
 import React from 'react';
 import styled from "styled-components";
 import Button from '@mui/material/Button';
-import { green } from '@mui/material/colors';
-import Grid from '@mui/material/Grid';
+import { green, grey } from '@mui/material/colors';
 
 const StyledButton = styled(Button)`
   outline: none !important;
-  background: ${green[500]} !important;
   color: #ffffff !important;
   borer-radius: 10px;
   margin-right: 2rem !important;
 `;
-const StyledButtonDisabled = styled(Button)`
-  outline: none !important;
-  background: #ccc;!important;
-  // border: 1px solid ${green[500]}!important;
-  color: #fff!important;
-  borer-radius: 10px;
-  display: block;
-  margin-right: 2rem;
-  padding: 8px 22px!important;
-`;
 
-
-const StyledGrid = styled(Grid)`
-  margin-right: 2rem;
-  display: inline-block;
-  margin-bottom: 2rem;
-`;
-
-const ApplicationButton = ({ text, openConfirmDialog }) => {
+const ApplicationButton = ({ openConfirmDialog, applyFlag }) => {
   return (
-    <StyledButton size="large" variant="contained" onClick={openConfirmDialog}>
-      {text}
-    </StyledButton>
+    <React.Fragment>
+      { applyFlag === "applied" &&
+        <StyledButton size="large" variant="contained" style={{ background: green[500] }}>
+          申請済み
+        </StyledButton>
+      }
+      { applyFlag === "unapplied" &&
+        <StyledButton size="large" variant="contained" onClick={openConfirmDialog} style={{ background: green[500] }}>
+          申請する
+        </StyledButton>
+      }
+      { applyFlag === "my_projejct" &&
+        <StyledButton size="large" variant="contained" style={{ background: grey[500] }}>
+          申請する
+        </StyledButton>
+      }
+    </React.Fragment>
   );
-  // if (text == '申請済み' || text == '公開済み') {
-  //   return (
-  //     <StyledGrid>
-  //       <StyledButtonDisabled size="large" variant="contained" disabled>
-  //         {text}
-  //       </StyledButtonDisabled>
-  //     </StyledGrid>
-  //   );
-  // }
-  // else {
-  //   return (
-  //     <StyledGrid>
-  //       <StyledButton size="large" variant="contained">
-  //         {text}
-  //       </StyledButton>
-  //     </StyledGrid>
-  //   );
-  // }
 };
 
 export default ApplicationButton;
