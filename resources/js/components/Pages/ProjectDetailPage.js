@@ -15,17 +15,20 @@ import { green } from '@mui/material/colors';
 // import MediaQuery from "react-responsive";
 
 
-const WrapperGrid = styled(Grid)`
+const WrapperGrid = styled(Grid)
+`
   width: 80%;
   margin: auto;
 `;
 
-const ButtonsContainer = styled(Grid)`
+const ButtonsContainer = styled(Grid)
+`
   margin-top: 2rem;
   margin-bottom: 2rem;
 `;
 
-const DetailContainer = styled(Grid)`
+const DetailContainer = styled(Grid)
+`
   width: 100%;
   height: auto;
   border: 1px solid #e2e2e2;
@@ -53,8 +56,8 @@ const ProjectDetailPage = () => {
 
       axios.get(url).then(res => {
         setData(res.data)
-        console.log('res.data: ',res.data)
-        //res.data['application_flag'] 1: 申請済み, 2: 未申請, 3: 自分のプロジェクト
+        console.log('res.data: ', res.data)
+        //res.data['application_flag'] 1: 申請済み, 2: 未申請, 3: 自分のプロジェクト, 4:未ログイン
 
         if (res.data['application_flag'] === 1) {
           setButtonText('申請済み');
@@ -64,6 +67,9 @@ const ProjectDetailPage = () => {
         }
         if (res.data['application_flag'] === 3) {
           setButtonText('公開済み');
+        }
+        if (res.data['application_flag'] === 4) {
+          setButtonText('未ログイン');
         }
       });
     }

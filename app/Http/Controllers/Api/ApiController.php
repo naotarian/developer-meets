@@ -49,7 +49,15 @@ class ApiController extends Controller
         $target_project['language'] = $this->languages[$target_project['language']];
         $target_project['sub_language'] = $this->languages[$target_project['sub_language']];
         $target_user = Auth::user();
+        if(!$target_user) {
+            //ログインしてない
+            $flag = 4;
+            $target_project['application_flag'] = $flag;
+            $target_project = json_encode($target_project);
+            return response($target_project);
+        }
         if($target_project['user_id'] == $target_user->id) {
+            //自分の作成したプロジェクト
             $flag = 3;
             $target_project['application_flag'] = $flag;
             $target_project = json_encode($target_project);
@@ -59,8 +67,10 @@ class ApiController extends Controller
         //ログインuserが既に申請済みだったらtrue
         $application_check = ProjectApplication::where('project_id', $target_project['id'])->where('application_id', $target_user->id)->first();
         if(!$application_check) {
+            //未申請
             $flag = 2;
         } else {
+            //既に申請してる
             $flag = 1;
         }
 
