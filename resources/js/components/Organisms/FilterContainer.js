@@ -14,6 +14,8 @@ const ContainerGrid = styled(Grid)`
   width: 100%;
   height: 100px;
   background-color: #f6f8fa;
+  margin-top: 60px;
+  margin-bottom: 30px;
 `;
 
 const FilterContainer = ({ searchLanguage, setSearchLanguage, searchPurpose, setSearchPurpose, searchGender, setSearchGender }) => {
