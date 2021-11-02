@@ -2,51 +2,57 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styled from "styled-components";
 import axios from 'axios';
+import _ from 'lodash'
 import Grid from '@mui/material/Grid';
 import ProjectCard from '../Organisms/ProjectCard';
+import FilterContainer from '../Organisms/FilterContainer';
+
+const WrapperGrid = styled(Grid)`
+  width: 100%;
+`;
 
 const ContainerGrid = styled(Grid)`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  width: 70% !important;
+  margin: auto;
 `;
 
 const ProjectListPage = () => {
   const [host, setHost] = useState('');
+  const [searchLanguage, setSearchLanguage] = useState([]);
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    setHost(location.host)
+    setHost(location.host);
   }, [])
 
   useEffect(() => {
     if (host) {
-      let url = `http://${host}/api/all_projejct`
-      if (host === 'developer-meets.com') {
-        url = `https://${host}/api/all_projejct`
-      }
+      let protocol = host === 'developer-meets.com' ? 'https' : 'http';
+      let url = `${protocol}://${host}/api/all_projejct`;
       axios.get(url).then(res => {
-        setProjects(res.data)
+        setProjects(res.data);
       });
     }
   }, [host])
 
   return (
-    <ContainerGrid>
-      {
-        projects.length > 0 &&
-          projects.map((project, index) => {
-            return (
-              <ProjectCard
-                key={index}
-                project_data={project}
-              />
-            );
-          })
-      }
-    </ContainerGrid>
+    <WrapperGrid>
+      <FilterContainer searchLanguage={searchLanguage} setSearchLanguage={(val) => setSearchLanguage(val)} />
+      <ContainerGrid container justifyContent="center">
+        {
+          projects.length > 0 &&
+            projects.map((project, index) => {
+              if (searchLanguage.length > 0) {
+                if (searchLanguage.includes(project.language) || searchLanguage.includes(project.sub_language)) {
+                  return <ProjectCard item key={index} project_data={project} />
+                }
+              } else {
+                return <ProjectCard item key={index} project_data={project} />
+              }
+            })
+        }
+      </ContainerGrid>
+    </WrapperGrid>
   );
 };
 
