@@ -49,10 +49,16 @@ class ApiController extends Controller
         $project_data['language'] = $this->languages[$project_data['language']];
         $project_data['sub_language'] = $this->languages[$project_data['sub_language']];
         $login_user = Auth::user();
+        //ログインしてない場合（フロント側でそもそも押せないように制御）
+        if(!$login_user) {
+            $project_data['application_flag'] = "not_login";
+            $project_data = json_encode($project_data);
+            return response($project_data);
+        }
+        //自分のプロジェクトの場合（フロント側でそもそも押せないように制御）
         if($project_data['user_id'] == $login_user->id) {
             $project_data['application_flag'] = "my_projejct";
             $project_data = json_encode($project_data);
-
             return response($project_data);
         }
         //ログインuserが既に申請済みだったらtrue
