@@ -19,6 +19,7 @@ const ContainerGrid = styled(Grid)`
 const ProjectListPage = () => {
   const [host, setHost] = useState('');
   const [searchLanguage, setSearchLanguage] = useState([]);
+  const [searchPurpose, setSearchPurpose] = useState('');
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
@@ -35,9 +36,25 @@ const ProjectListPage = () => {
     }
   }, [host])
 
+  useEffect(() => {
+    console.log('発火！！！')
+    if (searchLanguage) {
+      console.log('言語でフィルターをかけます')
+    }
+    if (searchPurpose) {
+      console.log('目的でフィルターをかけます')
+    }
+
+  }, [searchLanguage, searchPurpose])
+
   return (
     <WrapperGrid>
-      <FilterContainer searchLanguage={searchLanguage} setSearchLanguage={(val) => setSearchLanguage(val)} />
+      <FilterContainer
+        searchLanguage={searchLanguage}
+        setSearchLanguage={(val) => setSearchLanguage(val)}
+        searchPurpose={searchPurpose}
+        setSearchPurpose={(val) => setSearchPurpose(val)}
+      />
       <ContainerGrid container justifyContent="center">
         {
           projects.length > 0 &&
