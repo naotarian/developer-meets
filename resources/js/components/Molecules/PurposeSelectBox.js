@@ -11,7 +11,7 @@ const PurposeSelectBox = ({ searchPurpose, setSearchPurpose }) => {
   };
 
   return (
-    <Box sx={{ minWidth: 120, marginLeft: 3, marginRight: 3 }}>
+    <Box sx={{ m: 1, minWidth: 120 }}>
       <FormControl fullWidth>
         <InputLabel id="simple-select-label">目的</InputLabel>
         <Select

@@ -12,8 +12,9 @@ import { grey } from '@mui/material/colors';
 
 const ContainerGrid = styled(Grid)`
   width: 100%;
-  height: 100px;
   background-color: #f6f8fa;
+  padding-top: 10px;
+  padding-bottom: 10px;
   margin-top: 60px;
   margin-bottom: 30px;
 `;
@@ -21,12 +22,12 @@ const ContainerGrid = styled(Grid)`
 const FilterContainer = ({ searchLanguage, setSearchLanguage, searchPurpose, setSearchPurpose, searchGender, setSearchGender }) => {
 
   return (
-    <ContainerGrid container justifyContent="center" alignItems="center">
-      <LaptopChromebookIcon fontSize="large" style={{ color: grey[500] }} />
+    <ContainerGrid container justifyContent='center' alignItems='center'>
+      <LaptopChromebookIcon fontSize='large' style={{ color: grey[500], margin: 'auto 0' }} />
       <LanguageSelectBox item searchLanguage={searchLanguage} setSearchLanguage={setSearchLanguage} />
-      <CommentOutlinedIcon fontSize="large" style={{ color: grey[500] }} />
+      <CommentOutlinedIcon fontSize='large' style={{ color: grey[500], margin: 'auto 0' }} />
       <PurposeSelectBox item searchPurpose={searchPurpose} setSearchPurpose={setSearchPurpose} />
-      <PeopleAltOutlinedIcon fontSize="large" style={{ color: grey[500] }} />
+      <PeopleAltOutlinedIcon fontSize='large' style={{ color: grey[500], margin: 'auto 0' }} />
       <GenderSelectBox item searchGender={searchGender} setSearchGender={setSearchGender} />
     </ContainerGrid>
   );
