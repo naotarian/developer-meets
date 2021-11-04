@@ -22,7 +22,7 @@ const ApplicationButton = ({ openConfirmDialog, applyFlag }) => {
   return (
     <React.Fragment>
       { applyFlag === "applied" &&
-        <StyledButton size="large" variant="contained" style={{ background: green[500] }}>
+        <StyledButton size="large" variant="contained" style={{ background: grey[500] }} disabled>
           申請済み
         </StyledButton>
       }
@@ -32,13 +32,13 @@ const ApplicationButton = ({ openConfirmDialog, applyFlag }) => {
         </StyledButton>
       }
       { applyFlag === "my_projejct" &&
-        <StyledButton size="large" variant="contained" style={{ background: grey[500] }}>
-          申請する
+        <StyledButton size="large" variant="contained" style={{ background: grey[500] }} disabled>
+          自分のプロジェクト
         </StyledButton>
       }
       { applyFlag === "not_login" &&
         <StyledButton size="large" variant="contained" style={{ background: green[500] }} >
-          <StyledA href={`${location.origin}/login`}>未ログイン</StyledA>
+          <StyledA href={`${location.origin}/login`}>ログインして申請する</StyledA>
         </StyledButton>
       }
     </React.Fragment>
