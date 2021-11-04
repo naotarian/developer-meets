@@ -10,22 +10,35 @@ const StyledButton = styled(Button)`
   margin-right: 2rem !important;
 `;
 
+const StyledA = styled.a`
+  text-decoration: none;
+  color: #ffffff;
+  &:hover {
+    color: #ffffff;
+  }
+`;
+
 const ApplicationButton = ({ openConfirmDialog, applyFlag }) => {
   return (
     <React.Fragment>
       { applyFlag === "applied" &&
-        <StyledButton size="large" variant="contained" style={{ background: green[500] }}>
+        <StyledButton size="large" variant="contained" style={{ background: grey[500] }} disabled>
           申請済み
         </StyledButton>
       }
       { applyFlag === "unapplied" &&
-        <StyledButton size="large" variant="contained" onClick={openConfirmDialog} style={{ background: green[500] }}>
+        <StyledButton size="large" variant="contained" style={{ background: green[500] }} onClick={openConfirmDialog} >
           申請する
         </StyledButton>
       }
       { applyFlag === "my_projejct" &&
-        <StyledButton size="large" variant="contained" style={{ background: grey[500] }}>
-          申請する
+        <StyledButton size="large" variant="contained" style={{ background: grey[500] }} disabled>
+          自分のプロジェクト
+        </StyledButton>
+      }
+      { applyFlag === "not_login" &&
+        <StyledButton size="large" variant="contained" style={{ background: green[500] }} >
+          <StyledA href={`${location.origin}/login`}>ログインして申請する</StyledA>
         </StyledButton>
       }
     </React.Fragment>
