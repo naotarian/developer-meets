@@ -40,6 +40,7 @@ Route::get('/approval/{id}', 'DynamicController@approval')->name('approval')->mi
 Route::get('/seek/detail/{id}', function() {
     return view('project_detail');
 })->name('detail_get');
+Route::get('/project/edit/{id}', 'DynamicController@project_edit')->name('project_edit');
 
 // GitHubの認証ページに遷移するためのルーティング
 Route::get('/login/github', 'Auth\LoginController@redirectToProvider');

@@ -110,9 +110,7 @@ class DynamicController extends Controller
         } else {
             $project_instance->work_frequency = null;
         }
-        
-        
-        
+
         if(!empty($request->file("project_image"))) {
             //拡張子取得
             $extension = $request->file("project_image")->getClientOriginalExtension();
@@ -175,6 +173,23 @@ class DynamicController extends Controller
         
         return redirect('/make')->with('flash_message', 'プロジェクト作成が完了しました');
     }
+    
+    public function project_edit($id) {
+        $target_project = Project::find($id);
+        $languages = $this->languages;
+        $purposes = $this->purposes;
+        $datas['languages'] = $this->languages;
+        $datas['purposes'] = $this->purposes;
+        $datas['age'] = [];
+        for($i = 15; $i < 60; $i++) {
+            $datas['age'][$i] = $i;
+        }
+        $datas['work'] = array('0' => '週1~2時間', '1' => '週3~4時間', '2' => '週1日', '3' => '週2~3日', '4' => '週4~5日');
+        $datas['work_frequency'] = array_keys($datas['work'], $target_project['work_frequency']);
+        return view('edit_project', ['project' => $target_project, 'datas' => $datas]);
+    }
+    
+    
     public function seek_project() {
         $projects = Project::where('status', 1)->get();
         foreach($projects as $project) {
