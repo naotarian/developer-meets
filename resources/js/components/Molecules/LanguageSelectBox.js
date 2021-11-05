@@ -8,12 +8,17 @@ import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 
+const StyledInputLabel = styled(InputLabel)`
+  font-size: 0.7rem !important;
+`;
+
 const StyledSelect = styled(Select)`
   font-size: 0.9rem !important;
+  height: 45px;
 `;
 
 const StyledText = styled(ListItemText)`
-  font-size: 0.9rem !important;
+  font-size: 0.7rem !important;
 `;
 
 const languages = [
@@ -51,13 +56,12 @@ const LanguageSelectBox = ({ searchLanguage, setSearchLanguage }) => {
     setSearchLanguage(typeof value === 'string' ? value.split(',') : value);
   }
 
-
   return (
-    <FormControl sx={{ m: 1, minWidth: 180, height: 60 }}>
-      <InputLabel id="demo-multiple-checkbox-label">言語</InputLabel>
+    <FormControl sx={{ m: 1, minWidth: 180 }}>
+      <StyledInputLabel id="言語-label">言語</StyledInputLabel>
       <StyledSelect
-        labelId="multiple-checkbox-label"
-        id="multiple-checkbox"
+        labelId="言語-label"
+        id="言語-checkbox"
         multiple
         value={searchLanguage}
         onChange={handleChange}
