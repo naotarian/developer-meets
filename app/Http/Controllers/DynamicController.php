@@ -56,7 +56,10 @@ class DynamicController extends Controller
         $datas = $request->all();
         $messages = [
             'required' => ' :attributeを入力してください',
-            'project_name.max' => ':attributeは50文字までです'
+            'project_name.max' => ':attributeは50文字までです',
+            'project_image.image' => '指定されたファイルが画像ではありません。',
+            'project_image.mimes' => '指定された拡張子（PNG/JPG/GIF）ではありません。',
+            'project_image.max' => '1MBを超えています。',
         ];
         $validator = Validator::make($datas,[
             'project_name' => 'required|max:50',
@@ -68,6 +71,7 @@ class DynamicController extends Controller
             'sub_skil' => 'required',
             'minimum_work_experience' => 'required',
             'tool' => 'required',
+            'project_image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
             
         ],$messages);
         if($validator->fails()){
@@ -106,6 +110,67 @@ class DynamicController extends Controller
         } else {
             $project_instance->work_frequency = null;
         }
+        
+        
+        
+        if(!empty($request->file("project_image"))) {
+            //拡張子取得
+            $extension = $request->file("project_image")->getClientOriginalExtension();
+            $now = Carbon::now('Asia/Tokyo');
+            //画像名は年月日時分秒にして被らないようにする
+            $image_name = $now->year . $now->month . $now->day . $now->hour . $now->minute . $now->second . '.' . $extension;
+            $image_name_sp = $now->year . $now->month . $now->day . $now->hour . $now->minute . $now->second . '_sp.' . $extension;
+            //画像を保存するディレクトリpath
+            $path = storage_path('app') . '/images/' . $user->url_code . '/project';
+            $fileExists = file_exists($path);
+            //なければ作成
+            if(!$fileExists) {
+                Storage::disk('images')->makeDirectory($user->url_code . '/project');
+            }
+            //storeAsからのicon保存先path
+            $str_path = "/images/" . $user->url_code . '/project';
+            //現状の画像ファイルは削除
+            $files = Storage::allFiles('images/' . $user->url_code . '/project');
+            if($files) {
+                foreach($files as $f) {
+                    $del = Storage::delete($f);
+                }
+            }
+            $save_path = storage_path('app/images/' . $user->url_code . '/project/') . $image_name;
+            $save_path_sp = storage_path('app/images/' . $user->url_code . '/project/') . $image_name_sp;
+            // dd($save_path);
+            $image = Image::make($request->file('project_image'))
+                      ->crop(
+                             $request->get('image_w'),
+                             $request->get('image_h'),
+                             $request->get('image_x'),
+                             $request->get('image_y')
+                           )->resize(128,128) //サムネイル用にリサイズ
+                            ->save($save_path);
+            $image_sp = Image::make($request->file('project_image'))
+                      ->crop(
+                             $request->get('image_w'),
+                             $request->get('image_h'),
+                             $request->get('image_x'),
+                             $request->get('image_y')
+                           )->resize(375,150) //サムネイル用にリサイズ
+                            ->save($save_path_sp);
+            //画像を保存
+            // $save_image = $request->file('icon_image')->storeAs($str_path,$image_name);
+            // $save_image = $image->storeAs($str_path,$image_name);
+        } else {
+            $image_name = null;
+        }
+        
+        if($image_name != null) {
+            $project_instance['project_image'] = $image_name;
+        }
+        if($image_name_sp != null) {
+            $project_instance['project_image_sp'] = $image_name_sp;
+        }
+        
+        
+        
         $project_instance->save();
         
         return redirect('/make')->with('flash_message', 'プロジェクト作成が完了しました');

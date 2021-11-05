@@ -1,6 +1,7 @@
 @extends('template.base')
 @section('individual_stylesheet')
 <link rel="stylesheet" href="/css/make_project.css">
+<link href="/css/cropper.min.css" rel="stylesheet">
 @endsection
 @section('contents')
 
@@ -59,6 +60,16 @@
                         </div>
                         <div class="col-xs-6 wow animated slideInLeft flex-form mt2" data-wow-delay=".5s">
                             {{Form::select('work_frequency', ['0' => '週1~2時間', '1' => '週3~4時間', '2' => '週1日', '3' => '週2~3日', '4' => '週4~5日'], 'ordinarily', ['class' => 'form','id' => 'work_frequency', 'placeholder' => '作業頻度'])}}
+                            <input type="file" name="project_image" files="true" id="input-user_image" accept='image/' style="max-width: 100%;" class="form">
+                        </div>
+                        <div class="col-xs-6 wow animated slideInLeft flex-form mt2" data-wow-delay=".5s">
+                            
+                            <!--<input type="file" id="input-user_image" name="image">-->
+                            <img id="select-image" style="max-width:100%; max-height: 50vh;">
+                            <input type="hidden" id="upload-image-x" name="image_x" value="0">
+                            <input type="hidden" id="upload-image-y" name="image_y" value="0">
+                            <input type="hidden" id="upload-image-w" name="image_w" value="0">
+                            <input type="hidden" id="upload-image-h" name="image_h" value="0">
                         </div>
                        
                         <div class="col-xs-6 wow animated slideInRight tas" data-wow-delay=".5s">
@@ -87,3 +98,25 @@
         {{Form::close()}}
 </div>
 @endsection
+@section('scripts')
+  $(function(){
+    var options = {
+        aspectRatio: 2 / 1,
+        <!--viewMode: 1,-->
+        crop: function(e) {
+            cropData = $('#select-image').cropper("getData");
+            $("#upload-image-x").val(Math.floor(cropData.x));
+            $("#upload-image-y").val(Math.floor(cropData.y));
+            $("#upload-image-w").val(Math.floor(cropData.width));
+            $("#upload-image-h").val(Math.floor(cropData.height));
+        },
+        zoomable: true,
+        minCropBoxWidth: 200,
+        minCropBoxHeight: 200
+    }
+    $('#select-image').cropper(options);
+    $("#input-user_image").change(function(){
+        $('#select-image').cropper('replace', URL.createObjectURL(this.files[0]));
+    });
+});
+  @endsection
