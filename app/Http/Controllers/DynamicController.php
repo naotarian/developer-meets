@@ -464,12 +464,16 @@ class DynamicController extends Controller
         $target_project->save();
         return redirect('/my_page')->with('approval_message', '参加申請を承認しました。');
     }
-    public function get_request_user_image(Request $request){
+    
+    //userのアイコンorプロジェクトのサムネイルが欲しい時だけ使用する
+    public function get_request_image(Request $request){
         $data = $request->all();
-        \Log::info('ここです');
-        \Log::info($data["id"]);
-        \Log::info($data["name"]);
-        $path = storage_path("app/images/" . $data["id"] . "/icon/".$data["name"]);
+        if($data['dir'] == 'project') {
+            $path = storage_path("app/images/" . $data["id"] . "/" . $data['dir'] . "/". $data['url_code'] . '/' . $data["name"]);
+        } else {
+            $path = storage_path("app/images/" . $data["id"] . "/" . $data['dir'] . "/" . $data["name"]);
+        }
+        \Log::info($path);
         return Response()->file($path);
     }
     

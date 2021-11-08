@@ -81,8 +81,9 @@ class SaveImage
                          $request->get('image_h'),
                          $request->get('image_x'),
                          $request->get('image_y')
-                       )->resize(375,150) //サムネイル用にリサイズ
+                       )->resize(375,375) //サムネイル用にリサイズ
                         ->save($save_path_sp);
+        \Log::info($image_name);
         $image_names['image_name'] = $image_name;
         $image_names['image_name_sp'] = $image_name_sp;
         return $image_names;

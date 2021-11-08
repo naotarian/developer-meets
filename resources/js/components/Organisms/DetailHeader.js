@@ -4,14 +4,16 @@ import SkillTags from '../Molecules/SkillTags';
 import DetailInfo from '../Atoms/DetailInfo';
 import Grid from '@mui/material/Grid';
 
-const ContainerGrid = styled(Grid)`
+const ContainerGrid = styled(Grid)
+`
   width: 100%;
   height: auto;
   margin-bottom: 2rem;
   border: 1px solid #e2e2e2;
 `;
 
-const ProjectName = styled(Grid)`
+const ProjectName = styled(Grid)
+`
   margin-left: 2rem;
   font-weight: bold;
   font-size: 1.6rem;
@@ -19,9 +21,10 @@ const ProjectName = styled(Grid)`
 `;
 
 const DetailHeader = ({ data }) => {
+
   return (
     <ContainerGrid>
-      <img src="/images/share/no_image.jpeg" alt="noimage" height="350" width="100%" />
+      <img src={`/get_request_image?id=${data.user_url_code}&name=${data.project_image_sp}&dir=project&url_code=${data.url_code}`} width="100%" />
       <SkillTags skills={[data.language, data.sub_language]} detail />
       <ProjectName>{data.project_name}</ProjectName>
       <Grid container justify="flex-start">
