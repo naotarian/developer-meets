@@ -113,6 +113,15 @@ dd {
     .wrapper {
         margin-top: 3.5rem;
     }
+    .sp_icon {
+        margin-top: 6rem;
+        display: flex;
+        align-items: center;
+    }
+    .sp_icon img {
+        width: 75px;
+        border-radius: 3rem;
+    }
     .my_infomations {
         width: 100%;
         margin: 0 auto;

@@ -66,5 +66,5 @@ Route::get('/admin/slide_text_edit/{id}', 'AdminController@slide_text_edit')->na
 Route::post('/admin/slide_text_edit_post', 'AdminController@slide_text_edit_post')->name('slide_text_edit_post');
 
 
-Route::get('/get_request_user_image', 'DynamicController@get_request_user_image');
+Route::get('/get_request_image', 'DynamicController@get_request_image');
 Route::get('/hash', 'DynamicController@hash_code');
