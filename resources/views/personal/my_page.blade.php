@@ -57,6 +57,12 @@
           </div>
           @php session()->forget('withdrawal_message') @endphp
         @endif
+        @if (session('edit_project_message'))
+          <div class="flash_message">
+              {{ session('edit_project_message') }}
+          </div>
+          @php session()->forget('edit_project_message') @endphp
+        @endif
         {{--
         @if (session('nothing_data'))
           <div class="flash_message">
@@ -75,6 +81,7 @@
                 <p class="card-text">{{$project->project_detail}}</p>
                 <a href="/seek/detail/{{$project->id}}" class="btn btn-primary">このプロジェクトについて</a>
                 <a href="/application_list/{{$project->id}}" class="btn btn-primary">参加申請</a>
+                <a href="/project/edit/{{$project->id}}" class="btn btn-primary">編集</a>
                 <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#withdrawalModalCenter{{$key}}">掲載終了</button>
               </div>
             </div>

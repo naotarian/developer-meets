@@ -8,6 +8,7 @@ use App\Project;
 use App\ProjectApplication;
 use App\SlideText;
 use App\Http\Library\CallTwitterApi;
+use App\Http\Library\SaveImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -56,7 +57,10 @@ class DynamicController extends Controller
         $datas = $request->all();
         $messages = [
             'required' => ' :attributeを入力してください',
-            'project_name.max' => ':attributeは50文字までです'
+            'project_name.max' => ':attributeは50文字までです',
+            'project_image.image' => '指定されたファイルが画像ではありません。',
+            'project_image.mimes' => '指定された拡張子（PNG/JPG/GIF）ではありません。',
+            'project_image.max' => '1MBを超えています。',
         ];
         $validator = Validator::make($datas,[
             'project_name' => 'required|max:50',
@@ -68,6 +72,7 @@ class DynamicController extends Controller
             'sub_skil' => 'required',
             'minimum_work_experience' => 'required',
             'tool' => 'required',
+            'project_image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
             
         ],$messages);
         if($validator->fails()){
@@ -106,10 +111,118 @@ class DynamicController extends Controller
         } else {
             $project_instance->work_frequency = null;
         }
+
         $project_instance->save();
+        //作成したprojectのurl_codeを生成
+        $project_instance->url_code = hash('crc32', $project_instance->id);
+        //画像登録があった場合
+        if(!empty($request->file("project_image"))) {
+            $input_name = 'project_image';
+            $save_dir = '/project';
+            $save_image_instance = new SaveImage();
+            $save = $save_image_instance->save_image($request, $input_name, $save_dir, $user, $project_instance->url_code);
+            $image_name = $save['image_name'];
+            $image_name_sp = $save['image_name_sp'];
+        } else {
+            $image_name = null;
+            $image_name_sp = null;
+        }
         
+        if($image_name != null) {
+            $project_instance['project_image'] = $image_name;
+        }
+        if($image_name_sp != null) {
+            $project_instance['project_image_sp'] = $image_name_sp;
+        }
+        
+        $project_instance->save();
+
         return redirect('/make')->with('flash_message', 'プロジェクト作成が完了しました');
     }
+    
+    public function project_edit($id) {
+        $target_project = Project::find($id);
+        $login_user = Auth::user();
+        if($target_project['user_id'] != $login_user->id) {
+            return redirect('/seek');
+        }
+        $languages = $this->languages;
+        $purposes = $this->purposes;
+        $datas['languages'] = $this->languages;
+        $datas['purposes'] = $this->purposes;
+        $datas['age'] = [];
+        for($i = 15; $i < 60; $i++) {
+            $datas['age'][$i] = $i;
+        }
+        $datas['work'] = array('0' => '週1~2時間', '1' => '週3~4時間', '2' => '週1日', '3' => '週2~3日', '4' => '週4~5日');
+        $datas['work_frequency'] = array_keys($datas['work'], $target_project['work_frequency']);
+        return view('edit_project', ['project' => $target_project, 'datas' => $datas]);
+    }
+    
+    public function edit_project_post(Request $request) {
+        $project_data = $request->all();
+        $login_user = Auth::user();
+        
+        $messages = [
+            'required' => ' :attributeを入力してください',
+            'project_name.max' => ':attributeは50文字までです',
+            'project_image.image' => '指定されたファイルが画像ではありません。',
+            'project_image.mimes' => '指定された拡張子（PNG/JPG/GIF）ではありません。',
+            'project_image.max' => '1MBを超えています。',
+        ];
+        $validator = Validator::make($project_data,[
+            'project_name' => 'required|max:50',
+            'project_detail' => 'required|max:1000',
+            'number_of_application' => 'required',
+            'purpose' => 'required',
+            'sex' => 'required',
+            'skil' => 'required',
+            'sub_skil' => 'required',
+            'minimum_work_experience' => 'required',
+            'tool' => 'required',
+            'project_image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
+            
+        ],$messages);
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+            $messages = array_values($messages);
+        }
+        
+        $target_project_data = Project::find($project_data['project_id']);
+        $target_project_data['project_name'] = $project_data['project_name'];
+        $target_project_data['project_detail'] = $project_data['project_detail'];
+        $target_project_data['number_of_application'] = $project_data['number_of_application'];
+        $target_project_data['language'] = $project_data['skil'];
+        $target_project_data['sub_language'] = $project_data['sub_skil'];
+        $target_project_data['minimum_experience'] = $project_data['minimum_work_experience'];
+        $target_project_data['tools'] = $project_data['tool'];
+        $target_project_data['remarks'] = $project_data['remarks'];
+        $target_project_data['minimum_years_old'] = $project_data['minimum_years_old'];
+        $target_project_data['max_years_old'] = $project_data['max_years_old'];
+        $target_project_data['purpose'] = $project_data['purpose'];
+        $target_project_data['men_and_women'] = $project_data['sex'];
+        //画像の変更があった場合
+        if(!empty($request->file("project_image"))) {
+            $input_name = 'project_image';
+            $save_dir = '/project';
+            $save_image_instance = new SaveImage();
+            $save = $save_image_instance->save_image($request, $input_name, $save_dir, $login_user, $target_project_data['url_code']);
+            $image_name = $save['image_name'];
+            $image_name_sp = $save['image_name_sp'];
+        } else {
+            $image_name = null;
+            $image_name_sp = null;
+        }
+        if($image_name != null) {
+            $target_project_data['project_image'] = $image_name;
+        }
+        if($image_name_sp != null) {
+            $target_project_data['project_image_sp'] = $image_name_sp;
+        }
+        $target_project_data->save();
+        return redirect('/my_page')->with('edit_project_message', 'プロジェクト内容を編集しました');
+    }
+    
     public function seek_project() {
         $projects = Project::where('status', 1)->get();
         foreach($projects as $project) {
@@ -202,54 +315,18 @@ class DynamicController extends Controller
             $messages = array_values($messages);
         }
         $login_user = Auth::user();
+       
         if(!empty($request->file("icon_image"))) {
-            //拡張子取得
-            $extension = $request->file("icon_image")->getClientOriginalExtension();
-            $now = Carbon::now('Asia/Tokyo');
-            //画像名は年月日時分秒にして被らないようにする
-            $image_name = $now->year . $now->month . $now->day . $now->hour . $now->minute . $now->second . '.' . $extension;
-            $image_name_sp = $now->year . $now->month . $now->day . $now->hour . $now->minute . $now->second . '_sp.' . $extension;
-            //画像を保存するディレクトリpath
-            $path = storage_path('app') . '/images/' . $login_user->url_code . '/icon';
-            $fileExists = file_exists($path);
-            //なければ作成
-            if(!$fileExists) {
-                Storage::disk('images')->makeDirectory($login_user->url_code . '/icon');
+                $input_name = 'icon_image';
+                $save_dir = '/icon';
+                $save_image_instance = new SaveImage();
+                $save = $save_image_instance->save_image($request, $input_name, $save_dir, $login_user);
+                $image_name = $save['image_name'];
+                $image_name_sp = $save['image_name_sp'];
+            } else {
+                $image_name = null;
+                $image_name_sp = null;
             }
-            //storeAsからのicon保存先path
-            $str_path = "/images/" . $login_user->url_code . '/icon';
-            //現状の画像ファイルは削除
-            $files = Storage::allFiles('images/' . $login_user->url_code . '/icon');
-            if($files) {
-                foreach($files as $f) {
-                    $del = Storage::delete($f);
-                }
-            }
-            $save_path = storage_path('app/images/' . $login_user->url_code . '/icon/') . $image_name;
-            $save_path_sp = storage_path('app/images/' . $login_user->url_code . '/icon/') . $image_name_sp;
-            // dd($save_path);
-            $image = Image::make($request->file('icon_image'))
-                      ->crop(
-                             $request->get('image_w'),
-                             $request->get('image_h'),
-                             $request->get('image_x'),
-                             $request->get('image_y')
-                           )->resize(128,128) //サムネイル用にリサイズ
-                            ->save($save_path);
-            $image_sp = Image::make($request->file('icon_image'))
-                      ->crop(
-                             $request->get('image_w'),
-                             $request->get('image_h'),
-                             $request->get('image_x'),
-                             $request->get('image_y')
-                           )->resize(375,150) //サムネイル用にリサイズ
-                            ->save($save_path_sp);
-            //画像を保存
-            // $save_image = $request->file('icon_image')->storeAs($str_path,$image_name);
-            // $save_image = $image->storeAs($str_path,$image_name);
-        } else {
-            $image_name = null;
-        }
         
         
         $target_user = User::where('user_name', $request['user_name'])->first();
