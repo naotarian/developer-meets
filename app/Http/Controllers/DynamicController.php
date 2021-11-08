@@ -156,6 +156,9 @@ class DynamicController extends Controller
         }
         $datas['work'] = array('0' => '週1~2時間', '1' => '週3~4時間', '2' => '週1日', '3' => '週2~3日', '4' => '週4~5日');
         $datas['work_frequency'] = array_keys($datas['work'], $target_project['work_frequency']);
+        if(empty($datas['work_frequency'])) {
+            $datas['work_frequency'][0] = null;
+        }
         return view('edit_project', ['project' => $target_project, 'datas' => $datas]);
     }
     
