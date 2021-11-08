@@ -57,6 +57,12 @@
           </div>
           @php session()->forget('withdrawal_message') @endphp
         @endif
+        @if (session('edit_project_message'))
+          <div class="flash_message">
+              {{ session('edit_project_message') }}
+          </div>
+          @php session()->forget('edit_project_message') @endphp
+        @endif
         {{--
         @if (session('nothing_data'))
           <div class="flash_message">

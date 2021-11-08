@@ -17,30 +17,33 @@ use App\Http\Controllers\TwitterLoginController;
 Route::get('/welcome', function() {
     return view('welcome');
 });
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/make', 'DynamicController@make_project')->name('make_project');
+    Route::post('/make', 'DynamicController@make_project_post')->name('make_project_post');
+    Route::get('/my_page', 'DynamicController@my_page')->name('my_page');
+    Route::get('/user_info/{user_name?}', 'DynamicController@my_page')->name('user_info');
+    Route::post('/application', 'DynamicController@application')->name('application');
+    Route::get('/application_list/{id}', 'DynamicController@application_list')->name('application_list');
+    Route::post('/cancel', 'DynamicController@cancel')->name('cancel');
+    Route::get('/rejected/{id}', 'DynamicController@rejected')->name('rejected');
+    Route::get('/withdrawal/{id}', 'DynamicController@withdrawal')->name('withdrawal');
+    Route::get('/edit_proifile/{id}', 'DynamicController@edit_proifile')->middleware('auth');
+    Route::post('/edit_proifile', 'DynamicController@edit_proifile_post')->name('edit_proifile_post');
+    Route::get('/approval/{id}', 'DynamicController@approval')->name('approval');
+    Route::get('/project/edit/{id}', 'DynamicController@project_edit')->name('project_edit');
+    Route::post('/edit_project_post', 'DynamicController@edit_project_post')->name('edit_project_post');
+});
 Route::get('/sample', 'SampleController@react');
 Route::get('/', 'DynamicController@index')->name('top');
 Route::get('/seek', 'DynamicController@seek_project')->name('seek_project');
-Route::get('/make', 'DynamicController@make_project')->name('make_project')->middleware('auth');
-Route::post('/make', 'DynamicController@make_project_post')->name('make_project_post')->middleware('auth');
-Route::get('/my_page', 'DynamicController@my_page')->name('my_page')->middleware('auth');
-Route::get('/user_info/{user_name?}', 'DynamicController@my_page')->name('user_info')->middleware('auth');
 Route::post('/question', 'DynamicController@question')->name('question');
 Auth::routes();
 Route::post('/api/seek_project', 'ApiController@seek_project')->name('seek_project');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::post('/application', 'DynamicController@application')->name('application')->middleware('auth');
-Route::get('/application_list/{id}', 'DynamicController@application_list')->name('application_list')->middleware('auth');
-Route::post('/cancel', 'DynamicController@cancel')->name('cancel')->middleware('auth');
-Route::get('/rejected/{id}', 'DynamicController@rejected')->name('rejected')->middleware('auth');
-Route::get('/withdrawal/{id}', 'DynamicController@withdrawal')->name('withdrawal')->middleware('auth');
 Route::get('/twitter', 'Api\ApiController@twitterApi');
-Route::get('/edit_proifile/{id}', 'DynamicController@edit_proifile');
-Route::post('/edit_proifile', 'DynamicController@edit_proifile_post')->name('edit_proifile_post');
-Route::get('/approval/{id}', 'DynamicController@approval')->name('approval')->middleware('auth');
 Route::get('/seek/detail/{id}', function() {
     return view('project_detail');
 })->name('detail_get');
-Route::get('/project/edit/{id}', 'DynamicController@project_edit')->name('project_edit');
 
 // GitHubの認証ページに遷移するためのルーティング
 Route::get('/login/github', 'Auth\LoginController@redirectToProvider');
