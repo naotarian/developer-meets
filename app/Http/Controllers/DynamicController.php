@@ -302,20 +302,29 @@ class DynamicController extends Controller
     
     public function edit_proifile_post(Request $request) {
         $datas = $request->all();
+        $login_user = Auth::user();
         $messages = [
             'image' => '指定されたファイルが画像ではありません。',
             'mimes' => '指定された拡張子（PNG/JPG/GIF）ではありません。',
-            'max' => '1MBを超えています。',
+            'edit_comment.max' => ':attributeは40文字までです。',
+            'edit_self_introduction.max' => ':attributeは1000文字までです。',
+            'icon_image.max' => '1MBを超えています。',
+            'integer' => ':attributeが不正な値です。',
         ];
         $validator = Validator::make($datas,[
             'icon_image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
+            'edit_url' => 'url',
+            'edit_gender' => 'required|integer',
+            'email' => 'email:strict,dns,spoof|unique:users,email,'.$login_user->id.',id',
+            'edit_comment' => 'max:40',
+            'edit_self_introduction' => 'max:1000',
+            'age' => 'required|integer',
         ],$messages);
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
             $messages = array_values($messages);
         }
-        $login_user = Auth::user();
-       
+
         if(!empty($request->file("icon_image"))) {
                 $input_name = 'icon_image';
                 $save_dir = '/icon';
@@ -332,7 +341,7 @@ class DynamicController extends Controller
         $target_user = User::where('user_name', $request['user_name'])->first();
         $target_user['age'] = $request['age'];
         $target_user['comment'] = $request['edit_comment'];
-        $target_user['email'] = $request['edit_email'];
+        $target_user['email'] = $request['email'];
         $target_user['self_introduction'] = $request['edit_self_introduction'];
         $target_user['free_url'] = $request['edit_url'];
         $target_user['sex'] = $request['edit_gender'];
