@@ -45,7 +45,7 @@
         <dt>性別</dt>
         <dd>{{Form::select('edit_gender', ['1' => '男', '2' => '女', '3' => 'その他'], $login_user_infomation->sex, ['class' => 'form-control','id' => 'edit_gender', 'style' => 'width: auto;'])}}</dd>
         <dt>性別</dt>
-        <dd>{{Form::email('edit_email', $login_user_infomation->email, ['class' => 'form-control','id' => 'edit_email', 'style' => 'width: auto;'])}}</dd>
+        <dd>{{Form::email('email', $login_user_infomation->email, ['class' => 'form-control','id' => 'edit_email', 'style' => 'width: auto;'])}}</dd>
         <dt>年齢</dt>
         <dd>{{ Form::selectRange('age', 16, 60, $login_user_infomation->age, ['class' => 'form-control', 'style' => 'width: auto;display: inline-block;']) }}歳</dd>
         <dt>一言コメント</dt>
