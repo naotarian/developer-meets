@@ -20,9 +20,15 @@ const ProjectName = styled(Grid)`
 `;
 
 const DetailHeader = ({ data }) => {
+  let urlCode = data.user_url_code;
+  let img = data.project_image_sp;
   return (
     <ContainerGrid>
-      <img src={`/get_request_image?id=${data.user_url_code}&name=${data.project_image_sp}&dir=project&url_code=${data.url_code}`} width="100%" />
+      {urlCode && img ? (
+        <img src={`/get_request_image?id=${urlCode}&name=${img}&dir=project&url_code=${urlCode}`} width="100%" />
+        ) : (
+        <img src="/images/share/no_image.jpeg" width="100%" height="300px" />
+      )}
       <SkillTags skills={[data.language, data.sub_language]} detail />
       <ProjectName>{data.project_name}</ProjectName>
       <Grid container justify="flex-start">
