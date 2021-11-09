@@ -7,6 +7,7 @@ import ApplicationButton from '../Atoms/ApplicationButton';
 import QuestionButton from '../Atoms/QuestionButton';
 import JoinConfirmDialog from '../Molecules/JoinConfirmDialog';
 import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 
 const WrapperGrid = styled(Grid)`
@@ -19,7 +20,7 @@ const ButtonsContainer = styled(Grid)`
   margin-bottom: 2rem;
 `;
 
-const DetailContainer = styled(Grid)`
+const DetailContainer = styled(Card)`
   width: 100%;
   height: auto;
   border: 1px solid #e2e2e2;
