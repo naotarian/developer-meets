@@ -147,10 +147,12 @@ class RegisterController extends Controller
     // ]);
     $user = User::where('email_verify_token',$request->email_token)->first();
     $user->status = config('const.USER_STATUS.REGISTER');
-    $user->user_name = $request->name;
+    $user->user_name = $request->user_name;
     $user->sex = $request->sex;
     $user->age = $request->age;
     $user->engineer_history = $request->engineer_history;
+    $user->save();
+    $user->url_code = hash('crc32', $user->id);
     $user->save();
 
     return view('auth.main.registered');
