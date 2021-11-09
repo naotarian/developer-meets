@@ -31,7 +31,10 @@
         <dd>{{Form::text('edit_user_name', $login_user_infomation->user_name, ['class' => 'form-control', 'id' => 'edit_user_name', 'style' => 'width: auto;', 'disabled' => 'disabled'])}}<br>
         変更できません。</dd>
         <dt>アイコン画像</dt>
-        <dd><img src="/get_request_user_image?id={{$login_user_infomation['url_code']}}&name={{$login_user_infomation['icon_image']}}" style="width:200px;"><br>
+        <dd>
+          <a href="/get_request_image?id={{$login_user_infomation['url_code']}}&name={{$login_user_infomation['icon_image']}}&dir=icon" data-lightbox="user_icon" data-title="アイコン画像拡大">
+            <img src="/get_request_image?id={{$login_user_infomation['url_code']}}&name={{$login_user_infomation['icon_image']}}&dir=icon" style="width:200px;">
+          </a><br>
         
         <input type="file" name="icon_image" files="true" id="input-user_image" accept='image/' style="max-width: 100%;">
         

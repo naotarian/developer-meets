@@ -9,6 +9,10 @@ body {
     padding-top: 8rem;
 }
 
+.lb-data .lb-number {
+    display: none!important;
+}
+
 .wi48 {
     width: 48%;
 }

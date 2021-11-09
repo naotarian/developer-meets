@@ -1,6 +1,7 @@
 @extends('template.base')
 @section('individual_stylesheet')
 <link rel="stylesheet" href="/css/personal/my_page.css">
+<link rel="stylesheet" href="/css/common.css">
 @endsection
 @section('contents')
 
@@ -8,7 +9,9 @@
 <div class="contents">
   <div class="left_bar card pconly">
       <div class="nav flex-column nav-pills my_nav card-body" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-      <img src="/get_request_image?id={{$login_user_infomation['url_code']}}&name={{$login_user_infomation['icon_image']}}&dir=icon" style="width:200px;">
+        <a href="/get_request_image?id={{$login_user_infomation['url_code']}}&name={{$login_user_infomation['icon_image']}}&dir=icon" data-lightbox="user_icon" data-title="アイコン画像拡大">
+          <img src="/get_request_image?id={{$login_user_infomation['url_code']}}&name={{$login_user_infomation['icon_image']}}&dir=icon" style="width:200px;">
+        </a>
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><a class="cg" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
         <li class="list-group-item"><a class="cg" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fa fa-address-card"></i>Profile</a></li>
@@ -20,7 +23,9 @@
       </div>
     </div>
     <div class="sp_icon sponly">
-      <img src="/get_request_image?id={{$login_user_infomation['url_code']}}&name={{$login_user_infomation['icon_image_sp']}}&dir=icon">
+      <a href="/get_request_image?id={{$login_user_infomation['url_code']}}&name={{$login_user_infomation['icon_image_sp']}}&dir=icon" data-lightbox="user_icon" data-title="アイコン画像拡大">
+        <img src="/get_request_image?id={{$login_user_infomation['url_code']}}&name={{$login_user_infomation['icon_image_sp']}}&dir=icon">
+      </a>
       <p class="p1 fwb">{{$login_user_infomation->user_name}}</p>
     </div>
     <div class="my_page_sp_menu sponly">
