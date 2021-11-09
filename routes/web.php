@@ -68,3 +68,8 @@ Route::post('/admin/slide_text_edit_post', 'AdminController@slide_text_edit_post
 
 Route::get('/get_request_image', 'DynamicController@get_request_image');
 Route::get('/hash', 'DynamicController@hash_code');
+Route::post('register/pre_check', 'Auth\RegisterController@pre_check')->name('register.pre_check');
+Route::get('register/verify/{token}', 'Auth\RegisterController@showForm');
+Route::post('register/main_register', 'Auth\RegisterController@mainRegister')->name('register.main.registered');
+Route::get('register/main_check', 'Auth\RegisterController@mainCheck')->name('register.main.check_get');
+Route::post('register/main_check', 'Auth\RegisterController@mainCheck')->name('register.main.check');
