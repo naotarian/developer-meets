@@ -73,7 +73,7 @@ class SaveImage
                          $request->get('image_h'),
                          $request->get('image_x'),
                          $request->get('image_y')
-                       )->resize(128,128) //サムネイル用にリサイズ
+                       )
                         ->save($save_path);
         $image_sp = Image::make($request->file($input_name))
                   ->crop(
