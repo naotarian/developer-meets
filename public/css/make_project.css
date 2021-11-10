@@ -1,6 +1,7 @@
 .contents {
     width: 1024px;
-    margin: 0 auto;
+    margin: auto;
+    margin-top: 4rem;
 }
 
 .page_title {
@@ -55,7 +56,7 @@
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     transition: all 0.4s;
-    
+
   }
 
   .form:hover{
@@ -73,7 +74,7 @@
     max-height: 200px;
     width: 100%;
   }
-  
+
 /* Generic Button Styles */
 
   .button{
@@ -158,7 +159,7 @@ input {
         -webkit-transition: all 0.4s;
         -moz-transition: all 0.4s;
         transition: all 0.4s;
-        
+
       }
     .textarea{
         height: 200px;

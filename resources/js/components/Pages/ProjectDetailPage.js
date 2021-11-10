@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 const WrapperGrid = styled(Grid)`
   width: 80%;
   margin: auto;
+  margin-top: 4rem;
 `;
 
 const ButtonsContainer = styled(Grid)`
@@ -44,7 +45,6 @@ const ProjectDetailPage = () => {
       let protocol = host === 'developer-meets.com' ? 'https' : 'http';
       let url = `${protocol}://${host}/api/detail/${param}`
       axios.get(url).then(res => {
-        console.log('res.data: ', res.data)
         setData(res.data);
         setApplyFlag(res.data.application_flag);
       });
@@ -59,7 +59,6 @@ const ProjectDetailPage = () => {
           <ButtonsContainer container>
             <ApplicationButton
               item
-              // text={buttonText}
               openConfirmDialog={() => setConfirmFlag(true)}
               applyFlag={applyFlag}
             />
