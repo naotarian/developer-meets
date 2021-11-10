@@ -12,7 +12,6 @@ class callTwitterApi
 
     public function __construct()
     {
-        \Log::info(env('TWITTER_CLIENT_ID'));
         $this->t = new TwitterOAuth(
             env('TWITTER_CLIENT_ID'),
             env('TWITTER_CLIENT_SECRET'),

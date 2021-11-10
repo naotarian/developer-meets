@@ -63,7 +63,7 @@ const DrawerMenuLink = styled(Link)`
 const Header = ({ }) => {
   const [host, setHost] = useState('');
   const [loginUser, setLoginUser] = useState(null);
-  const [userImg, setUserImg] = useState(null);
+  const [userIconPath, setUserIconPath] = useState(null);
   const [menuAnchorEl, setMenuAnchorEl] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -76,12 +76,8 @@ const Header = ({ }) => {
       let protocol = host === 'developer-meets.com' ? 'https' : 'http';
       let url = `${protocol}://${host}/api/get_user`;
       axios.get(url).then(res => {
-        if (res.data.user) {
-          setLoginUser(res.data.user);
-          let urlCode = res.data.user.url_code;
-          let iconImg = res.data.user.icon_image;
-          setUserImg(urlCode && iconImg ? `get_request_image?id=${urlCode}&name=${iconImg}&dir=icon` : null);
-        }
+        setLoginUser(res.data.user ? res.data.user : 'NoUser');
+        setUserIconPath(`${protocol}://${host}/api/get_user_icon`)
       });
     };
   }, [host])
@@ -110,13 +106,15 @@ const Header = ({ }) => {
               <StyledLink underline="none" href='/make'>プロジェクトを作る</StyledLink>
             </Box>
             <Box sx={{ display: { xs: 'none', md: 'block' }, marginLeft: 2 }} >
-              {loginUser ? (
-                <div onClick={(e) => setMenuAnchorEl(e.currentTarget)}>
-                  <UserIcon size={36} userImg={userImg} />
-                </div>
-              ) : (
-                <StyledLink underline="none" href='/login'>ログイン</StyledLink>
-              )}
+              {loginUser &&
+                loginUser === 'NoUser' ? (
+                  <StyledLink underline="none" href='/login'>ログイン</StyledLink>
+                ) : (
+                  <div onClick={(e) => setMenuAnchorEl(e.currentTarget)}>
+                    <UserIcon size={36} imgPath={userIconPath} />
+                  </div>
+                )
+              }
             </Box>
             <Menu
               open={Boolean(menuAnchorEl)}
@@ -145,7 +143,7 @@ const Header = ({ }) => {
                 onClose={() => setOpenDrawer(false)}
               >
                 <DrawerMenuContainer container flexDirection='column' alignItems='center'>
-                  <MenuItem><StyledIconGrid><UserIcon size={80} userImg={userImg} /></StyledIconGrid></MenuItem>
+                  <MenuItem><StyledIconGrid><UserIcon size={80} imgPath={userIconPath} /></StyledIconGrid></MenuItem>
                   {loginUser && <MenuItem><DrawerMenuLink underline="none" href='/my_page'>マイページ</DrawerMenuLink></MenuItem> }
                   <Divider color={grey[300]} width='80%' />
                   <MenuItem><DrawerMenuLink underline="none" href='/seek'>プロジェクトを探す</DrawerMenuLink></MenuItem>
