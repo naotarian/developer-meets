@@ -4,69 +4,32 @@
 @endsection
 @section('contents')
 <div class="contents">
-
-
-<!-- バナー（リンクあり） -->
-<a class="news-banner" href="ここにリンクを記入">
-  <div class="news-banner__content">
-        <p>
-            @foreach($slide_text_sorted as $data)
+    <!-- バナー（リンクあり） -->
+    <a class="news-banner" href="ここにリンクを記入">
+        <div class="news-banner__content">
+            <p>
+                @foreach($slide_text_sorted as $data)
                     <span style="margin-right: 100px;">{{$data['slide_text']}}</span>
-            @endforeach
-        </p>
-  </div>
-</a>
-    <div class="main_visual">
-        <div class="btn_area_top pconly">
-            <a href="seek" class="btn-animation-01"><span>プロジェクトを探す<span></a>
-            <a href="make" class="btn-animation-02"><span>プロジェクトを作る<span></a>
+                @endforeach
+            </p>
         </div>
-    </div>
+    </a>
     <div class="context">
         <h1>思考を合わせて<ruby>形<rt style="font-size: 1rem;">コード</rt></ruby>にしよう。</h1>
+        <!-- 新規作成ボタン -->
         @guest
             <ul class="auth">
-                <li>
-                   <div class="button20">
-                      <a class="nav-link" href="{{ route('login') }}">ログイン</a>
-                    </div>
-                </li>
-                <li>
-                   <div class="button20">
-                      <a class="nav-link" href="{{ route('register') }}">新規作成</a>
-                    </div>
-                </li>
-                <!--<li><a href="" class="btn btn-flat"><span>新規登録</span></a></li>-->
+                <li><div class="button20"><a class="nav-link" href="{{ route('register') }}">新規作成</a></div></li>
             </ul>
         @endguest
-        @auth
-        <ul class="auth">
-                <li>
-                   <div class="button20">
-                      <!--<a href="">ログアウト</a>-->
-                      <a class="dropdown-item" href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
-                                     document.getElementById('logout-form').submit();">
-                        ログアウト
-                    </a>
-
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                    </div>
-                </li>
-                <!--<li><a href="" class="btn btn-flat"><span>新規登録</span></a></li>-->
-            </ul>
-        @endauth
-        
+        <!-- Twitter -->
         <div class="twitter">
         @foreach ($twitter as $twitter)
-                {!! $twitter[0] !!}<br>
+            {!! $twitter[0] !!}<br>
         @endforeach
         </div>
     </div>
-
-
+    <!-- 動く背景のやつ -->
     <div class="area" >
         <ul class="circles">
                 <li></li>
@@ -91,6 +54,5 @@
                 <li></li>
         </ul>
     </div>
-    
 </div>
 @endsection
