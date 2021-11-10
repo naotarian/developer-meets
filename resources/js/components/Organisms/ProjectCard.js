@@ -24,13 +24,13 @@ const TypographyOverflow = styled(Typography)`
 
 const ProjectCard = ({ project_data }) => {
   const [host, setHost] = useState('');
-  const [userImg, setUserImg] = useState(null);
+  const [imgPath, setImgPath] = useState(null);
 
   useEffect(() => {
     setHost(location.host);
     let urlCode = project_data.user.url_code;
     let iconImg = project_data.user.icon_image;
-    setUserImg(urlCode && iconImg ? `get_request_image?id=${urlCode}&name=${iconImg}&dir=icon` : null)
+    setImgPath(urlCode && iconImg ? `get_request_image?id=${urlCode}&name=${iconImg}&dir=icon` : null);
   }, [])
 
   return (
@@ -46,7 +46,7 @@ const ProjectCard = ({ project_data }) => {
           { project_data.work_frequency && <ProjectColumn column="time" text={project_data.work_frequency} /> }
           { project_data.purpose && <ProjectColumn column="purpose" text={`${project_data.purpose}`} /> }
           { project_data.number_of_application && <ProjectColumn column="people" text={`募集 ${project_data.number_of_application}人`} /> }
-          <UserInfo username={project_data.user.user_name} userImg={userImg} />
+          <UserInfo username={project_data.user.user_name} imgPath={imgPath} />
         </CardContent>
       </StyledCardActionArea>
     </StyledCard>

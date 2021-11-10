@@ -12,10 +12,10 @@ const StyledText = styled(Typography)`
   margin-left: 8px !important;
 `;
 
-const UserInfo = ({ username, userImg }) => {
+const UserInfo = ({ username, imgPath }) => {
   return (
     <FlexGrid>
-      <UserIcon size={24} userImg={userImg} />
+      <UserIcon size={24} imgPath={imgPath} />
       <StyledText>{username}</StyledText>
     </FlexGrid>
   );

@@ -175,19 +175,6 @@ body {
     list-style: none;
 }
 
-.main_visual {
-    /*background: #eef;*/
-    display: none;
-    background-attachment: fixed;
-    background-image: url('/images/be.png');
-    height: 600px;
-    padding-top: 4rem;
-    /*background-position: center center;*/
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-}
-
 /*.main_visual::before {*/
 
 /*  background: inherit;*/

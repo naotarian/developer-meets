@@ -1,18 +1,11 @@
 import React from 'react';
-import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 
-const UserIcon = ({ size, userImg }) => {
+const UserIcon = ({ size, imgPath }) => {
   return (
-    <Grid>
-      {
-        userImg ? (
-          <Avatar alt="" src={userImg} sx={{ width: size, height: size }} />
-        ) : (
-            <Avatar sx={{ width: size, height: size }}>H</Avatar>
-        )
-      }
-    </Grid>
+    <React.Fragment>
+      {imgPath ? <Avatar src={imgPath} sx={{ width: size, height: size }} /> : <Avatar sx={{ width: size, height: size }}>No</Avatar>}
+    </React.Fragment>
   );
 };
 

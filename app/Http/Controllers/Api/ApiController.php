@@ -43,6 +43,21 @@ class ApiController extends Controller
             [$projects, $array_datas]
         );
     }
+    // ログインuserを返すAPI
+    public function user() {
+        $login_user = Auth::user();
+        $res = $login_user ? ['status_code' => '200', 'msg' => 'logged in.', 'user' => $login_user] : ['status_code' => '400', 'msg' => 'not logged in.'];
+        return response($res);
+    }
+
+    // ログインuserのアイコンを返すAPI
+    public function user_icon() {
+        $login_user = Auth::user();
+        if ($login_user) {
+            $filepath = storage_path('app/images/'.$login_user['url_code'].'/icon/'.$login_user['icon_image']);
+            return Response()->file($filepath);
+        }
+    }
 
     public function project_detail($id) {
         $project_data = Project::find($id);
@@ -66,7 +81,7 @@ class ApiController extends Controller
         $application_check = ProjectApplication::where('project_id', $project_data['id'])->where('application_id', $login_user->id)->first();
         $project_data['application_flag'] = $application_check ? "applied" : "unapplied";
         $project_data = json_encode($project_data);
-        
+
         return response($project_data);
     }
 
