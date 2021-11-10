@@ -50,6 +50,15 @@ class ApiController extends Controller
         return response($res);
     }
 
+    // ログインuserのアイコンを返すAPI
+    public function user_icon() {
+        $login_user = Auth::user();
+        if ($login_user) {
+            $filepath = storage_path('app/images/'.$login_user['url_code'].'/icon/'.$login_user['icon_image']);
+            return Response()->file($filepath);
+        }
+    }
+
     public function project_detail($id) {
         $project_data = Project::find($id);
         $project_data['language'] = $this->languages[$project_data['language']];

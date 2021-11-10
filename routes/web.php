@@ -55,6 +55,7 @@ Route::get('/auth/github/callback', 'Auth\LoginController@handleProviderCallback
 // jsからのリクエスト
 Route::get('/api/test', 'Api\ApiController@test');
 Route::get('/api/get_user', 'Api\ApiController@user');
+Route::get('/api/get_user_icon', 'Api\ApiController@user_icon');
 Route::get('/api/detail/{id}', 'Api\ApiController@project_detail');
 Route::get('/api/all_projejct', 'Api\ApiController@all_projejct');
 Route::post('/api/application', 'Api\ApiController@application');
