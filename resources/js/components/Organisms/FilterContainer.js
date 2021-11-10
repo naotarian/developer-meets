@@ -15,7 +15,6 @@ const ContainerGrid = styled(Grid)`
   background-color: #f6f8fa;
   padding-top: 10px;
   padding-bottom: 10px;
-  margin-top: 60px;
   margin-bottom: 30px;
 `;
 
