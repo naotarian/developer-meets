@@ -30,7 +30,7 @@ const ProjectCard = ({ project_data }) => {
     setHost(location.host);
     let urlCode = project_data.user.url_code;
     let iconImg = project_data.user.icon_image;
-    setUserImg(urlCode && iconImg ? `get_request_image?id=${urlCode}&name=${iconImg}&dir=icon` : null)
+    setUserImg(urlCode && iconImg ? `get_request_image?id=${urlCode}&name=${iconImg}&dir=icon` : null);
   }, [])
 
   return (
