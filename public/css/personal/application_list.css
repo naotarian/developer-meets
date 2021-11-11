@@ -2,6 +2,35 @@
     width: 90%;
     margin: 0 auto;
 }
+
 .btn_td {
     width: 165px;
+}
+
+.member_table {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.member_icon {
+    width: 40px;
+    border-radius: 20px;
+    margin-right: 1rem;
+}
+
+.application_table_sp {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.application_table_sp th,
+.application_table_sp td {
+    width: 330px;
+    display: block;
+    border-bottom: 2px solid #dee2e6;
+    padding: 1rem;
+}
+
+.bold {
+    border-bottom: 2px solid #5c5c5c!important;
 }

@@ -390,17 +390,28 @@ class DynamicController extends Controller
         $application_list = Project::join('project_applications','projects.id','=','project_applications.project_id')
         ->where('author_id', $target_user->id)
         ->where('project_id', $id)
+        ->where('project_applications.status', 1)
+        ->where('project_applications.deleted_at', null)
+        ->get();
+        $member_list = Project::join('project_applications','projects.id','=','project_applications.project_id')
+        ->where('author_id', $target_user->id)
+        ->where('project_id', $id)
+        ->where('project_applications.status', 2)
         ->where('project_applications.deleted_at', null)
         ->get();
         // if(count($application_list) == 0) {
         //     return back()->with('nothing_data', '該当のプロジェクトは存在していません。');
         // }
         foreach($application_list as $app) {
-            $app->application_user_info = User::select('user_name')->where('id', $app->application_id)->get();
+            $app->application_user_info = User::where('id', $app->application_id)->get();
             //申請日をcreated_atから生成(project_id , application_idで絞る)
             $app->application_date = ProjectApplication::select('created_at')->where('application_id', $app->application_id)->where('project_id', $app->project_id)->get();
         }
-        return view('personal.application', ['application_list' => $application_list]);
+        foreach($member_list as $member) {
+            $member->application_user_info = User::where('id', $member->application_id)->get();
+        }
+        // dd($member_list);
+        return view('personal.application', ['application_list' => $application_list, 'member_list' => $member_list]);
     }
     
     public function cancel(Request $request) {
