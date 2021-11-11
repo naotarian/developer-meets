@@ -24,7 +24,7 @@ class SaveImage
     引数5が0 → ユーザーアイコン設定
     引数5がstring → project画像設定
     */
-    public function save_image(Request $request, $input_name, $save_dir, $user, $url_code = 0)
+    public function save_image(Request $request, $input_name, $save_dir, $user, $url_code = null)
     {
         $extension = $request->file($input_name)->getClientOriginalExtension();
         $now = Carbon::now('Asia/Tokyo');
@@ -32,7 +32,7 @@ class SaveImage
         $image_name = $now->year . $now->month . $now->day . $now->hour . $now->minute . $now->second . '.' . $extension;
         $image_name_sp = $now->year . $now->month . $now->day . $now->hour . $now->minute . $now->second . '_sp.' . $extension;
         //画像を保存するディレクトリpath
-        if($url_code == 0) {
+        if($url_code == null) {
             $path = storage_path('app') . '/images/' . $user->url_code . $save_dir;
         } else {
             $path = storage_path('app') . '/images/' . $user->url_code . $save_dir . '/' . $url_code;
@@ -41,7 +41,7 @@ class SaveImage
         //なければ作成
         
         if(!$fileExists) {
-            if($url_code == 0) {
+            if($url_code == null) {
                 Storage::disk('images')->makeDirectory($user->url_code . $save_dir);
             } else {
                 Storage::disk('images')->makeDirectory($user->url_code . $save_dir . '/' . $url_code);
@@ -49,7 +49,7 @@ class SaveImage
         }
         
         //現状の画像ファイルは削除
-        if($url_code == 0) {
+        if($url_code == null) {
             $files = Storage::allFiles('images/' . $user->url_code . $save_dir);
         } else {
             $files = Storage::allFiles('images/' . $user->url_code . $save_dir . '/' . $url_code);
@@ -60,7 +60,7 @@ class SaveImage
             }
         }
         
-        if($url_code == 0) {
+        if($url_code == null) {
             $save_path = storage_path('app/images/' . $user->url_code . $save_dir . '/') . $image_name;
             $save_path_sp = storage_path('app/images/' . $user->url_code . $save_dir . '/') . $image_name_sp;
         } else {
