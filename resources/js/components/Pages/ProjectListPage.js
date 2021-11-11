@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styled from "styled-components";
 import axios from 'axios';
-import _ from 'lodash'
-import Grid from '@mui/material/Grid';
 import ProjectCard from '../Organisms/ProjectCard';
 import FilterContainer from '../Organisms/FilterContainer';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 const WrapperGrid = styled(Grid)`
   width: 100%;
@@ -40,20 +40,24 @@ const ProjectListPage = () => {
 
   useEffect(() => {
     let result = [];
+    let search = false;
 
     projects.map((pj) => {
       if (searchLanguage.length > 0) {
+        search = true;
         if (searchLanguage.includes(pj.language) || searchLanguage.includes(pj.sub_language)) result.push(pj);
       }
       if (searchPurpose !== 'すべて' && searchPurpose !== '') {
+        search = true;
         if (searchPurpose === pj.purpose) result.push(pj);
       }
       if (searchGender !== '制限なし' && searchGender !== '') {
+        search = true;
         if (searchGender === pj.men_and_women) result.push(pj);
       }
     })
 
-    setFilterResult(result);
+    setFilterResult(search && result.length === 0　? '該当なし' : result);
   }, [projects, searchLanguage, searchPurpose, searchGender])
 
   return (
@@ -67,18 +71,19 @@ const ProjectListPage = () => {
         setSearchGender={(val) => setSearchGender(val)}
       />
       <ContainerGrid container justifyContent="center">
-        {
+        {typeof filterResult === 'string' ? (
+          <Typography>該当するプロジェクトがありません</Typography>
+        ) : (
           filterResult.length > 0 ? (
             filterResult.map((project, index) => {
               return <ProjectCard item key={index} project_data={project} />
             })
           ) : (
-            projects.length > 0 &&
-              projects.map((project, index) => {
-                return <ProjectCard item key={index} project_data={project} />
-              })
+            projects.map((project, index) => {
+              return <ProjectCard item key={index} project_data={project} />
+            })
           )
-        }
+        )}
       </ContainerGrid>
     </WrapperGrid>
   );
