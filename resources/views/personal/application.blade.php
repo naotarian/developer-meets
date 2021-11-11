@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/css/personal/application_list.css">
 @endsection
 @section('contents')
-<table class="table application_table">
+<table class="table application_table pconly">
   <thead>
     <tr>
       <th scope="col">No</th>
@@ -88,11 +88,24 @@
       </div>
     </div>{{--ここまでmodal--}}
     @endforeach
-    
-    
-    
-    
   </tbody>
+</table>
+<table class="application_table_sp sponly">
+  @foreach($application_list as $key => $app)
+  <tr><th>No : {{$key}}</th></tr>
+  <tr><th>申請日 : {{$app->application_date[0]['created_at']->format('Y/m/d')}}</th></tr>
+  <tr><th>申請者 : <a href="/get_request_image?id={{$app->application_user_info[0]['url_code']}}&name={{$app->application_user_info[0]['icon_image']}}&dir=icon" data-lightbox="user_icon" data-title="アイコン画像拡大">
+          <img src="/get_request_image?id={{$app->application_user_info[0]['url_code']}}&name={{$app->application_user_info[0]['icon_image']}}&dir=icon" class="member_icon">
+        </a>
+        <a href="/user_info/{{$app->application_user_info[0]['user_name']}}" target="_blank">{{$app->application_user_info[0]['user_name']}}</a></th>
+
+  </tr>
+  <tr><th>対象プロジェクト : {{$app->project_name}}</th></tr>
+  <tr><th>残り募集人数 : {{$app->number_of_application}}人</th></tr>
+  <tr><th class="bold">アクション<br><button type="submit" class="btn btn-outline-secondary" data-toggle="modal" data-target="#approvalModalCenter{{$key}}">承認する</button>
+        <button type="submit" class="btn btn-outline-secondary" data-toggle="modal" data-target="#rejectedModalCenter{{$key}}">見送る</button></th>
+  </tr>
+  @endforeach
 </table>
 
 <table class="table member_table">
