@@ -5,16 +5,14 @@ import DetailInfo from '../Atoms/DetailInfo';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 
-const ContainerGrid = styled(Card)
-`
+const ContainerGrid = styled(Card)`
   width: 100%;
   height: auto;
   border: 1px solid #e2e2e2;
   padding-bottom: 20px;
 `;
 
-const ProjectName = styled(Grid)
-`
+const ProjectName = styled(Grid)`
   margin-left: 2rem;
   font-weight: bold;
   font-size: 1.6rem;
@@ -25,7 +23,6 @@ const DetailHeader = ({ data }) => {
   let urlCode = data.user_url_code;
   let project_url_code = data.url_code;
   let img = data.project_image_sp;
-  console.log(data)
   return (
     <ContainerGrid>
       {urlCode && img ? (

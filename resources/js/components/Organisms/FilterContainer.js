@@ -9,7 +9,6 @@ import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import { grey } from '@mui/material/colors';
 
-
 const ContainerGrid = styled(Grid)`
   width: 100%;
   background-color: #f6f8fa;

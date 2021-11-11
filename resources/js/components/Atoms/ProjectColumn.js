@@ -6,7 +6,6 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
-
 import { green } from '@mui/material/colors';
 
 const FlexGrid = styled(Grid)`
