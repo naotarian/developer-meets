@@ -26,7 +26,12 @@
     <tr>
       <th scope="row">{{$key}}</th>
       <td>{{$app->application_date[0]['created_at']->format('Y/m/d')}}</td>
-      <td><a href="/user_info/{{$app->application_user_info[0]['user_name']}}" target="_blank">{{$app->application_user_info[0]['user_name']}}</a></td>
+      <td>
+        <a href="/get_request_image?id={{$app->application_user_info[0]['url_code']}}&name={{$app->application_user_info[0]['icon_image']}}&dir=icon" data-lightbox="user_icon" data-title="アイコン画像拡大">
+          <img src="/get_request_image?id={{$app->application_user_info[0]['url_code']}}&name={{$app->application_user_info[0]['icon_image']}}&dir=icon" class="member_icon">
+        </a>
+        <a href="/user_info/{{$app->application_user_info[0]['user_name']}}" target="_blank">{{$app->application_user_info[0]['user_name']}}</a>
+      </td>
       <td>{{$app->project_name}}</td>
       <td>{{$app->number_of_application}}人</td>
       <!--<td class="btn_td"><a class="btn btn-primary" href="/approval/{{$app->id}}" role="button">承認する</a></td>-->
@@ -83,6 +88,29 @@
       </div>
     </div>{{--ここまでmodal--}}
     @endforeach
+    
+    
+    
+    
+  </tbody>
+</table>
+
+<table class="table member_table">
+  <thead>
+    <tr>
+      <th scope="col">参加メンバー</th>
+    </tr>
+  </thead>
+  <tbody>
+  @foreach($member_list as $member)
+  <tr>
+    <td>
+      <a href="/get_request_image?id={{$member->application_user_info[0]['url_code']}}&name={{$member->application_user_info[0]['icon_image']}}&dir=icon" data-lightbox="user_icon" data-title="アイコン画像拡大">
+      <img src="/get_request_image?id={{$member->application_user_info[0]['url_code']}}&name={{$member->application_user_info[0]['icon_image']}}&dir=icon" class="member_icon">
+      </a>
+      <a href="/user_info/{{$member->application_user_info[0]['user_name']}}">{{$member->application_user_info[0]['user_name']}}</a></td>
+  </tr>
+  @endforeach
     
   </tbody>
 </table>

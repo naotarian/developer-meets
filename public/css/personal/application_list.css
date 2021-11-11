@@ -2,6 +2,18 @@
     width: 90%;
     margin: 0 auto;
 }
+
 .btn_td {
     width: 165px;
+}
+
+.member_table {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.member_icon {
+    width: 40px;
+    border-radius: 20px;
+    margin-right: 1rem;
 }
