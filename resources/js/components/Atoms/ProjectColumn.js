@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from "styled-components";
+import styled from 'styled-components';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -22,10 +22,10 @@ const StyledText = styled(Typography)`
 const ProjectColumn = ({column, text}) => {
   return (
     <FlexGrid>
-      { column === "time" && <AccessTimeIcon sx={{ fontSize: 20, color: green[500] }} /> }
-      { column === "location" && <RoomOutlinedIcon sx={{ fontSize: 20, color: green[500] }} /> }
-      { column === "people" && <PeopleOutlineIcon sx={{ fontSize: 20, color: green[500] }} /> }
-      { column === "purpose" && <CommentOutlinedIcon sx={{ fontSize: 20, color: green[500] }} /> }
+      { column === 'time' && <AccessTimeIcon sx={{ fontSize: 20, color: green[500] }} /> }
+      { column === 'location' && <RoomOutlinedIcon sx={{ fontSize: 20, color: green[500] }} /> }
+      { column === 'people' && <PeopleOutlineIcon sx={{ fontSize: 20, color: green[500] }} /> }
+      { column === 'purpose' && <CommentOutlinedIcon sx={{ fontSize: 20, color: green[500] }} /> }
       <StyledText>
         {text}
       </StyledText>

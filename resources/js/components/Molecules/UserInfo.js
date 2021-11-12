@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from "styled-components";
+import styled from 'styled-components';
 import UserIcon from '../Atoms/UserIcon';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';

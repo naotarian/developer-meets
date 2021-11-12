@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from "styled-components";
+import styled from 'styled-components';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -44,6 +44,6 @@ const PurposeSelectBox = ({ searchPurpose, setSearchPurpose }) => {
       </FormControl>
     </Box>
   );
-}
+};
 
 export default PurposeSelectBox;

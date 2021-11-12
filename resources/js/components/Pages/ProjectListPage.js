@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import styled from "styled-components";
+import styled from 'styled-components';
 import axios from 'axios';
 import ProjectCard from '../Organisms/ProjectCard';
 import FilterContainer from '../Organisms/FilterContainer';
@@ -26,7 +26,7 @@ const ProjectListPage = () => {
 
   useEffect(() => {
     setHost(location.host);
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (host) {
@@ -36,7 +36,7 @@ const ProjectListPage = () => {
         setProjects(res.data);
       });
     }
-  }, [host])
+  }, [host]);
 
   useEffect(() => {
     let result = [];
@@ -55,10 +55,10 @@ const ProjectListPage = () => {
         search = true;
         if (searchGender === pj.men_and_women) result.push(pj);
       }
-    })
+    });
 
-    setFilterResult(search && result.length === 0　? '該当なし' : result);
-  }, [projects, searchLanguage, searchPurpose, searchGender])
+    setFilterResult(search && result.length === 0 ? '該当なし' : result);
+  }, [projects, searchLanguage, searchPurpose, searchGender]);
 
   return (
     <WrapperGrid>
@@ -76,11 +76,11 @@ const ProjectListPage = () => {
         ) : (
           filterResult.length > 0 ? (
             filterResult.map((project, index) => {
-              return <ProjectCard item key={index} project_data={project} />
+              return <ProjectCard item key={index} project_data={project} />;
             })
           ) : (
             projects.map((project, index) => {
-              return <ProjectCard item key={index} project_data={project} />
+              return <ProjectCard item key={index} project_data={project} />;
             })
           )
         )}

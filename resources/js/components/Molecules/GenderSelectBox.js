@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from "styled-components";
+import styled from 'styled-components';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -42,6 +42,6 @@ const GenderSelectBox = ({ searchGender, setSearchGender }) => {
       </FormControl>
     </Box>
   );
-}
+};
 
 export default GenderSelectBox;

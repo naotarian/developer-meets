@@ -18,7 +18,7 @@ const JoinConfirmDialog = ({ open, handleClose, data, host, setApplyFlag }) => {
       setApplyFlag(res.data.flag);
     });
     handleClose();
-  }
+  };
 
   return (
     <Dialog

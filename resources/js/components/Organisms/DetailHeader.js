@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from "styled-components";
+import styled from 'styled-components';
 import SkillTags from '../Molecules/SkillTags';
 import DetailInfo from '../Atoms/DetailInfo';
 import Grid from '@mui/material/Grid';
@@ -27,7 +27,7 @@ const DetailHeader = ({ data }) => {
     <ContainerGrid>
       {urlCode && img ? (
         <img src={`/get_request_image?id=${urlCode}&name=${img}&dir=project&url_code=${project_url_code}`} width="100%" />
-        ) : (
+      ) : (
         <img src="/images/share/no_image.jpeg" width="100%" height="300px" />
       )}
       <SkillTags skills={[data.language, data.sub_language]} detail />
@@ -40,6 +40,6 @@ const DetailHeader = ({ data }) => {
       </Grid>
     </ContainerGrid>
   );
-}
+};
 
 export default DetailHeader;
