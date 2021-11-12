@@ -12,7 +12,7 @@ const WrapperGrid = styled(Grid)`
 `;
 
 const ContainerGrid = styled(Grid)`
-  width: 70% !important;
+  max-width: 1954px;
   margin: auto;
 `;
 

@@ -17,9 +17,10 @@ const StyledCardActionArea = styled(CardActionArea)`
   outline: none !important;
 `;
 const TypographyOverflow = styled(Typography)`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis!important;
+  font-weight: bold !important;
+  // white-space: nowrap;
+  // overflow: hidden;
+  // text-overflow: ellipsis!important;
 `;
 
 const ProjectCard = ({ project_data }) => {
