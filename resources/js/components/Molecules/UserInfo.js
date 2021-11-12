@@ -4,20 +4,16 @@ import UserIcon from '../Atoms/UserIcon';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-const FlexGrid = styled(Grid)`
-  display: flex;
-`;
-
 const StyledText = styled(Typography)`
   margin-left: 8px !important;
 `;
 
 const UserInfo = ({ username, imgPath }) => {
   return (
-    <FlexGrid>
-      <UserIcon size={24} imgPath={imgPath} />
+    <Grid container alignItems='center'>
+      <UserIcon size={36} imgPath={imgPath} />
       <StyledText>{username}</StyledText>
-    </FlexGrid>
+    </Grid>
   );
 };
 

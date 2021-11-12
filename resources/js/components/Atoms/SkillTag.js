@@ -13,7 +13,7 @@ const Item = styled(Grid)`
 
 const StyledText = styled(Typography)`
   color: #ffffff;
-  padding: 2px 8px;
+  padding: 2px 12px;
   font-size: small !important;
 `;
 
