@@ -66,7 +66,8 @@ const Header = () => {
   const [userIconPath, setUserIconPath] = useState(null);
   const [menuAnchorEl, setMenuAnchorEl] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
-
+  const [adminFlag, setAdminFlag] = useState(null);
+  
   useEffect(() => {
     setHost(location.host);
   }, []);
@@ -78,6 +79,7 @@ const Header = () => {
       axios.get(url).then(res => {
         setLoginUser(res.data.user ? res.data.user : 'NoUser');
         setUserIconPath(`${protocol}://${host}/api/get_user_icon`);
+        setAdminFlag(res.data.user.id);
       });
     }
   }, [host]);
@@ -103,6 +105,7 @@ const Header = () => {
             <Box sx={{ display: { xs: 'none', md: 'flex' } }} >
               <StyledLink underline="none" href='/seek'>プロジェクトを探す</StyledLink>
               <StyledLink underline="none" href='/make'>プロジェクトを作る</StyledLink>
+              {adminFlag == 1 ? (<StyledLink underline="none" href='/admin'>管理者ページ</StyledLink>) : ('')}
             </Box>
             <Box sx={{ display: { xs: 'none', md: 'block' }, marginLeft: 2 }} >
               {loginUser &&
@@ -147,6 +150,7 @@ const Header = () => {
                   <Divider color={grey[300]} width='80%' />
                   <MenuItem><DrawerMenuLink underline="none" href='/seek'>プロジェクトを探す</DrawerMenuLink></MenuItem>
                   <MenuItem><DrawerMenuLink underline="none" href='/make'>プロジェクトを作る</DrawerMenuLink></MenuItem>
+                  {adminFlag == 1 ? (<MenuItem><DrawerMenuLink underline="none" href='/admin'>管理者ページ</DrawerMenuLink></MenuItem>) : ('')}
                   <MenuItem>
                     {loginUser ? (<Grid onClick={() => logout()}>ログアウト</Grid>) : (<DrawerMenuLink underline="none" href='/login'>ログイン</DrawerMenuLink>)}
                   </MenuItem>

@@ -15,10 +15,6 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><a class="cg" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
         <li class="list-group-item"><a class="cg" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fa fa-address-card"></i>Profile</a></li>
-        <li class="list-group-item"><a class="cg" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fa fa-cog"></i>Settings</a></li>
-      @if($login_user_infomation['id'] == 1)
-       <li class="list-group-item"><a class="cg" href="/admin">管理ページ</a></li>
-      @endif
       </ul>
       </div>
     </div>
@@ -26,16 +22,12 @@
       <a href="/get_request_image?id={{$login_user_infomation['url_code']}}&name={{$login_user_infomation['icon_image_sp']}}&dir=icon" data-lightbox="user_icon" data-title="アイコン画像拡大">
         <img src="/get_request_image?id={{$login_user_infomation['url_code']}}&name={{$login_user_infomation['icon_image_sp']}}&dir=icon">
       </a>
-      <p class="p1 fwb">{{$login_user_infomation->user_name}}</p>
+      <p class="p1 fwb" style="margin-bottom: 0;">{{$login_user_infomation->user_name}}<br><span class="comment_sp">{{$login_user_infomation->comment}}</span></p>
     </div>
     <div class="my_page_sp_menu sponly">
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><a class="cg" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
         <li class="list-group-item"><a class="cg" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fa fa-address-card"></i>Profile</a></li>
-        <li class="list-group-item"><a class="cg" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fa fa-cog"></i>Settings</a></li>
-      @if($login_user_infomation['id'] == 1)
-        <li class="list-group-item"><a href="/admin">管理ページ</a></li>
-      @endif
       </ul>
     </div>
   <div class="row center sidebar_fixed">
@@ -193,8 +185,6 @@
             <dd>{{$login_user_infomation->self_introduction}}</dd>
           </dl>
         </div>
-        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
-        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
       </div>
     </div>
   </div>
