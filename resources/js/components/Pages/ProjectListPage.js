@@ -57,7 +57,7 @@ const ProjectListPage = () => {
       }
     });
 
-    setFilterResult(search && result.length === 0 ? '該当なし' : result);
+    setFilterResult(search && result.length === 0 ? '該当なし' : Array.from(new Set(result)));
   }, [projects, searchLanguage, searchPurpose, searchGender]);
 
   return (
