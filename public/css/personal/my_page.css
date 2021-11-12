@@ -113,14 +113,25 @@ dd {
     .wrapper {
         margin-top: 3.5rem;
     }
+    .list-group-flush:last-child .list-group-item:last-child {
+        border-bottom-width: 0;
+        border-bottom: 1px solid gray;
+        border-left: 1px dashed gray;
+        }
+    .comment_sp {
+        font-size: 0.8rem;
+        color: #c0c0c0;
+    }
     .sp_icon {
-        margin-top: 6rem;
-        display: flex;
+        margin-top: 1rem;
+        display: flex!important;
         align-items: center;
+        padding-left: 2rem;
     }
     .sp_icon img {
         width: 75px;
         border-radius: 3rem;
+        border: 3px solid deepskyblue;
     }
     .my_infomations {
         width: 100%;
