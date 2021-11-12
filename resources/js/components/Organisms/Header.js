@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import styled from "styled-components";
+import styled from 'styled-components';
 import axios from 'axios';
 import UserIcon from '../Atoms/UserIcon';
 import AppBar from '@mui/material/AppBar';
@@ -60,7 +60,7 @@ const DrawerMenuLink = styled(Link)`
   }
 `;
 
-const Header = ({ }) => {
+const Header = () => {
   const [host, setHost] = useState('');
   const [loginUser, setLoginUser] = useState(null);
   const [userIconPath, setUserIconPath] = useState(null);
@@ -68,8 +68,8 @@ const Header = ({ }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
 
   useEffect(() => {
-    setHost(location.host)
-  }, [])
+    setHost(location.host);
+  }, []);
 
   useEffect(() => {
     if (host) {
@@ -77,19 +77,18 @@ const Header = ({ }) => {
       let url = `${protocol}://${host}/api/get_user`;
       axios.get(url).then(res => {
         setLoginUser(res.data.user ? res.data.user : 'NoUser');
-        setUserIconPath(`${protocol}://${host}/api/get_user_icon`)
+        setUserIconPath(`${protocol}://${host}/api/get_user_icon`);
       });
-    };
-  }, [host])
+    }
+  }, [host]);
 
   const logout = () => {
     let protocol = host === 'developer-meets.com' ? 'https' : 'http';
     let url = `${protocol}://${host}/logout`;
-    axios.post(url).then(res => {
-      console.log('res: ', res);
+    axios.post(url).then(() => {
       window.location.reload();
     });
-  }
+  };
 
   return (
     <React.Fragment>
@@ -100,7 +99,7 @@ const Header = ({ }) => {
               <StyledLink underline="none" href='/'>Developer-Meets</StyledLink>
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-              {/* PCサイズ */}
+            {/* PCサイズ */}
             <Box sx={{ display: { xs: 'none', md: 'flex' } }} >
               <StyledLink underline="none" href='/seek'>プロジェクトを探す</StyledLink>
               <StyledLink underline="none" href='/make'>プロジェクトを作る</StyledLink>

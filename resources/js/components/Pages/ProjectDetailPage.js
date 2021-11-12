@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import styled from "styled-components";
+import styled from 'styled-components';
 import axios from 'axios';
 import DetailHeader from '../Organisms/DetailHeader';
 import ApplicationButton from '../Atoms/ApplicationButton';
@@ -35,21 +35,21 @@ const ProjectDetailPage = () => {
   const [confirmFlag, setConfirmFlag] = useState(false);
 
   useEffect(() => {
-    setHost(location.host)
-  }, [])
+    setHost(location.host);
+  }, []);
 
   useEffect(() => {
     if (host) {
       let param = location.pathname;
       param = param.replace('/seek/detail/', '');
       let protocol = host === 'developer-meets.com' ? 'https' : 'http';
-      let url = `${protocol}://${host}/api/detail/${param}`
+      let url = `${protocol}://${host}/api/detail/${param}`;
       axios.get(url).then(res => {
         setData(res.data);
         setApplyFlag(res.data.application_flag);
       });
-    };
-  }, [host])
+    }
+  }, [host]);
 
   return (
     <React.Fragment>

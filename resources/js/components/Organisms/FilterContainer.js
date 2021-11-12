@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import LanguageSelectBox from '../Molecules/LanguageSelectBox';
 import PurposeSelectBox from '../Molecules/PurposeSelectBox';
 import GenderSelectBox from '../Molecules/GenderSelectBox';

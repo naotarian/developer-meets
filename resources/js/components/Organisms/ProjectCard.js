@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from "styled-components";
+import styled from 'styled-components';
 import ProjectColumn from '../Atoms/ProjectColumn';
 import SkillTags from '../Molecules/SkillTags';
 import UserInfo from '../Molecules/UserInfo';
@@ -31,7 +31,7 @@ const ProjectCard = ({ project_data }) => {
     let urlCode = project_data.user.url_code;
     let iconImg = project_data.user.icon_image;
     setImgPath(urlCode && iconImg ? `get_request_image?id=${urlCode}&name=${iconImg}&dir=icon` : null);
-  }, [])
+  }, []);
 
   return (
     <StyledCard sx={{ maxWidth: 400 }}>

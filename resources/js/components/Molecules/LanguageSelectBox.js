@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from "styled-components";
+import styled from 'styled-components';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -54,7 +54,7 @@ const LanguageSelectBox = ({ searchLanguage, setSearchLanguage }) => {
   const handleChange = (event) => {
     const {target: { value }} = event;
     setSearchLanguage(typeof value === 'string' ? value.split(',') : value);
-  }
+  };
 
   return (
     <FormControl sx={{ m: 1, minWidth: 180 }}>

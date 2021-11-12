@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from "styled-components";
+import styled from 'styled-components';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import { green } from '@mui/material/colors';
@@ -24,6 +24,6 @@ const DetailInfo = ({ title, value }) => {
       {value ? value : '全国'}
     </StyledCard>
   );
-}
+};
 
 export default DetailInfo;
