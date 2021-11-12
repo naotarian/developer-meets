@@ -7,13 +7,17 @@
         "watch-poll": "npm run watch -- --watch-poll",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "lint": "eslint --fix --ext .jsx,.js './resources/js/components/'"
     },
     "devDependencies": {
         "@babel/preset-react": "^7.0.0",
         "axios": "^0.23.0",
         "bootstrap": "^4.0.0",
         "cross-env": "^7.0",
+        "eslint": "^7.32.0",
+        "eslint-loader": "^4.0.2",
+        "eslint-plugin-react": "^7.27.0",
         "jquery": "^3.2",
         "laravel-mix": "^6.0.34",
         "lodash": "^4.17.21",
@@ -31,6 +35,8 @@
         "@material-ui/icons": "^4.11.2",
         "@mui/icons-material": "^5.0.4",
         "@mui/material": "^5.0.4",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-react-hooks": "^4.3.0",
         "glob": "^7.2.0",
         "react-router-dom": "^5.3.0",
         "styled-components": "^5.3.1"

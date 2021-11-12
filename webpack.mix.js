@@ -1,6 +1,23 @@
 const mix = require('laravel-mix');
 const glob = require("glob");
-
+mix.webpackConfig({
+  module: {
+    rules: [
+      {
+        // ローダーの処理対象ファイル
+        test: /\.js$/,
+        // 変換する前にコード検証する
+        enforce: 'pre',
+        // 処理対象のファイルに対する処理を指定
+        exclude: /node_modules/,
+        loader: 'eslint-loader',
+        options: {
+          fix: false
+        }
+      }
+    ]
+  }
+})
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
