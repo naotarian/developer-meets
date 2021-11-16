@@ -14,7 +14,7 @@
             </ul>
         </div>
     @endif
-    <div class="page_title">ユーザー登録</div>
+    <div class="page_title"><i class="fas fa-user"></i><span style="margin-left: 1rem;">ユーザー登録</span></div>
     {{--
         {{ Form::open(['action' => 'Auth\RegisterController@register', 'method' => 'post', 'enctype' => 'multipart/form-data']) }}
     --}}

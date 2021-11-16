@@ -17,8 +17,6 @@
     <div class="page_title">仮登録</div>
         {{ Form::open(['route' => 'register.pre_check', 'method' => 'post', 'enctype' => 'multipart/form-data']) }}
     <div class="main_contents">
-
-        
         <div class="inner contact">
                 <!-- Form Area -->
                 <div class="contact-form">
