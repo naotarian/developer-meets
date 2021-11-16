@@ -4,11 +4,13 @@ namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -42,12 +44,26 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    protected $dates = ['deleted_at']; //追記
 
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
+     protected static function boot() 
+    {
+        parent::boot();
+        static::deleting(function ($user) {
+          $user->projects()->delete();
+        });
+        // parent::boot();
+        // static::deleting(function($user) {
+        //     foreach ($user->projects()->get() as $project) {
+        //         $project->delete();
+        //     }
+        // });
+    }
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

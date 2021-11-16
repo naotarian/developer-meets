@@ -27,10 +27,10 @@
       <th scope="row">{{$key}}</th>
       <td>{{$app->application_date[0]['created_at']->format('Y/m/d')}}</td>
       <td>
-        <a href="/get_request_image?id={{$app->application_user_info[0]['url_code']}}&name={{$app->application_user_info[0]['icon_image']}}&dir=icon" data-lightbox="user_icon" data-title="アイコン画像拡大">
-          <img src="/get_request_image?id={{$app->application_user_info[0]['url_code']}}&name={{$app->application_user_info[0]['icon_image']}}&dir=icon" class="member_icon">
+        <a href="/get_request_image?id={{$app->application_user_info['url_code']}}&name={{$app->application_user_info['icon_image']}}&dir=icon" data-lightbox="user_icon" data-title="アイコン画像拡大">
+          <img src="/get_request_image?id={{$app->application_user_info['url_code']}}&name={{$app->application_user_info['icon_image']}}&dir=icon" class="member_icon">
         </a>
-        <a href="/user_info/{{$app->application_user_info[0]['user_name']}}" target="_blank">{{$app->application_user_info[0]['user_name']}}</a>
+        <a href="/user_info/{{$app->application_user_info['user_name']}}" target="_blank">{{$app->application_user_info['user_name']}}</a>
       </td>
       <td>{{$app->project_name}}</td>
       <td>{{$app->number_of_application}}人</td>
@@ -44,7 +44,6 @@
       --}}
       
     </tr>
-        
     {{--承認モーダル--}}
     <div class="modal fade" id="approvalModalCenter{{$key}}" tabindex="-1" role="dialog" aria-labelledby="approvalModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -94,10 +93,13 @@
   @foreach($application_list as $key => $app)
   <tr><th>No : {{$key}}</th></tr>
   <tr><th>申請日 : {{$app->application_date[0]['created_at']->format('Y/m/d')}}</th></tr>
-  <tr><th>申請者 : <a href="/get_request_image?id={{$app->application_user_info[0]['url_code']}}&name={{$app->application_user_info[0]['icon_image']}}&dir=icon" data-lightbox="user_icon" data-title="アイコン画像拡大">
-          <img src="/get_request_image?id={{$app->application_user_info[0]['url_code']}}&name={{$app->application_user_info[0]['icon_image']}}&dir=icon" class="member_icon">
+  <tr>
+    <th>申請者 : 
+        <a href="/get_request_image?id={{$app->application_user_info['url_code']}}&name={{$app->application_user_info['icon_image']}}&dir=icon" data-lightbox="user_icon" data-title="アイコン画像拡大">
+          <img src="/get_request_image?id={{$app->application_user_info['url_code']}}&name={{$app->application_user_info['icon_image']}}&dir=icon" class="member_icon">
         </a>
-        <a href="/user_info/{{$app->application_user_info[0]['user_name']}}" target="_blank">{{$app->application_user_info[0]['user_name']}}</a></th>
+        <a href="/user_info/{{$app->application_user_info['user_name']}}" target="_blank">{{$app->application_user_info['user_name']}}</a>
+    </th>
 
   </tr>
   <tr><th>対象プロジェクト : {{$app->project_name}}</th></tr>
@@ -108,23 +110,25 @@
   @endforeach
 </table>
 
+@if(count($member_list) >= 1)
 <table class="table member_table">
   <thead>
     <tr>
-      <th scope="col">参加メンバー</th>
+      <th scope="col">承認済みメンバー</th>
     </tr>
   </thead>
   <tbody>
   @foreach($member_list as $member)
   <tr>
     <td>
-      <a href="/get_request_image?id={{$member->application_user_info[0]['url_code']}}&name={{$member->application_user_info[0]['icon_image']}}&dir=icon" data-lightbox="user_icon" data-title="アイコン画像拡大">
-      <img src="/get_request_image?id={{$member->application_user_info[0]['url_code']}}&name={{$member->application_user_info[0]['icon_image']}}&dir=icon" class="member_icon">
+      <a href="/get_request_image?id={{$member->application_user_info['url_code']}}&name={{$member->application_user_info['icon_image']}}&dir=icon" data-lightbox="user_icon" data-title="アイコン画像拡大">
+      <img src="/get_request_image?id={{$member->application_user_info['url_code']}}&name={{$member->application_user_info['icon_image']}}&dir=icon" class="member_icon">
       </a>
-      <a href="/user_info/{{$member->application_user_info[0]['user_name']}}">{{$member->application_user_info[0]['user_name']}}</a></td>
+      <a href="/user_info/{{$member->application_user_info['user_name']}}">{{$member->application_user_info['user_name']}}</a></td>
   </tr>
   @endforeach
     
   </tbody>
 </table>
+@endif
 @endsection

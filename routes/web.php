@@ -32,6 +32,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/approval/{id}', 'DynamicController@approval')->name('approval');
     Route::get('/project/edit/{id}', 'DynamicController@project_edit')->name('project_edit');
     Route::post('/edit_project_post', 'DynamicController@edit_project_post')->name('edit_project_post');
+    Route::get('/quit', 'UserController@quit')->name('quit');
+    Route::post('/quit_post', 'UserController@quit_post')->name('quit_post');
 });
 Route::get('/sample', 'SampleController@react');
 Route::get('/', 'DynamicController@index')->name('top');
