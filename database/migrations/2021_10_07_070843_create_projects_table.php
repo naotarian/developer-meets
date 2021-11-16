@@ -15,7 +15,7 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id')->comment('ユーザーID');
+            $table->unsignedBigInteger('user_id')->nullable()->comment('ユーザーID');
             $table->string('project_name')->comment('プロジェクト名');
             $table->text('project_detail')->comment('プロジェクト詳細');
             $table->string('language')->comment('主要言語');
@@ -30,6 +30,10 @@ class CreateProjectsTable extends Migration
             $table->integer('status')->comment('ステータス,1:募集中,2:募集停止,3:締め切り,4:開始済み');
             $table->text('remarks')->nullable()->comment('備考');
             $table->timestamps();
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 
