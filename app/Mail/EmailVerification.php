@@ -31,7 +31,7 @@ class EmailVerification extends Mailable
     public function build()
     {
         return $this
-            ->subject('【site】仮登録が完了しました')
+            ->subject('【developer-meets】仮登録が完了しました')
             ->view('auth.email.pre_register')
             ->with(['token' => $this->user->email_verify_token,]);
     }
