@@ -27,8 +27,7 @@ class DynamicController extends Controller
     }
     public function index() {
         $t = new CallTwitterApi();
-        $d = $t->serachTweets("JavaScript");
-
+        $d = $t->serachTweets("駆け出しエンジニア");
         $array = array();
         foreach($d as $d) {
           $array[] = array($t->statusesOembed($d->id));
@@ -67,60 +66,48 @@ class DynamicController extends Controller
             'project_detail' => 'max:1000',
             'number_of_application' => 'required',
             'purpose' => 'required',
-            'sex' => 'required',
-            'skil' => 'required',
-            'sub_skil' => 'required',
-            'minimum_work_experience' => 'required',
-            'tool' => 'required',
+            'men_and_women' => 'required',
+            'language' => 'required',
+            'sub_language' => 'required',
+            'minimum_experience' => 'required',
+            'tools' => 'required',
             'project_image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
-            
         ],$messages);
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
             $messages = array_values($messages);
         }
-        
-        $project_instance = new Project();
-        $project_instance->user_id = $user->id;
-        $project_instance->project_name = $datas['project_name'];
-        $project_instance->project_detail = !empty($datas['project_detail']) ? $datas['project_detail'] : '';
-        $project_instance->language = $datas['skil'];
-        $project_instance->sub_language = $datas['sub_skil'];
-        $project_instance->number_of_application = $datas['number_of_application'];
-        $project_instance->minimum_experience = $datas['minimum_work_experience'];
-        $project_instance->minimum_years_old = !empty($datas['minimum_years_old']) ? $datas['minimum_years_old'] : 0;
-        $project_instance->max_years_old = !empty($datas['max_years_old']) ? $datas['max_years_old'] : 0;
-        $project_instance->men_and_women = $datas['sex'];
-        $project_instance->tools = $datas['tool'];
-        $project_instance->purpose = $datas['purpose'];
-        $project_instance->status = 1;
-        $project_instance->remarks = !empty($datas['remarks']) ? $datas['remarks'] : '';
+        $datas['user_id'] = $user->id;
+        $datas['status'] = 1;
+        $datas['project_detail'] = !empty($datas['project_detail']) ? $datas['project_detail'] : '';
+        $datas['max_years_old'] = !empty($datas['max_years_old']) ? $datas['max_years_old'] : 0;
+        $datas['minimum_years_old'] = !empty($datas['minimum_years_old']) ? $datas['minimum_years_old'] : 0;
+        $datas['remarks'] = !empty($datas['remarks']) ? $datas['remarks'] : '';
         //作業頻度は個数が増えそうにないので固定で入れでもいいと思う
         if(!empty($datas['work_frequency'])) {
             if($datas['work_frequency'] == 0) {
-                $project_instance->work_frequency = '週1~2時間';
+                $datas['work_frequency'] = '週1~2時間';
             } elseif($datas['work_frequency'] == 1) {
-                $project_instance->work_frequency = '週3~4時間';
+                $datas['work_frequency'] = '週3~4時間';
             } elseif($datas['work_frequency'] == 2) {
-                $project_instance->work_frequency = '週1日';
+                $datas['work_frequency'] = '週1日';
             } elseif($datas['work_frequency'] == 3) {
-                $project_instance->work_frequency = '週2~3日';
+                $datas['work_frequency'] = '週2~3日';
             } else {
-                $project_instance->work_frequency = '週4~5日';
+                $datas['work_frequency'] = '週4~5日';
             }
         } else {
-            $project_instance->work_frequency = null;
+            $datas['work_frequency'] = null;
         }
-
-        $project_instance->save();
+        $project_instance = Project::create($datas);
         //作成したprojectのurl_codeを生成
-        $project_instance->url_code = hash('crc32', $project_instance->id);
+        $project_instance['url_code'] = hash('crc32', $project_instance['id']);
         //画像登録があった場合
         if(!empty($request->file("project_image"))) {
             $input_name = 'project_image';
             $save_dir = '/project';
             $save_image_instance = new SaveImage();
-            $save = $save_image_instance->save_image($request, $input_name, $save_dir, $user, $project_instance->url_code);
+            $save = $save_image_instance->save_image($request, $input_name, $save_dir, $user, $project_instance['url_code']);
             $image_name = $save['image_name'];
             $image_name_sp = $save['image_name_sp'];
         } else {
@@ -165,7 +152,6 @@ class DynamicController extends Controller
     public function edit_project_post(Request $request) {
         $project_data = $request->all();
         $login_user = Auth::user();
-        
         $messages = [
             'required' => ' :attributeを入力してください',
             'project_name.max' => ':attributeは50文字までです',
@@ -178,11 +164,11 @@ class DynamicController extends Controller
             'project_detail' => 'required|max:1000',
             'number_of_application' => 'required',
             'purpose' => 'required',
-            'sex' => 'required',
-            'skil' => 'required',
-            'sub_skil' => 'required',
-            'minimum_work_experience' => 'required',
-            'tool' => 'required',
+            'men_and_women' => 'required',
+            'language' => 'required',
+            'sub_language' => 'required',
+            'minimum_experience' => 'required',
+            'tools' => 'required',
             'project_image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
             
         ],$messages);
@@ -190,20 +176,8 @@ class DynamicController extends Controller
             return back()->withErrors($validator)->withInput();
             $messages = array_values($messages);
         }
-        
+        //編集するプロジェクト
         $target_project_data = Project::find($project_data['project_id']);
-        $target_project_data['project_name'] = $project_data['project_name'];
-        $target_project_data['project_detail'] = $project_data['project_detail'];
-        $target_project_data['number_of_application'] = $project_data['number_of_application'];
-        $target_project_data['language'] = $project_data['skil'];
-        $target_project_data['sub_language'] = $project_data['sub_skil'];
-        $target_project_data['minimum_experience'] = $project_data['minimum_work_experience'];
-        $target_project_data['tools'] = $project_data['tool'];
-        $target_project_data['remarks'] = $project_data['remarks'];
-        $target_project_data['minimum_years_old'] = $project_data['minimum_years_old'];
-        $target_project_data['max_years_old'] = $project_data['max_years_old'];
-        $target_project_data['purpose'] = $project_data['purpose'];
-        $target_project_data['men_and_women'] = $project_data['sex'];
         //画像の変更があった場合
         if(!empty($request->file("project_image"))) {
             $input_name = 'project_image';
@@ -217,11 +191,12 @@ class DynamicController extends Controller
             $image_name_sp = null;
         }
         if($image_name != null) {
-            $target_project_data['project_image'] = $image_name;
+            $project_data['project_image'] = $image_name;
         }
         if($image_name_sp != null) {
-            $target_project_data['project_image_sp'] = $image_name_sp;
+            $project_data['project_image_sp'] = $image_name_sp;
         }
+        $target_project_data->fill($project_data);
         $target_project_data->save();
         return redirect('/my_page')->with('edit_project_message', 'プロジェクト内容を編集しました');
     }
@@ -309,18 +284,18 @@ class DynamicController extends Controller
         $messages = [
             'image' => '指定されたファイルが画像ではありません。',
             'mimes' => '指定された拡張子（PNG/JPG/GIF）ではありません。',
-            'edit_comment.max' => ':attributeは40文字までです。',
-            'edit_self_introduction.max' => ':attributeは1000文字までです。',
+            'comment.max' => ':attributeは40文字までです。',
+            'self_introduction.max' => ':attributeは1000文字までです。',
             'icon_image.max' => '1MBを超えています。',
             'integer' => ':attributeが不正な値です。',
         ];
         $validator = Validator::make($datas,[
             'icon_image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
-            'edit_url' => 'url',
-            'edit_gender' => 'required|integer',
+            'free_url' => 'url',
+            'sex' => 'required|integer',
             'email' => 'email:strict,dns,spoof|unique:users,email,'.$login_user->id.',id',
-            'edit_comment' => 'max:40',
-            'edit_self_introduction' => 'max:1000',
+            'comment' => 'max:40',
+            'self_introduction' => 'max:1000',
             'age' => 'required|integer',
         ],$messages);
         if($validator->fails()){
@@ -339,21 +314,14 @@ class DynamicController extends Controller
                 $image_name = null;
                 $image_name_sp = null;
             }
-        
-        
         $target_user = User::where('user_name', $request['user_name'])->first();
-        $target_user['age'] = $request['age'];
-        $target_user['comment'] = $request['edit_comment'];
-        $target_user['email'] = $request['email'];
-        $target_user['self_introduction'] = $request['edit_self_introduction'];
-        $target_user['free_url'] = $request['edit_url'];
-        $target_user['sex'] = $request['edit_gender'];
         if($image_name != null) {
-            $target_user['icon_image'] = $image_name;
+            $datas['icon_image'] = $image_name;
         }
         if($image_name_sp != null) {
-            $target_user['icon_image_sp'] = $image_name_sp;
+            $datas['icon_image_sp'] = $image_name_sp;
         }
+        $target_user->fill($datas);
         $save = $target_user->save();
         if($save) {
             $message = '変更しました。';
@@ -410,7 +378,6 @@ class DynamicController extends Controller
         foreach($member_list as $member) {
             $member->application_user_info = User::where('id', $member->application_id)->get();
         }
-        // dd($member_list);
         return view('personal.application', ['application_list' => $application_list, 'member_list' => $member_list]);
     }
     
@@ -484,7 +451,6 @@ class DynamicController extends Controller
         } else {
             $path = storage_path("app/images/" . $data["id"] . "/" . $data['dir'] . "/" . $data["name"]);
         }
-        \Log::info($path);
         return Response()->file($path);
     }
     

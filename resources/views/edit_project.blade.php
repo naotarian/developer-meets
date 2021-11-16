@@ -43,19 +43,19 @@
                 </div>
                 <div class="col-xs-6 wow animated slideInLeft flex-form mt2" data-wow-delay=".5s">
                     {{Form::select('purpose', $datas['purposes'], $project['purpose'], ['class' => 'form','id' => 'purpose', 'placeholder' => 'プロジェクト目的'])}}
-                    {{Form::select('sex', ['0' => '男女制限なし', '1' => '男性のみ', '2' => '女性のみ'], $project['men_and_women'], ['class' => 'form','id' => 'sex'])}}
+                    {{Form::select('men_and_women', ['0' => '男女制限なし', '1' => '男性のみ', '2' => '女性のみ'], $project['men_and_women'], ['class' => 'form','id' => 'sex'])}}
                 </div>
                 <div class="col-xs-6 wow animated slideInRight flex-form mt2" data-wow-delay=".5s">
                     {{--
                     {{Form::select('skil', ['0' => 'Java', '1' => 'C', '2' => 'C#', '3' => 'Dart'], 'ordinarily', ['class' => 'form','id' => 'skil', 'placeholder' => '主要言語'])}}
                     {{Form::select('sub_skil', ['0' => 'Java', '1' => 'C', '2' => 'C#', '3' => 'Dart'], 'ordinarily', ['class' => 'form','id' => 'sub_skil', 'placeholder' => 'サブ言語'])}}
                     --}}
-                    {{Form::select('skil', $datas['languages'], $project['language'], ['class' => 'form','id' => 'skil', 'placeholder' => '主要言語'])}}
-                    {{Form::select('sub_skil', $datas['languages'], $project['sub_language'], ['class' => 'form','id' => 'sub_skil', 'placeholder' => 'サブ言語'])}}
+                    {{Form::select('language', $datas['languages'], $project['language'], ['class' => 'form','id' => 'skil', 'placeholder' => '主要言語'])}}
+                    {{Form::select('sub_language', $datas['languages'], $project['sub_language'], ['class' => 'form','id' => 'sub_skil', 'placeholder' => 'サブ言語'])}}
                 </div>
                 <div class="col-xs-6 wow animated slideInLeft flex-form mt2" data-wow-delay=".5s">
-                    {{Form::select('minimum_work_experience', ['0' => '未経験可', '1' => '~1年', '2' => '~2年', '3' => '~3年', '4' => '4年以上'], $project['minimum_experience'], ['class' => 'form','id' => 'minimum_work_experience', 'placeholder' => '最低実務経験'])}}
-                    {{Form::select('tool', ['0' => 'GitHub', '1' => 'GitLab', '2' => 'SVN', '3' => 'BitBucket', '4' => 'SouceTree', '5' => 'その他', '6' => 'なし'], $project['tools'], ['class' => 'form','id' => 'tool', 'placeholder' => 'ソース管理'])}}
+                    {{Form::select('minimum_experience', ['0' => '未経験可', '1' => '~1年', '2' => '~2年', '3' => '~3年', '4' => '4年以上'], $project['minimum_experience'], ['class' => 'form','id' => 'minimum_work_experience', 'placeholder' => '最低実務経験'])}}
+                    {{Form::select('tools', ['0' => 'GitHub', '1' => 'GitLab', '2' => 'SVN', '3' => 'BitBucket', '4' => 'SouceTree', '5' => 'その他', '6' => 'なし'], $project['tools'], ['class' => 'form','id' => 'tool', 'placeholder' => 'ソース管理'])}}
                 </div>
                 <div class="col-xs-6 wow animated slideInLeft flex-form mt2" data-wow-delay=".5s">
                     {{Form::select('work_frequency', $datas['work'], $datas['work_frequency'][0], ['class' => 'form','id' => 'work_frequency', 'placeholder' => '作業頻度'])}}
