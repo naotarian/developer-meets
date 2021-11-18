@@ -13,6 +13,8 @@
 <meta property="og:url" content="@yield('meta_og_url')">
 <meta property="og:description" content="@yield('meta_og_description')">
 <meta property="og:type" content="@yield('meta_og_type')">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="/css/common.css">
 <link rel="stylesheet" href="/css/template/header.css">
