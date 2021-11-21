@@ -7,7 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 const StyledInputLabel = styled(InputLabel)`
-  font-size: 0.7rem !important;
+  font-size: 0.9rem !important;
 `;
 
 const StyledSelect = styled(Select)`
