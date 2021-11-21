@@ -64,6 +64,8 @@ class ApiController extends Controller
         $project_data['language'] = $this->languages[$project_data['language']];
         $project_data['sub_language'] = $this->languages[$project_data['sub_language']];
         $project_data['user_url_code'] = hash('crc32', $project_data['user_id']);
+        $project_data['created_by'] = User::where('id', $project_data['user_id'])->first();
+
         $login_user = Auth::user();
         //ログインしてない場合（フロント側でそもそも押せないように制御）
         if(!$login_user) {
