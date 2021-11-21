@@ -31,6 +31,8 @@ const DetailContainer = styled(Card)`
 const ProjectDetailPage = () => {
   const [host, setHost] = useState('');
   const [data, setData] = useState(null);
+  const [userImgPath, setUserImgPath] = useState(null);
+  const [projectImgPath, setProjectImgPath] = useState(null);
   const [applyFlag, setApplyFlag] = useState('');
   const [confirmFlag, setConfirmFlag] = useState(false);
 
@@ -51,11 +53,22 @@ const ProjectDetailPage = () => {
     }
   }, [host]);
 
+  useEffect(() => {
+    if (data) {
+      let createdUserCode = data.created_by.url_code;
+      let createdUserImg = data.created_by.icon_image_sp;
+      setUserImgPath((createdUserCode && createdUserImg) ? `/get_request_image?id=${createdUserCode}&name=${createdUserImg}&dir=icon` : null);
+      let uUrlCode = data.user_url_code;
+      let pImg = data.project_image_sp;
+      setProjectImgPath((uUrlCode && pImg) ? `/get_request_image?id=${uUrlCode}&name=${pImg}&dir=project` : null);
+    }
+  }, [data]);
+
   return (
     <React.Fragment>
       { data &&
         <WrapperGrid>
-          <DetailHeader data={data} />
+          <DetailHeader data={data} userImgPath={userImgPath} projectImgPath={projectImgPath} />
           <ButtonsContainer container>
             <ApplicationButton
               item
