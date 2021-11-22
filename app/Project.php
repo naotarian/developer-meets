@@ -24,6 +24,8 @@ class Project extends Model
         'purpose',
         'status',
         'remarks',
+        'project_image',
+        'project_image_sp',
         'created_at',
         'updated_at',
         'deleted_at',
