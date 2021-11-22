@@ -42,28 +42,17 @@ const ProjectDetailPage = () => {
 
   useEffect(() => {
     if (host) {
-      let param = location.pathname;
-      param = param.replace('/seek/detail/', '');
       let protocol = host === 'developer-meets.com' ? 'https' : 'http';
-      let url = `${protocol}://${host}/api/detail/${param}`;
+      let projectId = location.pathname.replace('/seek/detail/', '');
+      let url = `${protocol}://${host}/api/detail/${projectId}`;
       axios.get(url).then(res => {
         setData(res.data);
         setApplyFlag(res.data.application_flag);
+        setUserImgPath(`${protocol}://${host}/api/user_icon/${res.data.created_by.id}`);
+        setProjectImgPath(`${protocol}://${host}/api/project_image/${res.data.id}`);
       });
     }
   }, [host]);
-
-  useEffect(() => {
-    if (data) {
-      let createdUserCode = data.created_by.url_code;
-      let createdUserImg = data.created_by.icon_image_sp;
-      setUserImgPath((createdUserCode && createdUserImg) ? `/get_request_image?id=${createdUserCode}&name=${createdUserImg}&dir=icon` : null);
-      let uUrlCode = data.user_url_code;
-      let pImg = data.project_image_sp;
-      let pUrlCode = data.url_code;
-      setProjectImgPath((uUrlCode && pImg && pUrlCode) ? `/get_request_image?id=${uUrlCode}&name=${pImg}&dir=project&url_code=${pUrlCode}` : null);
-    }
-  }, [data]);
 
   return (
     <React.Fragment>

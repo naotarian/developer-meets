@@ -43,18 +43,34 @@ class ApiController extends Controller
             [$projects, $array_datas]
         );
     }
-    // ログインuserを返すAPI
-    public function user() {
+    // ログインuser情報を返すAPI
+    public function login_user_info() {
         $login_user = Auth::user();
         $res = $login_user ? ['status_code' => '200', 'msg' => 'logged in.', 'user' => $login_user] : ['status_code' => '400', 'msg' => 'not logged in.'];
         return response($res);
     }
 
-    // ログインuserのアイコンを返すAPI
-    public function user_icon() {
-        $login_user = Auth::user();
-        if ($login_user) {
-            $filepath = storage_path('app/images/'.$login_user['url_code'].'/icon/'.$login_user['icon_image']);
+    // IDを受け取り、そのuserのアイコン画像パスを返すAPI
+    public function user_icon($id) {
+        $user = User::where('id', $id)->first();
+        if ($user) {
+            $filepath = storage_path('app/images/'.$user['url_code'].'/icon/'.$user['icon_image']);
+            return Response()->file($filepath);
+        }
+    }
+
+    // IDを受け取り、そのprojectの画像パスを返すAPI
+    public function project_image($id) {
+        $project_data = Project::find($id);
+        $creater = User::where('id', $project_data['user_id'])->first();
+        $project_creater_hash = $creater['url_code'];
+        $project_id_hash = $project_data['url_code'];
+        $project_image_name = $project_data['project_image'];
+        if ($project_image_name) {
+            $filepath = storage_path('app/images/'.$project_creater_hash.'/project/'.$project_id_hash.'/'.$project_image_name);
+            return Response()->file($filepath);
+        } else {
+            $filepath = public_path().'/images/share/no_image.jpeg';
             return Response()->file($filepath);
         }
     }

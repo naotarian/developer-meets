@@ -34,7 +34,7 @@ const UserInfoGrid = styled.a`
 const DetailHeader = ({ data, userImgPath, projectImgPath }) => {
   return (
     <ContainerGrid>
-      <img src={projectImgPath ? projectImgPath : '/images/share/no_image.jpeg'} width='100%' height='300px' />
+      <img src={projectImgPath} width='100%' height='300px' />
       <SkillTags skills={[data.language, data.sub_language]} detail />
       <ProjectName>{data.project_name}</ProjectName>
       <Grid container justify='flex-start'>
