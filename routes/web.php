@@ -55,9 +55,9 @@ Route::get('auth/twitter/callback',[TwitterLoginController::class, 'handleProvid
 Route::get('/auth/github/callback', 'Auth\LoginController@handleProviderCallback');
 
 // jsからのリクエスト
-Route::get('/api/test', 'Api\ApiController@test');
-Route::get('/api/get_user', 'Api\ApiController@user');
-Route::get('/api/get_user_icon', 'Api\ApiController@user_icon');
+Route::get('/api/login_user_info', 'Api\ApiController@login_user_info');
+Route::get('/api/user_icon/{id}', 'Api\ApiController@user_icon');
+Route::get('/api/project_image/{id}', 'Api\ApiController@project_image');
 Route::get('/api/detail/{id}', 'Api\ApiController@project_detail');
 Route::get('/api/all_projejct', 'Api\ApiController@all_projejct');
 Route::post('/api/application', 'Api\ApiController@application');

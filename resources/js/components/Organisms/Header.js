@@ -74,10 +74,11 @@ const Header = () => {
   useEffect(() => {
     if (host) {
       let protocol = host === 'developer-meets.com' ? 'https' : 'http';
-      let url = `${protocol}://${host}/api/get_user`;
+      let url = `${protocol}://${host}/api/login_user_info`;
       axios.get(url).then(res => {
-        setLoginUser(res.data.user ? res.data.user : 'NoUser');
-        setUserIconPath(`${protocol}://${host}/api/get_user_icon`);
+        let user = res.data.user;
+        setLoginUser(user ? user : 'NoUser');
+        setUserIconPath(`${protocol}://${host}/api/user_icon/${user.id}`);
       });
     }
   }, [host]);
@@ -106,15 +107,13 @@ const Header = () => {
               {loginUser && loginUser.id === 1 && <StyledLink underline="none" href='/admin'>管理者ページ</StyledLink>}
             </Box>
             <Box sx={{ display: { xs: 'none', md: 'block' }, marginLeft: 2 }} >
-              {loginUser &&
-                loginUser === 'NoUser' ? (
-                  <StyledLink underline="none" href='/login'>ログイン</StyledLink>
-                ) : (
-                  <div onClick={(e) => setMenuAnchorEl(e.currentTarget)}>
-                    <UserIcon size={36} imgPath={userIconPath} />
-                  </div>
-                )
-              }
+              {loginUser && loginUser === 'NoUser' ? (
+                <StyledLink underline="none" href='/login'>ログイン</StyledLink>
+              ) : (
+                <div onClick={(e) => setMenuAnchorEl(e.currentTarget)}>
+                  <UserIcon size={36} imgPath={userIconPath} />
+                </div>
+              )}
             </Box>
             <Menu
               open={Boolean(menuAnchorEl)}
