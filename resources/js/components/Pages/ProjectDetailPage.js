@@ -60,7 +60,8 @@ const ProjectDetailPage = () => {
       setUserImgPath((createdUserCode && createdUserImg) ? `/get_request_image?id=${createdUserCode}&name=${createdUserImg}&dir=icon` : null);
       let uUrlCode = data.user_url_code;
       let pImg = data.project_image_sp;
-      setProjectImgPath((uUrlCode && pImg) ? `/get_request_image?id=${uUrlCode}&name=${pImg}&dir=project` : null);
+      let pUrlCode = data.url_code;
+      setProjectImgPath((uUrlCode && pImg && pUrlCode) ? `/get_request_image?id=${uUrlCode}&name=${pImg}&dir=project&url_code=${pUrlCode}` : null);
     }
   }, [data]);
 
