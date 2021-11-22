@@ -165,7 +165,7 @@
           </div>
         <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
           @if($display_flag)
-            <a href="/edit_proifile/{{$login_user_infomation['id']}}" class="btn btn-primary">編集</a>
+            <a href="/edit_profile/{{$login_user_infomation['id']}}" class="btn btn-primary">編集</a>
           @endif
           
           <dl class="my_infomations pconly">

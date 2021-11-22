@@ -269,7 +269,7 @@ class DynamicController extends Controller
                                          ]);
     }
     
-    public function edit_proifile($id) {
+    public function edit_profile($id) {
         $login_user = Auth::user();
         if($login_user->id != $id) {
             return redirect('/my_page');
@@ -278,7 +278,7 @@ class DynamicController extends Controller
         return view('personal.edit_user', ['login_user_infomation' => $edit_user]);
     }
     
-    public function edit_proifile_post(Request $request) {
+    public function edit_profile_post(Request $request) {
         $datas = $request->all();
         $login_user = Auth::user();
         $messages = [
@@ -293,7 +293,8 @@ class DynamicController extends Controller
             'icon_image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
             'free_url' => 'url',
             'sex' => 'required|integer',
-            'email' => 'email:strict,dns,spoof|unique:users,email,'.$login_user->id.',id',
+            'email' => 'email:strict,dns,spoof|unique:users,email,'.$login_user->id.',id,deleted_at,NULL',
+            // 'email' => 'required|string|email|max:255|unique:users,email,NULL,id,deleted_at,NULL',
             'comment' => 'max:40',
             'self_introduction' => 'max:1000',
             'age' => 'required|integer',
@@ -328,7 +329,7 @@ class DynamicController extends Controller
         } else {
             $message = '変更できませんでした。';
         }
-        return redirect('/edit_proifile/' . $target_user['id'])->with('edit_message', $message);
+        return redirect('/edit_profile/' . $target_user['id'])->with('edit_message', $message);
     }
     
     public function question(Request $request) {

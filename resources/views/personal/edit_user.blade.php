@@ -26,7 +26,7 @@
 @endif
   <dl class="my_infomations">
   
-    {{Form::open(['route' => 'edit_proifile_post', 'method' => 'post','files'=> true, 'enctype' => 'multipart/form-data', 'style' => 'width:100%;'])}}
+    {{Form::open(['route' => 'edit_profile_post', 'method' => 'post','files'=> true, 'enctype' => 'multipart/form-data', 'style' => 'width:100%;'])}}
         <dt>ユーザー名</dt>
         <dd>{{Form::text('edit_user_name', $login_user_infomation->user_name, ['class' => 'form-control', 'id' => 'edit_user_name', 'style' => 'width: auto;', 'disabled' => 'disabled'])}}<br>
         変更できません。</dd>

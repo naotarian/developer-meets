@@ -27,8 +27,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/cancel', 'DynamicController@cancel')->name('cancel');
     Route::get('/rejected/{id}', 'DynamicController@rejected')->name('rejected');
     Route::get('/withdrawal/{id}', 'DynamicController@withdrawal')->name('withdrawal');
-    Route::get('/edit_proifile/{id}', 'DynamicController@edit_proifile')->middleware('auth');
-    Route::post('/edit_proifile', 'DynamicController@edit_proifile_post')->name('edit_proifile_post');
+    Route::get('/edit_profile/{id}', 'DynamicController@edit_profile')->middleware('auth');
+    Route::post('/edit_profile', 'DynamicController@edit_profile_post')->name('edit_profile_post');
     Route::get('/approval/{id}', 'DynamicController@approval')->name('approval');
     Route::get('/project/edit/{id}', 'DynamicController@project_edit')->name('project_edit');
     Route::post('/edit_project_post', 'DynamicController@edit_project_post')->name('edit_project_post');
