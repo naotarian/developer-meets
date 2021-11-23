@@ -21,7 +21,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/make', 'DynamicController@make_project')->name('make_project');
     Route::post('/make', 'DynamicController@make_project_post')->name('make_project_post');
     Route::get('/my_page', 'DynamicController@my_page')->name('my_page');
-    Route::get('/user_info/{user_name?}', 'DynamicController@my_page')->name('user_info');
     Route::post('/application', 'DynamicController@application')->name('application');
     Route::get('/application_list/{id}', 'DynamicController@application_list')->name('application_list');
     Route::post('/cancel', 'DynamicController@cancel')->name('cancel');
@@ -35,6 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/quit', 'UserController@quit')->name('quit');
     Route::post('/quit_post', 'UserController@quit_post')->name('quit_post');
 });
+Route::get('/user_info/{user_name?}', 'DynamicController@user_info')->name('user_info');
 Route::get('/sample', 'SampleController@react');
 Route::get('/', 'DynamicController@index')->name('top');
 Route::get('/seek', 'DynamicController@seek_project')->name('seek_project');
