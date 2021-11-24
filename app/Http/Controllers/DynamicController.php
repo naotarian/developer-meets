@@ -220,6 +220,39 @@ class DynamicController extends Controller
         return view('seek_project', ['datas' => $array_datas, 'projects' => $projects]);
     }
     
+    public function user_info($user_name) {
+        $login_user = Auth::user();
+        $logging_id = $login_user['id'];
+        $target_user = User::where('user_name', $user_name)->first();
+        if($logging_id == $target_user->id) {
+            return redirect('/my_page');
+        }
+        
+        if($target_user['sex']) {
+            $target_user['sex'] = $this->gender[$target_user['sex']];
+        } else {
+            $target_user['sex'] = '未設定';
+        }
+        if($target_user['engineer_history'] == null) {
+            $target_user['engineer_history'] = '未設定';
+        }
+        if($target_user['age'] == null) {
+            $target_user['age'] = '未設定';
+        }
+        $join_projects = Project::join('project_applications','projects.id','=','project_applications.project_id')
+        ->where('project_applications.application_id', $target_user->id)
+        ->where('project_applications.status', 2)
+        ->where('project_applications.deleted_at', null)
+        ->get();
+        $now_available_projects = Project::where('user_id', $target_user->id)->where('status', 1)->get();
+        
+        return view('personal.user_info', ['target_user' => $target_user,
+                                         'now_available_projects' => $now_available_projects, 
+                                        //  'now_applications' => $now_applications, 
+                                        //  'display_flag' => $display_flag,
+                                         'join_projects' => $join_projects
+                                         ]);
+    }
     public function my_page($user_name = 0) {
         $target_user = Auth::user();
         $logging_id = $target_user->id;
@@ -356,22 +389,22 @@ class DynamicController extends Controller
     
     public function application_list($id) {
         $target_user = Auth::user();
+        $target_project = Project::where('user_id', $id)->first();
+        if($target_project['id'] != $target_user['id']) {
+            return redirect('/my_page');
+        }
         $application_list = Project::join('project_applications','projects.id','=','project_applications.project_id')
         ->where('author_id', $target_user->id)
         ->where('project_id', $id)
         ->where('project_applications.status', 1)
         ->where('project_applications.deleted_at', null)
         ->get();
-        // dd($application_list);
         $member_list = Project::join('project_applications','projects.id','=','project_applications.project_id')
         ->where('author_id', $target_user->id)
         ->where('project_id', $id)
         ->where('project_applications.status', 2)
         ->where('project_applications.deleted_at', null)
         ->get();
-        // if(count($application_list) == 0) {
-        //     return back()->with('nothing_data', '該当のプロジェクトは存在していません。');
-        // }
         foreach($application_list as $app) {
             $app->application_user_info = User::where('id', $app->application_id)->withTrashed()->first();
             if($app->application_user_info['deleted_at'] != null) {
