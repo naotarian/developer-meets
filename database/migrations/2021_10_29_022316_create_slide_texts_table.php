@@ -15,7 +15,7 @@ class CreateSlideTextsTable extends Migration
     {
         Schema::create('slide_texts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('status')->comment('0: 表示, 1: 非表示');
+            $table->integer('status')->nullable()->comment('0: 表示, 1: 非表示');
             $table->text('slide_text')->nullable()->comment('スライドテキスト');
             $table->integer('sort')->nullable()->comment('int 小さいほうが前');
             $table->timestamps();

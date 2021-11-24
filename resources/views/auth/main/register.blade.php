@@ -31,7 +31,7 @@
                         <div class="col-xs-6 wow animated slideInLeft flex-form mt2" data-wow-delay=".5s">
                             <!-- Name -->
                             {{Form::text('user_name', null, ['class' => 'form', 'id' => 'user_name', 'placeholder' => 'ユーザー名'])}}
-                            {{Form::select('sex', ['1' => '男性', '2' => '女性', '3' => 'その他'], 'ordinarily', ['class' => 'form','id' => 'sex'])}}
+                            {{Form::select('sex', ['男性' => '男性', '女性' => '女性', 'その他' => 'その他'], 'ordinarily', ['class' => 'form','id' => 'sex'])}}
                         </div>
                         {{--
                         <div class="col-xs-6 wow animated slideInRight flex-form mt2" data-wow-delay=".5s">

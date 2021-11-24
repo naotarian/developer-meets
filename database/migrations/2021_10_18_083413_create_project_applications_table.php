@@ -16,10 +16,11 @@ class CreateProjectApplicationsTable extends Migration
         Schema::create('project_applications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('project_id');
-            $table->integer('author_id')->comment('作成者ID');
-            $table->integer('application_id')->comment('申請者ID');
-            $table->integer('status')->comment('ステータス,1: 申請中, 2: 承認済み');
+            $table->integer('author_id')->nullable()->comment('作成者ID');
+            $table->integer('application_id')->nullable()->comment('申請者ID');
+            $table->string('status', 16)->nullable()->comment('ステータス,1: 申請中, 2: 承認済み');
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }

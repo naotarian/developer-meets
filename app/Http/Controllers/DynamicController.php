@@ -20,10 +20,11 @@ class DynamicController extends Controller
     
     public function __construct () {
         $this->gender = config('app.gender');
-        $this->gender = config('app.gender');
+        $this->men_and_women = config('app.men_and_women');
         $this->purposes = config('app.purposes');
         $this->tools = config('app.tools');
         $this->languages = config('app.languages');
+        $this->work_frequency = config('app.work_frequency');
     }
     public function index() {
         $t = new CallTwitterApi();
@@ -44,6 +45,9 @@ class DynamicController extends Controller
         $purposes = $this->purposes;
         $datas['languages'] = $this->languages;
         $datas['purposes'] = $this->purposes;
+        $datas['tools'] = $this->tools;
+        $datas['men_and_women'] = $this->men_and_women;
+        $datas['work_frequency'] = $this->work_frequency;
         $datas['age'] = [];
         for($i = 15; $i < 60; $i++) {
             $datas['age'][$i] = $i;
@@ -84,21 +88,8 @@ class DynamicController extends Controller
         $datas['minimum_years_old'] = !empty($datas['minimum_years_old']) ? $datas['minimum_years_old'] : 0;
         $datas['remarks'] = !empty($datas['remarks']) ? $datas['remarks'] : '';
         //作業頻度は個数が増えそうにないので固定で入れでもいいと思う
-        if(!empty($datas['work_frequency'])) {
-            if($datas['work_frequency'] == 0) {
-                $datas['work_frequency'] = '週1~2時間';
-            } elseif($datas['work_frequency'] == 1) {
-                $datas['work_frequency'] = '週3~4時間';
-            } elseif($datas['work_frequency'] == 2) {
-                $datas['work_frequency'] = '週1日';
-            } elseif($datas['work_frequency'] == 3) {
-                $datas['work_frequency'] = '週2~3日';
-            } else {
-                $datas['work_frequency'] = '週4~5日';
-            }
-        } else {
-            $datas['work_frequency'] = null;
-        }
+        $datas['work_frequency'] = !empty($datas['work_frequency']) ?  $datas['work_frequency'] : null;
+        // dd($datas);
         $project_instance = Project::create($datas);
         //作成したprojectのurl_codeを生成
         $project_instance['url_code'] = hash('crc32', $project_instance['id']);
@@ -133,19 +124,23 @@ class DynamicController extends Controller
         if($target_project['user_id'] != $login_user->id) {
             return redirect('/seek');
         }
-        $languages = $this->languages;
-        $purposes = $this->purposes;
+        // $languages = $this->languages;
+        // $purposes = $this->purposes;
         $datas['languages'] = $this->languages;
         $datas['purposes'] = $this->purposes;
+        $datas['men_and_women'] = $this->men_and_women;
+        $datas['tools'] = $this->tools;
+        $datas['work_frequency'] = $this->work_frequency;
+        
         $datas['age'] = [];
         for($i = 15; $i < 60; $i++) {
             $datas['age'][$i] = $i;
         }
-        $datas['work'] = array('0' => '週1~2時間', '1' => '週3~4時間', '2' => '週1日', '3' => '週2~3日', '4' => '週4~5日');
-        $datas['work_frequency'] = array_keys($datas['work'], $target_project['work_frequency']);
-        if(empty($datas['work_frequency'])) {
-            $datas['work_frequency'][0] = null;
-        }
+        // $datas['work'] = array('0' => '週1~2時間', '1' => '週3~4時間', '2' => '週1日', '3' => '週2~3日', '4' => '週4~5日');
+        // $datas['work_frequency'] = array_keys($datas['work'], $target_project['work_frequency']);
+        // if(empty($datas['work_frequency'])) {
+        //     $datas['work_frequency'][0] = null;
+        // }
         return view('edit_project', ['project' => $target_project, 'datas' => $datas]);
     }
     
@@ -185,16 +180,11 @@ class DynamicController extends Controller
             $save_image_instance = new SaveImage();
             $save = $save_image_instance->save_image($request, $input_name, $save_dir, $login_user, $target_project_data['url_code']);
             $image_name = $save['image_name'];
-            $image_name_sp = $save['image_name_sp'];
         } else {
             $image_name = null;
-            $image_name_sp = null;
         }
         if($image_name != null) {
             $project_data['project_image'] = $image_name;
-        }
-        if($image_name_sp != null) {
-            $project_data['project_image_sp'] = $image_name_sp;
         }
         $target_project_data->fill($project_data);
         $target_project_data->save();
@@ -204,11 +194,11 @@ class DynamicController extends Controller
     public function seek_project() {
         $projects = Project::where('status', 1)->get();
         foreach($projects as $project) {
-            $project->purpose = $this->purposes[$project->purpose];
-            $project->men_and_women = $this->gender[$project->men_and_women];
-            $project->tools = $this->tools[$project->tools];
-            $project->language = $this->languages[$project->language];
-            $project->sub_language = $this->languages[$project->sub_language];
+            // $project->purpose = $this->purposes[$project->purpose];
+            // $project->men_and_women = $this->gender[$project->men_and_women];
+            // $project->tools = $this->tools[$project->tools];
+            // $project->language = $this->languages[$project->language];
+            // $project->sub_language = $this->languages[$project->sub_language];
             $project->year = $project->minimum_years_old . '歳~' . $project->max_years_old . '歳';
             $project->user = User::where('id', $project->user_id)->first();
         }
@@ -228,11 +218,11 @@ class DynamicController extends Controller
             return redirect('/my_page');
         }
         
-        if($target_user['sex']) {
-            $target_user['sex'] = $this->gender[$target_user['sex']];
-        } else {
-            $target_user['sex'] = '未設定';
-        }
+        // if($target_user['sex']) {
+        //     $target_user['sex'] = $this->gender[$target_user['sex']];
+        // } else {
+        //     $target_user['sex'] = '未設定';
+        // }
         if($target_user['engineer_history'] == null) {
             $target_user['engineer_history'] = '未設定';
         }
@@ -280,11 +270,11 @@ class DynamicController extends Controller
         ->where('project_applications.status', 2)
         ->where('project_applications.deleted_at', null)
         ->get();
-        if($target_user['sex']) {
-            $target_user['sex'] = $this->gender[$target_user['sex']];
-        } else {
-            $target_user['sex'] = '未設定';
-        }
+        // if($target_user['sex']) {
+        //     $target_user['sex'] = $this->gender[$target_user['sex']];
+        // } else {
+        //     $target_user['sex'] = '未設定';
+        // }
         if($target_user['engineer_history'] == null) {
             $target_user['engineer_history'] = '未設定';
         }
@@ -325,7 +315,7 @@ class DynamicController extends Controller
         $validator = Validator::make($datas,[
             'icon_image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
             'free_url' => 'url',
-            'sex' => 'required|integer',
+            'sex' => 'required',
             'email' => 'email:strict,dns,spoof|unique:users,email,'.$login_user->id.',id,deleted_at,NULL',
             // 'email' => 'required|string|email|max:255|unique:users,email,NULL,id,deleted_at,NULL',
             'comment' => 'max:40',
@@ -343,17 +333,12 @@ class DynamicController extends Controller
                 $save_image_instance = new SaveImage();
                 $save = $save_image_instance->save_image($request, $input_name, $save_dir, $login_user);
                 $image_name = $save['image_name'];
-                $image_name_sp = $save['image_name_sp'];
             } else {
                 $image_name = null;
-                $image_name_sp = null;
             }
         $target_user = User::where('user_name', $request['user_name'])->first();
         if($image_name != null) {
             $datas['icon_image'] = $image_name;
-        }
-        if($image_name_sp != null) {
-            $datas['icon_image_sp'] = $image_name_sp;
         }
         $target_user->fill($datas);
         $save = $target_user->save();

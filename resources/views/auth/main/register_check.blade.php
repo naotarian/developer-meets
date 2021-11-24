@@ -44,7 +44,7 @@
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">エンジニア歴</label>
                             <div class="col-md-6">
-                                <span class="">{{$user->engineer_history}}年程度</span>
+                                <span class="">{{$user->engineer_history}}程度</span>
                                 <input type="hidden" name="engineer_history" value="{{$user->engineer_history}}">
                             </div>
                         </div>

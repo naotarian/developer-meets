@@ -123,7 +123,6 @@ class RegisterController extends Controller
     $request->validate([
       'user_name' => 'required|unique:users,user_name,NULL,id,deleted_at,NULL|max:255',
       'age' => 'integer|between:16,99',
-      'sex' => 'integer|between:1,3',
       'engineer_history' => 'integer|between:0,5',
     ]);
     //データ保持用
@@ -131,7 +130,7 @@ class RegisterController extends Controller
     $user = new User();
     $user->user_name = $request->user_name;
     $user->age = $request->age;
-    $user->engineer_history = $request->engineer_history;
+    $user->engineer_history = $request->engineer_history . '年';
     $user->sex = $request->sex;
 
 
