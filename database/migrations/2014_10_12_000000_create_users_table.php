@@ -15,20 +15,27 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('user_name')->nullable()->default(null)->comment('ユーザー名');
-            $table->text('icon_image')->nullable()->comment('アイコン画像URL');
-            $table->string('comment')->nullable()->comment('一言コメント');
+            $table->string('user_name')->unique()->nullable()->default(null)->comment('ユーザー名');
+            $table->string('icon_image', 256)->nullable()->comment('アイコン画像URL');
+            $table->integer('role')->nullable()->default(null)->comment('ユーザー権限,1:管理者');
+            $table->string('url_code', 256)->nullable()->comment('URLコード');
+            $table->string('comment', 64)->nullable()->comment('一言コメント');
             $table->text('self_introduction')->nullable()->comment('自己紹介');
-            $table->integer('friends_id')->nullable()->comment('フレンドのid');
-            $table->integer('sex')->comment('1:男性,2:女性,3その他');
-            $table->integer('engineer_history')->nullable()->comment('エンジニア歴');
-            $table->integer('age')->comment('年齢');
-            $table->string('free_url')->nullable()->comment('フリーURL');
-            $table->string('email')->unique();
+            $table->string('sex', 16)->nullable()->comment('性別');
+            $table->string('engineer_history', 16)->nullable()->comment('エンジニア歴');
+            $table->integer('age')->nullable()->comment('年齢');
+            $table->string('free_url', 512)->nullable()->comment('フリーURL');
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
+            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('email_verified')->default(0);
+            $table->string('email_verify_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
+            $table->unique(['email','deleted_at'],'users_email_index_unique');
+            $table->unique(['user_name','deleted_at'],'users_user_name_index_unique');
         });
     }
 

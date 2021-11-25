@@ -30,7 +30,6 @@ class SaveImage
         $now = Carbon::now('Asia/Tokyo');
         //画像名は年月日時分秒にして被らないようにする
         $image_name = $now->year . $now->month . $now->day . $now->hour . $now->minute . $now->second . '.' . $extension;
-        $image_name_sp = $now->year . $now->month . $now->day . $now->hour . $now->minute . $now->second . '_sp.' . $extension;
         //画像を保存するディレクトリpath
         if($url_code == null) {
             $path = storage_path('app') . '/images/' . $user->url_code . $save_dir;
@@ -62,10 +61,8 @@ class SaveImage
         
         if($url_code == null) {
             $save_path = storage_path('app/images/' . $user->url_code . $save_dir . '/') . $image_name;
-            $save_path_sp = storage_path('app/images/' . $user->url_code . $save_dir . '/') . $image_name_sp;
         } else {
             $save_path = storage_path('app/images/' . $user->url_code . $save_dir . '/' . $url_code . '/') . $image_name;
-            $save_path_sp = storage_path('app/images/' . $user->url_code . $save_dir . '/' . $url_code . '/') . $image_name_sp;
         }
         $image = Image::make($request->file($input_name))
                   ->crop(
@@ -75,17 +72,7 @@ class SaveImage
                          $request->get('image_y')
                        )
                         ->save($save_path);
-        $image_sp = Image::make($request->file($input_name))
-                  ->crop(
-                         $request->get('image_w'),
-                         $request->get('image_h'),
-                         $request->get('image_x'),
-                         $request->get('image_y')
-                       )
-                        ->save($save_path_sp);
-        \Log::info($image_name);
         $image_names['image_name'] = $image_name;
-        $image_names['image_name_sp'] = $image_name_sp;
         return $image_names;
     }
 

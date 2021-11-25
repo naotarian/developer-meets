@@ -25,7 +25,7 @@ class Project extends Model
         'status',
         'remarks',
         'project_image',
-        'project_image_sp',
+        'work_frequency',
         'created_at',
         'updated_at',
         'deleted_at',

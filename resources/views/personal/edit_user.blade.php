@@ -46,7 +46,7 @@
         <input type="hidden" id="upload-image-h" name="image_h" value="0">
         </dd>
         <dt>性別</dt>
-        <dd>{{Form::select('sex', ['1' => '男', '2' => '女', '3' => 'その他'], $login_user_infomation->sex, ['class' => 'form-control','id' => 'edit_gender', 'style' => 'width: auto;'])}}</dd>
+        <dd>{{Form::select('sex', ['男性' => '男性', '女性' => '女性', 'その他' => 'その他'], $login_user_infomation->sex, ['class' => 'form-control','id' => 'edit_gender', 'style' => 'width: auto;'])}}</dd>
         <dt>メールアドレス</dt>
         <dd>{{Form::email('email', $login_user_infomation->email, ['class' => 'form-control','id' => 'edit_email', 'style' => 'width: auto;'])}}</dd>
         <dt>年齢</dt>
@@ -54,7 +54,7 @@
         <dt>一言コメント</dt>
         <dd>{{Form::text('comment', $login_user_infomation->comment, ['class' => 'form-control', 'id' => 'edit_comment', 'style' => 'width: auto;'])}}</dd>
         <dt>エンジニア歴</dt>
-        <dd>{{$login_user_infomation->engineer_history}}年</dd>
+        <dd>{{$login_user_infomation->engineer_history}}</dd>
         <dt>URL</dt>
         <dd>{{Form::text('free_url', $login_user_infomation->free_url, ['class' => 'form-control', 'id' => 'free_url', 'style' => 'width: auto;'])}}</dd>
         <dt>プロフィール</dt>

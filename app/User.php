@@ -29,11 +29,7 @@ class User extends Authenticatable
         'self_introduction',
         'free_url',
         'comment',
-        'icon_image_sp',
         'icon_image',
-        'friends_id',
-        'twitter',
-        'nickname',
         'status',
     ];
 

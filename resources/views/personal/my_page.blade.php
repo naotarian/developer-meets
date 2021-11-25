@@ -178,7 +178,7 @@
             <dt>一言コメント</dt>
             <dd>{{$login_user_infomation->comment}}</dd>
             <dt>エンジニア歴</dt>
-            <dd>{{$login_user_infomation->engineer_history}}年</dd>
+            <dd>{{$login_user_infomation->engineer_history}}</dd>
             <dt>URL</dt>
             <dd><a href="{{$login_user_infomation->free_url}}" target="_blank">{{$login_user_infomation->free_url}}</a></dd>
             <dt>プロフィール</dt>
