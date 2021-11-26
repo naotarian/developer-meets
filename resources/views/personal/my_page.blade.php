@@ -35,6 +35,9 @@
       <div class="tab-content" id="v-pills-tabContent">{{--HOME--}}
         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
           <p class="mypage_title"><i class="fas fa-tasks icon_color mr1"></i>プロジェクト参加履歴</p>
+          {{Form::open(['route' => 'new_comment', 'method' => 'post', 'enctype' => 'multipart/form-data'])}}
+            <button type="submit" value="test">test</button>
+          {{Form::close()}}
         <div class="row">
           @foreach($join_projects as $join_project)
           <div class="col-sm-6 mb2">

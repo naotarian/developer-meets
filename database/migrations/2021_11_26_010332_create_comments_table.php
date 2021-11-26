@@ -17,7 +17,7 @@ class CreateCommentsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('project_id')->comment('対象プロジェクトID');
             $table->integer('user_id')->nullable()->comment('コメント者ID');
-            $table->integer('target_user_id')->nullable()->comment('メンションユーザーID');
+            $table->string('target_user_id', 256)->nullable()->comment('メンションユーザーID');
             $table->string('comment', 1024)->nullable()->comment('コメント');
             $table->timestamps();
             $table->softDeletes();
