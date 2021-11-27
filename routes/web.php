@@ -62,6 +62,8 @@ Route::get('/api/detail/{id}', 'Api\ApiController@project_detail');
 Route::get('/api/all_projejct', 'Api\ApiController@all_projejct');
 Route::post('/api/application', 'Api\ApiController@application');
 Route::post('/comment', 'Api\ApiController@new_comment')->name('new_comment');
+Route::put('/comment', 'Api\ApiController@edit_comment')->name('edit_comment');
+Route::delete('/comment', 'Api\ApiController@delete_comment')->name('delete_comment');
 
 // admin権限ユーザーのみアクセス可能
 Route::get('/admin', 'AdminController@index')->name('admin');

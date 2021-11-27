@@ -36,7 +36,15 @@
         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
           <p class="mypage_title"><i class="fas fa-tasks icon_color mr1"></i>プロジェクト参加履歴</p>
           {{Form::open(['route' => 'new_comment', 'method' => 'post', 'enctype' => 'multipart/form-data'])}}
-            <button type="submit" value="test">test</button>
+            <button type="submit" value="test">new</button>
+          {{Form::close()}}
+          {{Form::open(['route' => 'edit_comment', 'method' => 'post', 'enctype' => 'multipart/form-data'])}}
+            @method('put')
+            <button type="submit" value="test">edit</button>
+          {{Form::close()}}
+          {{Form::open(['route' => 'delete_comment', 'method' => 'post', 'enctype' => 'multipart/form-data'])}}
+            @method('delete')
+            <button type="submit" value="test">delete</button>
           {{Form::close()}}
         <div class="row">
           @foreach($join_projects as $join_project)
