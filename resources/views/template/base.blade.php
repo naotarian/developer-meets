@@ -31,7 +31,7 @@
 <meta name="robots" content="index,follow">
 <meta name="robots" content="all">
 @yield('individual_stylesheet')
-<title>developer-meets</title>
+<title>@yield('title')</title>
 </head>
 <body>
     @include('template.header')
