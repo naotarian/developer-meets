@@ -119,12 +119,41 @@ dd {
     color: #747373;
 }
 
+.other_profile {
+    display: none;
+}
+
 @media only screen and (max-width: 768px) {
+    .profile_ac {
+        display: none;
+    }
+    #profile_ac {
+        padding: 10px;
+        text-align: center;
+        font-size: 0.8rem;
+        color: #c0c0c0;
+        border: 1px solid;
+        width: 80%;
+        margin: 0.6rem auto;
+        border-radius: 12px;
+    }
     .profile_card {
         display: none;
     }
     .grid_wrapper {
         display: block;
+    }
+    .other_profile {
+        display: grid;
+        grid-template-columns: 45% 45%;
+        grid-template-rows: 50px;
+        grid-gap: 10px;
+        text-align: center;
+        margin-top: 1rem;
+        /*margin-top: 5rem;*/
+    }
+    .other_profile .free_url {
+        grid-column: 1 / 3;
     }
     .wrapper {
         margin-top: 3.5rem;

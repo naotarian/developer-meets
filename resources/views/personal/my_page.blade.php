@@ -227,6 +227,16 @@
             </a>
             <p class="p1 fwb" style="margin-bottom: 0;">{{$login_user_infomation->user_name}}<br><span class="comment_sp">{{$login_user_infomation->comment}}</span></p>
           </div>
+          <div id="profile_ac" class="sponly">詳しく</div>
+          <div class="profile_ac">
+            <div class="other_profile">
+              <div class="other_items"><span class="comment_sp">年齢<br></span>{{$login_user_infomation->age}}歳</div>
+              <div class="other_items"><span class="comment_sp">エンジニア歴<br></span>{{$login_user_infomation->engineer_history}}</div>
+              <div class="other_items"><span class="comment_sp">エンジニア歴<br></span>{{$login_user_infomation->engineer_history}}</div>
+              <div class="other_items free_url">{{$login_user_infomation->self_introduction}}</div>
+              <div class="other_items free_url"><span class="comment_sp">外部URL<br></span><a href="{{$login_user_infomation->free_url}}" target="_blank">{{$login_user_infomation->free_url}}</a></div>
+            </div>
+          </div>
         <div class="row center sidebar_fixed">
           <div class="spmt4">
             <div class="tab-content" id="v-pills-tabContent">
@@ -377,4 +387,14 @@
 
 <br>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+@endsection
+@section('scripts')
+$('#profile_ac').click(function() {
+if($('.profile_ac').css('display') == 'none') {
+  $('#profile_ac').text('閉じる');
+} else {
+  $('#profile_ac').text('詳しく');
+}
+$('.profile_ac').slideToggle();
+});
 @endsection
