@@ -76,3 +76,8 @@ Route::get('register/verify/{token}', 'Auth\RegisterController@showForm');
 Route::post('register/main_register', 'Auth\RegisterController@mainRegister')->name('register.main.registered');
 Route::get('register/main_check', 'Auth\RegisterController@mainCheck')->name('register.main.check_get');
 Route::post('register/main_check', 'Auth\RegisterController@mainCheck')->name('register.main.check');
+
+
+Route::get('/test', function() {
+    return view('personal.test');
+});
