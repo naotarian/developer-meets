@@ -374,8 +374,8 @@ class DynamicController extends Controller
     
     public function application_list($id) {
         $target_user = Auth::user();
-        $target_project = Project::where('user_id', $id)->first();
-        if($target_project['id'] != $target_user['id']) {
+        $target_project = Project::where('id', $id)->first();
+        if($target_project['user_id'] != $target_user['id']) {
             return redirect('/my_page');
         }
         $application_list = Project::join('project_applications','projects.id','=','project_applications.project_id')

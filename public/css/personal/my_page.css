@@ -123,6 +123,20 @@ dd {
     display: none;
 }
 
+.grid_wrapper {
+    display: grid;
+    grid-template-columns: 25% 70%;
+    grid-template-rows: 100%;
+    grid-gap: 30px;
+    margin-top: 5rem;
+}
+
+.grid_item {
+    padding: 3rem;
+    background: skyblue;
+}
+
+
 @media only screen and (max-width: 768px) {
     .profile_ac {
         display: none;
