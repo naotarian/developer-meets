@@ -29,7 +29,7 @@ dd {
 }
 
 .mypage_title {
-    width: 50%;
+    /*width: 50%;*/
     margin: 3rem auto;
     text-align: center;
     font-size: 2rem;
@@ -70,10 +70,14 @@ dd {
     opacity: 0.9;
 }
 
-.sidebar_fixed {
-    justify-content: center;
-    width: 100%;
-}
+/*.sidebar_fixed {
+    */
+
+/*    justify-content: center;*/
+
+/*    width: 100%;*/
+
+/*}*/
 
 .nav {
     padding-right: 0;
@@ -109,7 +113,19 @@ dd {
     height: 30px;
 }
 
+.small_title {
+    font-size: .9rem;
+    font-weight: 400;
+    color: #747373;
+}
+
 @media only screen and (max-width: 768px) {
+    .profile_card {
+        display: none;
+    }
+    .grid_wrapper {
+        display: block;
+    }
     .wrapper {
         margin-top: 3.5rem;
     }
@@ -117,7 +133,7 @@ dd {
         border-bottom-width: 0;
         border-bottom: 1px solid gray;
         border-left: 1px dashed gray;
-        }
+    }
     .comment_sp {
         font-size: 0.8rem;
         color: #c0c0c0;
