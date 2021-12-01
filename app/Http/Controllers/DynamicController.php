@@ -484,7 +484,8 @@ class DynamicController extends Controller
         if($data['dir'] == 'project') {
             $path = storage_path("app/images/" . $data["id"] . "/" . $data['dir'] . "/". $data['url_code'] . '/' . $data["name"]);
         } else {
-            $path = storage_path("app/images/" . $data["id"] . "/" . $data['dir'] . "/" . $data["name"]);
+            $exists = Storage::exists("images/" . $data["id"] . "/" . $data['dir'] . "/" . $data["name"]);
+            $path = $exists == 1 ? storage_path("app/images/" . $data["id"] . "/" . $data['dir'] . "/" . $data["name"]) : public_path('images/no_user.png');
         }
         return Response()->file($path);
     }

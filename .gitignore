@@ -16,3 +16,4 @@ yarn-error.log
 /public/.htpasswd
 /public/js/components
 /public/mix-manifest.json
+composer.lock

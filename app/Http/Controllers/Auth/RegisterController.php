@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailVerification;
+use App\Mail\EmailMainRegister;
 use Carbon\Carbon;
 class RegisterController extends Controller
 {
@@ -154,6 +155,9 @@ class RegisterController extends Controller
     $user->save();
     $user->url_code = hash('crc32', $user->id);
     $user->save();
+    $email = new EmailMainRegister($user);
+    Mail::to($user->email)->send($email);
+    
 
     return view('auth.main.registered');
   }
