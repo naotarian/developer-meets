@@ -33,8 +33,12 @@
                 @if($login_user_infomation->engineer_history)
                 <li class="list-group-item"><span class="small_title">エンジニア歴<br></span>{{$login_user_infomation->engineer_history}}</li>
                 @endif
+                @if($login_user_infomation->free_url)
                 <li class="list-group-item"><a href="{{$login_user_infomation->free_url}}" target="_blank" style="color: #747373;" class="Item"><span class="Item-Text">{{$login_user_infomation->free_url}}</span></a></li>
+                @endif
+                @if($login_user_infomation->self_introduction)
                 <li class="list-group-item">{{$login_user_infomation->self_introduction}}</li>
+                @endif
                 @if($display_flag)
                 <li class="list-group-item"><a href="/edit_profile/{{$login_user_infomation['id']}}" class="Item"><span class="Item-Text">Edit Profile</span></a></li>
                 @endif
@@ -66,6 +70,7 @@
               <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                 <p class="mypage_title"><i class="fas fa-tasks icon_color mr1"></i>プロジェクト参加履歴</p>
               <div class="row">
+                @if(count($join_projects) != 0)
                 @foreach($join_projects as $join_project)
                 <div class="col-sm-6 mb2">
                   <div class="card">
@@ -77,6 +82,15 @@
                   </div>
                 </div>
                 @endforeach
+                @else
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">参加履歴がありません。</h5>
+                    <p class="card-text">ここにはあなたが参加したプロジェクト履歴が表示されます。</p>
+                    <a href="/seek" class="btn btn-primary">プロジェクトを探しに行く</a>
+                  </div>
+                </div>
+                @endif
               </div>
               @if (session('withdrawal_message'))
                 <div class="flash_message">
@@ -93,6 +107,7 @@
       
               <p class="mypage_title"><i class="fas fa-clipboard-list icon_color mr1"></i>掲載中プロジェクト</p>
               <div class="row">
+                @if(count($now_available_projects) != 0)
                 @foreach($now_available_projects as $key => $project)
                 <div class="col-sm-6 mb2">
                   <div class="card">
@@ -128,6 +143,15 @@
                   </div>
                 </div>
                 @endforeach
+                @else
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">掲載中のプロジェクトがありません。</h5>
+                    <p class="card-text" style="height: auto;">ここにはあなたが掲載中のプロジェクトが表示されます。<br>全国のエンジニアたちに自分のプロジェクトを公開しましょう。<br>共感を得れば開発仲間を増やし、さらにプロジェクトを発展させるとこができます。</p>
+                    <a href="/make" class="btn btn-primary">プロジェクトを作る</a>
+                  </div>
+                </div>
+                @endif
               </div>
               @if (session('delete_message'))
                 <div class="flash_message">
@@ -140,6 +164,7 @@
               @if($display_flag)
               <p class="mypage_title"><i class="fas fa-clipboard-list icon_color mr1"></i>参加申請中プロジェクト</p>
               <div class="row">
+                @if(count($now_applications) != 0)
                 @foreach($now_applications as $key => $now)
                 <div class="col-sm-6 mb2">
                   <div class="card">
@@ -176,6 +201,15 @@
                   </div>
                 </div>
                 @endforeach
+                @else
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">現在参加申請中のプロジェクトがありません。</h5>
+                    <p class="card-text" style="height: auto;">ここにはあなた現在参加申請中のプロジェクトが表示されます。<br>たくさんのプロジェクトの中から、より興味深いプロジェクトを見つけて参加申請をしてみましょう。</p>
+                    <a href="/seek" class="btn btn-primary">プロジェクトを探しに行く</a>
+                  </div>
+                </div>
+                @endif
               </div>
               @endif
                 </div>

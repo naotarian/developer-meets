@@ -169,9 +169,16 @@ dd {
     /*hover時に表示*/
 }
 
+.row {
+    justify-content: center;
+}
+
 @media only screen and (max-width: 768px) {
     .profile_ac {
         display: none;
+    }
+    .spmt4 {
+        max-width: 340px;
     }
     #profile_ac {
         padding: 10px;
@@ -242,6 +249,7 @@ dd {
         width: 100%;
         margin-right: -15px;
         margin-left: 0;
+        justify-content: center;
     }
     .mypage_title {
         width: 100%;
