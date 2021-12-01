@@ -72,6 +72,7 @@
               <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                 <p class="mypage_title"><i class="fas fa-tasks icon_color mr1"></i>プロジェクト参加履歴</p>
               <div class="row">
+                @if(count($join_projects) != 0)
                 @foreach($join_projects as $join_project)
                 <div class="col-sm-6 mb2">
                   <div class="card">
@@ -83,9 +84,13 @@
                   </div>
                 </div>
                 @endforeach
+                @else
+                プロジェクト参加履歴がありません。
+                @endif
               </div>
               <p class="mypage_title"><i class="fas fa-clipboard-list icon_color mr1"></i>掲載中プロジェクト</p>
               <div class="row">
+                @if(count($join_projects) != 0)
                 @foreach($now_available_projects as $key => $project)
                 <div class="col-sm-6 mb2">
                   <div class="card">
@@ -97,6 +102,9 @@
                   </div>
                 </div>
                 @endforeach
+                @else
+                現在掲載中のプロジェクトはありません。
+                @endif
               </div>
           </div>
       </div>
