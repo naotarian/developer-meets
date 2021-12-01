@@ -3,6 +3,21 @@ body {
     padding: 0;
 }
 
+input,
+textarea {
+    font-size: 16px!important;
+}
+
+select {
+    -webkit-appearance: none;
+}
+
+.error {
+    border: 1px solid deepskyblue;
+    padding: 1rem;
+    text-align: left;
+}
+
 .wrapper {
     /*max-width: 1200px;*/
     margin: 0 auto;
@@ -82,10 +97,12 @@ label {
     margin: 0 auto;
     text-align: center;
     padding: 1rem;
-    background: gray;
-    color: white;
+    background: deepskyblue;
+    border-radius: white;
     margin-bottom: 2rem;
+    color: #fff;
     opacity: 0.9;
+    border-radius: 5px;
 }
 
 .error {

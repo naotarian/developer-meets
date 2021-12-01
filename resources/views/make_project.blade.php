@@ -24,7 +24,7 @@
                     <dl>
                         <dt>下記項目をご確認ください。</dt>
                     @foreach ($errors->all() as $error)
-                        <dd>{{ $error }}</dd>
+                        <dd>・{{ $error }}</dd>
                     @endforeach
                     </dl>
             </div>

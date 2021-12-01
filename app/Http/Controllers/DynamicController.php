@@ -187,6 +187,9 @@ class DynamicController extends Controller
             $project_data['project_image'] = $image_name;
         }
         $target_project_data->fill($project_data);
+        if(!$target_project_data->isDirty()) {
+            return redirect('/my_page')->with('edit_project_message', '変更がありませんでした。');
+        }
         $target_project_data->save();
         return redirect('/my_page')->with('edit_project_message', 'プロジェクト内容を編集しました');
     }
@@ -314,7 +317,7 @@ class DynamicController extends Controller
         ];
         $validator = Validator::make($datas,[
             'icon_image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
-            'free_url' => 'url',
+            'free_url' => 'url|nullable',
             'sex' => 'required',
             'email' => 'email:strict,dns,spoof|unique:users,email,'.$login_user->id.',id,deleted_at,NULL',
             // 'email' => 'required|string|email|max:255|unique:users,email,NULL,id,deleted_at,NULL',
@@ -341,6 +344,10 @@ class DynamicController extends Controller
             $datas['icon_image'] = $image_name;
         }
         $target_user->fill($datas);
+        if(!$target_user->isDirty()) {
+            return redirect('/edit_profile/' . $target_user['id'])->with('edit_message', '変更がありませんでした。');
+        }
+        
         $save = $target_user->save();
         if($save) {
             $message = '変更しました。';

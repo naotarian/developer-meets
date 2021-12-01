@@ -161,6 +161,10 @@ return [
         'age'=>'年齢',
         'engineer_history'=>'エンジニア歴',
         'password_confirmation'=>'パスワード確認',
+        'language' => '主要言語',
+        'sub_language'=>'サブ言語',
+        'minimum_experience'=>'最低実務経験',
+        'tools'=>'ソース管理ツール',
     ],
 
 ];

@@ -33,10 +33,10 @@
                 @if($login_user_infomation->engineer_history)
                 <li class="list-group-item"><span class="small_title">エンジニア歴<br></span>{{$login_user_infomation->engineer_history}}</li>
                 @endif
-                <li class="list-group-item"><a href="{{$login_user_infomation->free_url}}" target="_blank" style="color: #747373;">{{$login_user_infomation->free_url}}</a></li>
+                <li class="list-group-item"><a href="{{$login_user_infomation->free_url}}" target="_blank" style="color: #747373;" class="Item"><span class="Item-Text">{{$login_user_infomation->free_url}}</span></a></li>
                 <li class="list-group-item">{{$login_user_infomation->self_introduction}}</li>
                 @if($display_flag)
-                <li class="list-group-item"><a href="/edit_profile/{{$login_user_infomation['id']}}">Edit Profile</a></li>
+                <li class="list-group-item"><a href="/edit_profile/{{$login_user_infomation['id']}}" class="Item"><span class="Item-Text">Edit Profile</span></a></li>
                 @endif
               </ul>
               
@@ -55,7 +55,7 @@
             <div class="other_profile">
               <div class="other_items"><span class="comment_sp">年齢<br></span>{{$login_user_infomation->age}}歳</div>
               <div class="other_items"><span class="comment_sp">エンジニア歴<br></span>{{$login_user_infomation->engineer_history}}</div>
-              <div class="other_items free_url">{{$login_user_infomation->self_introduction}}</div>
+              <div class="other_items free_url self_introduction">{{$login_user_infomation->self_introduction}}</div>
               <div class="other_items free_url"><span class="comment_sp">外部URL<br></span><a href="{{$login_user_infomation->free_url}}" target="_blank" style="color: #747373;">{{$login_user_infomation->free_url}}</a></div>
               <div class="other_items free_url"><a href="/edit_profile/{{$login_user_infomation['id']}}" style="color: #747373;">Edit Profile</a></div>
             </div>

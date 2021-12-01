@@ -136,6 +136,38 @@ dd {
     background: skyblue;
 }
 
+.Item {
+    text-decoration: none;
+    color: #5bc8ac;
+}
+
+.Item-Text {
+    position: relative;
+    z-index: 1;
+}
+
+.Item-Text:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    /*テキストからの距離*/
+    width: 0%;
+    /*初期状態では下線非表示*/
+    height: 2px;
+    /*下線の高さ*/
+    background: deepskyblue;
+    /*下線の色*/
+    z-index: -1;
+    transition: all 0.4s;
+    /*アニメーション速度*/
+}
+
+.Item:hover .Item-Text:after {
+    width: 100%;
+    color: #5bc8ac;
+    /*hover時に表示*/
+}
 
 @media only screen and (max-width: 768px) {
     .profile_ac {
@@ -168,6 +200,11 @@ dd {
     }
     .other_profile .free_url {
         grid-column: 1 / 3;
+    }
+    .other_profile .self_introduction {
+        padding-left: 1rem;
+        line-height: 1.6rem;
+        font-size: 0.8rem;
     }
     .wrapper {
         margin-top: 3.5rem;
