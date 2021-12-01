@@ -40,6 +40,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
+                    {{--
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
@@ -71,6 +72,7 @@
                             </li>
                         @endguest
                     </ul>
+                    --}}
                 </div>
             </div>
         </nav>
