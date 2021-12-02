@@ -77,9 +77,20 @@ class ApiController extends Controller
     }
 
     public function project_detail($id) {
-        $project_data = Project::find($id);
+        //配列形式で取得
+        $project_data = Project::find($id)->toArray();
         $project_data['user_url_code'] = hash('crc32', $project_data['user_id']);
         $project_data['created_by'] = User::where('id', $project_data['user_id'])->first();
+        //配列で取得した$project_dataの中にコメント群と、会話に参加しているユーザーのidを入れてreturnする
+        $project_data['comments'] = Comment::where('project_id', $id)->get();
+        $project_data['comment_users_id'] = [];
+        if($project_data['comments']) {
+            foreach($project_data['comments'] as $user) {
+                $data = json_decode($user, true);
+                array_push($project_data['comment_users_id'],$data['user_id']);
+            }
+        }
+        $project_data['comment_users_id'] = array_values(array_unique($project_data['comment_users_id']));
 
         $login_user = Auth::user();
         //ログインしてない場合（フロント側でそもそも押せないように制御）
