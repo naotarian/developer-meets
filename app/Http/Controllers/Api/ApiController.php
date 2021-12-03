@@ -163,6 +163,11 @@ class ApiController extends Controller
             $new_comment = new Comment();
             $new_comment->fill($data)->save();
             $comments = Comment::where('project_id', $data['project_id'])->get();
+            if ($comments) {
+                foreach($comments as $comment) {
+                    $comment['user'] = User::where('id', $comment['user_id'])->first();
+                }
+            }
             return response()->json(['status_code' => '200', 'comments' => $comments]);
         } catch(\Exception $ex) {
             return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
