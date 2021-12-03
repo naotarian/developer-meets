@@ -47,6 +47,7 @@ const CommentUserName = styled(Typography)`
 
 const CommentText = styled(Typography)`
   font-size: 0.8rem !important;
+  white-space: pre;
 `;
 
 const DetailComments = ({ comments, postComment, loginUserIconPath }) => {
