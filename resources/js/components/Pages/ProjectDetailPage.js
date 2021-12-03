@@ -34,6 +34,7 @@ const ProjectDetailPage = () => {
   const [applyFlag, setApplyFlag] = useState('');
   const [confirmFlag, setConfirmFlag] = useState(false);
   const [comments, setComments] = useState([]);
+  const [loginUserIconPath, setLoginUserIconPath] = useState('');
 
   useEffect(() => {
     setHost(location.host);
@@ -51,6 +52,11 @@ const ProjectDetailPage = () => {
         setUserImgPath(`${protocol}://${host}/api/user_icon/${res.data.created_by.id}`);
         setProjectImgPath(`${protocol}://${host}/api/project_image/${res.data.id}`);
         setComments(res.data.comments.reverse());
+      });
+      url = `${protocol}://${host}/api/login_user_info`;
+      axios.get(url).then(res => {
+        let user = res.data.user;
+        setLoginUserIconPath(`${protocol}://${host}/api/user_icon/${user.id}`);
       });
     }
   }, [host]);
@@ -83,7 +89,7 @@ const ProjectDetailPage = () => {
             <DetailContent data={data} />
           </ContentContainer>
           <ContentContainer>
-            <DetailComments comments={comments} postComment={postComment} />
+          <DetailComments comments={comments} postComment={postComment} loginUserIconPath={loginUserIconPath} />
           </ContentContainer>
         </WrapperGrid>
       }

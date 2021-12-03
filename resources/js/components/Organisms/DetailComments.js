@@ -47,9 +47,10 @@ const CommentUserName = styled(Typography)`
 
 const CommentText = styled(Typography)`
   font-size: 0.8rem !important;
+  white-space: pre;
 `;
 
-const DetailComments = ({ comments, postComment }) => {
+const DetailComments = ({ comments, postComment, loginUserIconPath }) => {
   const [inputText, setInputText] = useState('');
   const [error, setError] = useState(false);
   const InputErrorStyle = { border: '1px solid red', borderRadius: '4px' };
@@ -70,7 +71,7 @@ const DetailComments = ({ comments, postComment }) => {
       <CommentGrid>
         <CommentOutlinedIcon /><CommentNum>{comments.length}</CommentNum>
         <Grid container flexWrap='nowrap'>
-          <IconBox><UserIcon size={30} /></IconBox>
+          <IconBox><UserIcon size={30} imgPath={loginUserIconPath} /></IconBox>
           <Grid sx={{width: '100%'}}>
             <StyledTextField
               fullWidth
@@ -100,7 +101,7 @@ const DetailComments = ({ comments, postComment }) => {
         return (
           <React.Fragment key={index}>
             <CommentGrid container >
-              <IconBox><UserIcon size={30} /></IconBox>
+              <IconBox><UserIcon size={30} imgPath={`/api/user_icon/${val.user.id}`} /></IconBox>
               <div>
                 <CommentUserName>{val.user && val.user.user_name}</CommentUserName>
                 <CommentText>{val && val.comment}</CommentText>
