@@ -3,29 +3,27 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import DetailHeader from '../Organisms/DetailHeader';
+import DetailContent from '../Organisms/DetailContent';
+import DetailComments from '../Organisms/DetailComments';
 import ApplicationButton from '../Atoms/ApplicationButton';
 import QuestionButton from '../Atoms/QuestionButton';
 import JoinConfirmDialog from '../Molecules/JoinConfirmDialog';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import Typography from '@mui/material/Typography';
 
 const WrapperGrid = styled(Grid)`
   width: 80%;
   margin: auto;
   margin-top: 4rem;
+  margin-bottom: 4rem;
 `;
 
-const ButtonsContainer = styled(Grid)`
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-`;
-
-const DetailContainer = styled(Card)`
+const ContentContainer = styled(Card)`
   width: 100%;
   height: auto;
   border: 1px solid #e2e2e2;
-  padding: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 
 const ProjectDetailPage = () => {
@@ -58,28 +56,25 @@ const ProjectDetailPage = () => {
     <React.Fragment>
       { data &&
         <WrapperGrid>
-          <DetailHeader data={data} userImgPath={userImgPath} projectImgPath={projectImgPath} />
-          <ButtonsContainer container>
-            <ApplicationButton
-              item
-              openConfirmDialog={() => setConfirmFlag(true)}
-              applyFlag={applyFlag}
-            />
+          <ContentContainer>
+            <DetailHeader data={data} userImgPath={userImgPath} projectImgPath={projectImgPath} />
+          </ContentContainer>
+          <Grid container>
+            <ApplicationButton item openConfirmDialog={() => setConfirmFlag(true)} applyFlag={applyFlag} />
             <QuestionButton item/>
-          </ButtonsContainer>
-          <JoinConfirmDialog
-            open={confirmFlag}
-            data={data}
-            host={host}
-            handleClose={() => setConfirmFlag(false)}
-            setApplyFlag={(f) => setApplyFlag(f)}
-          />
-          <DetailContainer>
-            <Typography>▼案件詳細</Typography>
-            <Typography>{data && data.project_detail}</Typography>
-          </DetailContainer>
+          </Grid>
+          <ContentContainer>
+            <DetailContent data={data} />
+          </ContentContainer>
         </WrapperGrid>
       }
+      <JoinConfirmDialog
+        open={confirmFlag}
+        data={data}
+        host={host}
+        handleClose={() => setConfirmFlag(false)}
+        setApplyFlag={(f) => setApplyFlag(f)}
+      />
     </React.Fragment>
   );
 };
