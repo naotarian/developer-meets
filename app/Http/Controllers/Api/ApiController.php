@@ -82,15 +82,22 @@ class ApiController extends Controller
         $project_data['user_url_code'] = hash('crc32', $project_data['user_id']);
         $project_data['created_by'] = User::where('id', $project_data['user_id'])->first();
         //配列で取得した$project_dataの中にコメント群と、会話に参加しているユーザーのidを入れてreturnする
-        $project_data['comments'] = Comment::where('project_id', $id)->get();
-        $project_data['comment_users_id'] = [];
+        //ユーザー情報も全部入れ込む
+        $comments = Comment::where('project_id', $id)->get();
+        if ($comments) {
+            foreach($comments as $comment) {
+                $comment['user'] = User::where('id', $comment['user_id'])->first();
+            }
+        }
+        $project_data['comments'] = $comments;
+        $project_data['commented_user'] = [];
         if($project_data['comments']) {
             foreach($project_data['comments'] as $user) {
                 $data = json_decode($user, true);
-                array_push($project_data['comment_users_id'],$data['user_id']);
+                array_push($project_data['commented_user'],$data['user_id']);
             }
         }
-        $project_data['comment_users_id'] = array_values(array_unique($project_data['comment_users_id']));
+        $project_data['commented_user'] = array_values(array_unique($project_data['commented_user']));
 
         $login_user = Auth::user();
         //ログインしてない場合（フロント側でそもそも押せないように制御）
@@ -144,26 +151,24 @@ class ApiController extends Controller
             return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
         }
     }
-    
+
     public function new_comment(Request $request) {
         try{
             $login_user = Auth::user();
-            $request = [];
-            $request['user_id'] = $login_user['id'];
-            $request['project_id'] = 1;
-            $request['target_user_id'] = '1,2,3';
-            $request['comment'] = 'GET動詞が付くルートにアクセスするには、普通にブラウザからURLを入力すると、GETリクエストでのアクセスとなりますので、
-            GET動詞の付くルートが適応されます。';
+            $data = [];
+            $data['user_id'] = $login_user['id'];
+            $data['project_id'] = $request['project_id'];
+            $data['target_user_id'] = $request['target_user_id'];
+            $data['comment'] = $request['comment'];
             $new_comment = new Comment();
-            $new_comment->fill($request);
-            $new_comment->save();
-            $display_comments = Comment::where('project_id', 1)->get();
-            return response()->json(['status_code' => '200', 'comments' => $display_comments]);
+            $new_comment->fill($data)->save();
+            $comments = Comment::where('project_id', $data['project_id'])->get();
+            return response()->json(['status_code' => '200', 'comments' => $comments]);
         } catch(\Exception $ex) {
             return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
         }
     }
-    
+
     public function edit_comment(Request $request) {
         try {
             $login_user = Auth::user();
@@ -182,7 +187,7 @@ class ApiController extends Controller
             return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
         }
     }
-    
+
     public function delete_comment(Request $request) {
         try {
             $login_user = Auth::user();
