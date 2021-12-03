@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use App\Project;
+use App\Comment;
 use App\ProjectApplication;
 use App\Http\Library\CallTwitterApi;
 use Illuminate\Support\Facades\Auth;
@@ -128,6 +129,57 @@ class ApiController extends Controller
             } else {
                 return response()->json(['status_code' => '400', 'err_msg' => '既に申請済みです', 'flag' => 'unapplied']);
             }
+        } catch(\Exception $ex) {
+            return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
+        }
+    }
+    
+    public function new_comment(Request $request) {
+        try{
+            $login_user = Auth::user();
+            $request = [];
+            $request['user_id'] = $login_user['id'];
+            $request['project_id'] = 1;
+            $request['target_user_id'] = '1,2,3';
+            $request['comment'] = 'GET動詞が付くルートにアクセスするには、普通にブラウザからURLを入力すると、GETリクエストでのアクセスとなりますので、
+            GET動詞の付くルートが適応されます。';
+            $new_comment = new Comment();
+            $new_comment->fill($request);
+            $new_comment->save();
+            $display_comments = Comment::where('project_id', 1)->get();
+            return response()->json(['status_code' => '200', 'comments' => $display_comments]);
+        } catch(\Exception $ex) {
+            return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
+        }
+    }
+    
+    public function edit_comment(Request $request) {
+        try {
+            $login_user = Auth::user();
+            //ここは動的になる
+            $comment_id = 1;
+            $target_comment = Comment::where('user_id', $login_user['id'])->where('id', $comment_id)->first();
+            if(!$target_comment) {
+                return back()->with('msg', '対象コメントがありません。');
+            }
+            /*
+                ここに編集処理
+            */
+            $display_comments = Comment::where('project_id', 1)->get();
+            return response()->json(['status_code' => '200', 'comments' => $display_comments]);
+        } catch(\Exception $ex) {
+            return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
+        }
+    }
+    
+    public function delete_comment(Request $request) {
+        try {
+            $login_user = Auth::user();
+            //ここは動的になる
+            $comment_id = 2;
+            $target_comment = Comment::where('user_id', $login_user['id'])->where('id', $comment_id)->delete();
+            $display_comments = Comment::where('project_id', 1)->get();
+            return response()->json(['status_code' => '200', 'comments' => $display_comments]);
         } catch(\Exception $ex) {
             return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
         }
