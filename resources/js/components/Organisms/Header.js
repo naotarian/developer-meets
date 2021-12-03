@@ -77,7 +77,7 @@ const Header = () => {
       let url = `${protocol}://${host}/api/login_user_info`;
       axios.get(url).then(res => {
         let user = res.data.user;
-        setLoginUser(user ? user : 'NoUser');
+        setLoginUser(user ? user : null);
         setUserIconPath(`${protocol}://${host}/api/user_icon/${user.id}`);
       });
     }
@@ -107,12 +107,12 @@ const Header = () => {
               {loginUser && loginUser.id === 1 && <StyledLink underline="none" href='/admin'>管理者ページ</StyledLink>}
             </Box>
             <Box sx={{ display: { xs: 'none', md: 'block' }, marginLeft: 2 }} >
-              {loginUser && loginUser === 'NoUser' ? (
-                <StyledLink underline="none" href='/login'>ログイン</StyledLink>
-              ) : (
+              {loginUser ? (
                 <div onClick={(e) => setMenuAnchorEl(e.currentTarget)}>
                   <UserIcon size={36} imgPath={userIconPath} />
                 </div>
+              ) : (
+                <StyledLink underline="none" href='/login'>ログイン</StyledLink>
               )}
             </Box>
             <Menu
