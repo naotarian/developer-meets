@@ -33,6 +33,7 @@ const ProjectDetailPage = () => {
   const [projectImgPath, setProjectImgPath] = useState(null);
   const [applyFlag, setApplyFlag] = useState('');
   const [confirmFlag, setConfirmFlag] = useState(false);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     setHost(location.host);
@@ -41,6 +42,7 @@ const ProjectDetailPage = () => {
   useEffect(() => {
     if (host) {
       let protocol = host === 'developer-meets.com' ? 'https' : 'http';
+      // GET プロジェクト詳細
       let projectId = location.pathname.replace('/seek/detail/', '');
       let url = `${protocol}://${host}/api/detail/${projectId}`;
       axios.get(url).then(res => {
@@ -48,9 +50,23 @@ const ProjectDetailPage = () => {
         setApplyFlag(res.data.application_flag);
         setUserImgPath(`${protocol}://${host}/api/user_icon/${res.data.created_by.id}`);
         setProjectImgPath(`${protocol}://${host}/api/project_image/${res.data.id}`);
+        setComments(res.data.comments.reverse());
       });
     }
   }, [host]);
+
+  const postComment = async(text) => {
+    let protocol = host === 'developer-meets.com' ? 'https' : 'http';
+    let url = `${protocol}://${host}/api/comment`;
+    let d = {
+      'project_id': data.id,
+      'target_user_id': null, // メンション機能は別途実装
+      'comment': text,
+    };
+    await axios.post(url, d).then(res => {
+      setComments(res.data.comments.reverse())
+    });
+  };
 
   return (
     <React.Fragment>
@@ -65,6 +81,9 @@ const ProjectDetailPage = () => {
           </Grid>
           <ContentContainer>
             <DetailContent data={data} />
+          </ContentContainer>
+          <ContentContainer>
+            <DetailComments comments={comments} postComment={postComment} />
           </ContentContainer>
         </WrapperGrid>
       }
