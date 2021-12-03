@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use App\Project;
+use App\Comment;
 use App\ProjectApplication;
 use App\Http\Library\CallTwitterApi;
 use Illuminate\Support\Facades\Auth;
@@ -76,9 +77,27 @@ class ApiController extends Controller
     }
 
     public function project_detail($id) {
-        $project_data = Project::find($id);
+        //配列形式で取得
+        $project_data = Project::find($id)->toArray();
         $project_data['user_url_code'] = hash('crc32', $project_data['user_id']);
         $project_data['created_by'] = User::where('id', $project_data['user_id'])->first();
+        //配列で取得した$project_dataの中にコメント群と、会話に参加しているユーザーのidを入れてreturnする
+        //ユーザー情報も全部入れ込む
+        $comments = Comment::where('project_id', $id)->get();
+        if ($comments) {
+            foreach($comments as $comment) {
+                $comment['user'] = User::where('id', $comment['user_id'])->first();
+            }
+        }
+        $project_data['comments'] = $comments;
+        $project_data['commented_user'] = [];
+        if($project_data['comments']) {
+            foreach($project_data['comments'] as $user) {
+                $data = json_decode($user, true);
+                array_push($project_data['commented_user'],$data['user_id']);
+            }
+        }
+        $project_data['commented_user'] = array_values(array_unique($project_data['commented_user']));
 
         $login_user = Auth::user();
         //ログインしてない場合（フロント側でそもそも押せないように制御）
@@ -128,6 +147,55 @@ class ApiController extends Controller
             } else {
                 return response()->json(['status_code' => '400', 'err_msg' => '既に申請済みです', 'flag' => 'unapplied']);
             }
+        } catch(\Exception $ex) {
+            return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
+        }
+    }
+
+    public function new_comment(Request $request) {
+        try{
+            $login_user = Auth::user();
+            $data = [];
+            $data['user_id'] = $login_user['id'];
+            $data['project_id'] = $request['project_id'];
+            $data['target_user_id'] = $request['target_user_id'];
+            $data['comment'] = $request['comment'];
+            $new_comment = new Comment();
+            $new_comment->fill($data)->save();
+            $comments = Comment::where('project_id', $data['project_id'])->get();
+            return response()->json(['status_code' => '200', 'comments' => $comments]);
+        } catch(\Exception $ex) {
+            return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
+        }
+    }
+
+    public function edit_comment(Request $request) {
+        try {
+            $login_user = Auth::user();
+            //ここは動的になる
+            $comment_id = 1;
+            $target_comment = Comment::where('user_id', $login_user['id'])->where('id', $comment_id)->first();
+            if(!$target_comment) {
+                return back()->with('msg', '対象コメントがありません。');
+            }
+            /*
+                ここに編集処理
+            */
+            $display_comments = Comment::where('project_id', 1)->get();
+            return response()->json(['status_code' => '200', 'comments' => $display_comments]);
+        } catch(\Exception $ex) {
+            return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
+        }
+    }
+
+    public function delete_comment(Request $request) {
+        try {
+            $login_user = Auth::user();
+            //ここは動的になる
+            $comment_id = 2;
+            $target_comment = Comment::where('user_id', $login_user['id'])->where('id', $comment_id)->delete();
+            $display_comments = Comment::where('project_id', 1)->get();
+            return response()->json(['status_code' => '200', 'comments' => $display_comments]);
         } catch(\Exception $ex) {
             return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
         }

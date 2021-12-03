@@ -61,6 +61,9 @@ Route::get('/api/project_image/{id}', 'Api\ApiController@project_image');
 Route::get('/api/detail/{id}', 'Api\ApiController@project_detail');
 Route::get('/api/all_projejct', 'Api\ApiController@all_projejct');
 Route::post('/api/application', 'Api\ApiController@application');
+Route::post('/api/comment', 'Api\ApiController@new_comment')->name('new_comment');
+Route::put('/api/comment', 'Api\ApiController@edit_comment')->name('edit_comment');
+Route::delete('/api/comment', 'Api\ApiController@delete_comment')->name('delete_comment');
 
 // admin権限ユーザーのみアクセス可能
 Route::get('/admin', 'AdminController@index')->name('admin');
@@ -71,6 +74,7 @@ Route::post('/admin/slide_text_edit_post', 'AdminController@slide_text_edit_post
 
 Route::get('/get_request_image', 'DynamicController@get_request_image');
 Route::get('/hash', 'DynamicController@hash_code');
+//register周り
 Route::post('register/pre_check', 'Auth\RegisterController@pre_check')->name('register.pre_check');
 Route::get('register/verify/{token}', 'Auth\RegisterController@showForm');
 Route::post('register/main_register', 'Auth\RegisterController@mainRegister')->name('register.main.registered');
