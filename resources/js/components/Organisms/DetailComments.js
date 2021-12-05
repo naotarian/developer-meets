@@ -50,11 +50,12 @@ const CommentText = styled(Typography)`
   white-space: pre;
 `;
 
-const DetailComments = ({ comments, postComment, loginUserIconPath }) => {
+const DetailComments = ({ comments, postComment, loginUser }) => {
   const [inputText, setInputText] = useState('');
   const [error, setError] = useState(false);
   const InputErrorStyle = { border: '1px solid red', borderRadius: '4px' };
   const InputStyle = { border: '1px solid #000000', borderRadius: '4px' };
+  const InputDiableStyle = { border: '1px solid #e2e2e2', borderRadius: '4px' };
   const ButtonDisableStyle = { color: '#e2e2e2', border: '1px solid #e2e2e2' };
   const ButtonStyle = { color: '#000000', border: '1px solid #000000' };
 
@@ -71,7 +72,7 @@ const DetailComments = ({ comments, postComment, loginUserIconPath }) => {
       <CommentGrid>
         <CommentOutlinedIcon /><CommentNum>{comments.length}</CommentNum>
         <Grid container flexWrap='nowrap'>
-          <IconBox><UserIcon size={30} imgPath={loginUserIconPath} /></IconBox>
+          <IconBox><UserIcon size={30} imgPath={loginUser && `/api/user_icon/${loginUser.id}`} /></IconBox>
           <Grid sx={{width: '100%'}}>
             <StyledTextField
               fullWidth
@@ -79,7 +80,9 @@ const DetailComments = ({ comments, postComment, loginUserIconPath }) => {
               value={inputText}
               onChange={handleChange}
               error={error}
-              style={error ? InputErrorStyle : InputStyle}
+              style={loginUser ? (error ? InputErrorStyle : InputStyle) : InputDiableStyle}
+              disabled={loginUser ? false : true}
+              placeholder={loginUser ? '' : 'ログインしてコメントする'}
             />
             <CountText>{inputText.length}/500</CountText>
             <PostButton
