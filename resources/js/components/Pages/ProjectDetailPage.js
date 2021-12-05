@@ -73,6 +73,15 @@ const ProjectDetailPage = () => {
     });
   };
 
+  const deleteComment = async(id) => {
+    let protocol = host === 'developer-meets.com' ? 'https' : 'http';
+    let url = `${protocol}://${host}/api/comment`;
+    let d = { 'comment_id': id };
+    await axios.delete(url, { data: d }).then(res => {
+      setComments(res.data.comments.reverse());
+    });
+  };
+
   return (
     <React.Fragment>
       { data &&
@@ -88,7 +97,7 @@ const ProjectDetailPage = () => {
             <DetailContent data={data} />
           </ContentContainer>
           <ContentContainer>
-            <DetailComments comments={comments} postComment={postComment} loginUser={loginUser} />
+            <DetailComments comments={comments} postComment={postComment} deleteComment={deleteComment} loginUser={loginUser} />
           </ContentContainer>
         </WrapperGrid>
       }

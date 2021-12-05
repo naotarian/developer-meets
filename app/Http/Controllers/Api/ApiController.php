@@ -195,12 +195,16 @@ class ApiController extends Controller
 
     public function delete_comment(Request $request) {
         try {
-            $login_user = Auth::user();
-            //ここは動的になる
-            $comment_id = 2;
-            $target_comment = Comment::where('user_id', $login_user['id'])->where('id', $comment_id)->delete();
-            $display_comments = Comment::where('project_id', 1)->get();
-            return response()->json(['status_code' => '200', 'comments' => $display_comments]);
+            $target_comment = Comment::where('id', $request['comment_id'])->first();
+            $project_id = $target_comment['project_id'];
+            $target_comment->delete();
+            $comments = Comment::where('project_id', $project_id)->get();
+            if ($comments) {
+                foreach($comments as $comment) {
+                    $comment['user'] = User::where('id', $comment['user_id'])->first();
+                }
+            }
+            return response()->json(['status_code' => '200', 'comments' => $comments]);
         } catch(\Exception $ex) {
             return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
         }

@@ -14,24 +14,24 @@ const CommentNum = styled.span`
 `;
 
 const CommentGrid = styled(Grid)`
-width: 100%;
-padding: 0.8rem;
+  width: 100%;
+  padding: 0.8rem;
 `;
 
 const IconBox = styled.div`
-margin-right: 1rem;
+  margin-right: 1rem;
 `;
 
 const StyledTextField = styled(TextField)`
-padding: 0 !important;
-& fieldset {
-  display: none;
-}
+  padding: 0 !important;
+  & fieldset {
+    display: none;
+  }
 `;
 
 const CountText = styled(Grid)`
-text-align: right;
-font-size: 0.8rem;
+  text-align: right;
+  font-size: 0.8rem;
 `;
 
 const PostButton = styled(Button)`
@@ -42,15 +42,25 @@ const PostButton = styled(Button)`
 `;
 
 const CommentUserName = styled(Typography)`
-  font-weight: bold !important;
+font-weight: bold !important;
 `;
 
 const CommentText = styled(Typography)`
-  font-size: 0.8rem !important;
-  white-space: pre;
+font-size: 0.8rem !important;
+white-space: pre;
 `;
 
-const DetailComments = ({ comments, postComment, loginUser }) => {
+const EditButton = styled(Button)`
+  height: 1rem;
+  outline: none !important;
+  `;
+
+const DeleteButton = styled(Button)`
+  height: 1rem;
+  outline: none !important;
+`;
+
+const DetailComments = ({ comments, postComment, deleteComment, loginUser }) => {
   const [inputText, setInputText] = useState('');
   const [error, setError] = useState(false);
   const InputErrorStyle = { border: '1px solid red', borderRadius: '4px' };
@@ -103,12 +113,18 @@ const DetailComments = ({ comments, postComment, loginUser }) => {
       {comments.length > 0 && comments.map((val, index) => {
         return (
           <React.Fragment key={index}>
-            <CommentGrid container >
+            <CommentGrid container flexWrap='nowrap'>
               <IconBox><UserIcon size={30} imgPath={`/api/user_icon/${val.user.id}`} /></IconBox>
-              <div>
+              <Grid sx={{width: '100%'}}>
                 <CommentUserName>{val.user && val.user.user_name}</CommentUserName>
                 <CommentText>{val && val.comment}</CommentText>
-              </div>
+              </Grid>
+              {loginUser && loginUser.id === val.user.id &&
+                <Grid container flexDirection='column' justifyContent='flex-end' sx={{ width: 'fit-content' }}>
+                  <EditButton>編集</EditButton>
+                  <DeleteButton onClick={() => deleteComment(val.id)}>削除</DeleteButton>
+                </Grid>
+              }
             </CommentGrid>
             <Divider />
           </React.Fragment>
