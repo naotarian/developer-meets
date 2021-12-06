@@ -177,15 +177,22 @@ class ApiController extends Controller
     public function edit_comment(Request $request) {
         try {
             $login_user = Auth::user();
-            //ここは動的になる
-            $comment_id = 1;
+            $comment_id = $request['comment_id'];
             $target_comment = Comment::where('user_id', $login_user['id'])->where('id', $comment_id)->first();
             if(!$target_comment) {
-                return back()->with('msg', '対象コメントがありません。');
+                $display_comments = Comment::where('project_id', $request['project_id'])->get();
+                return response()->json(['status_code' => '200', 'comments' => $display_comments]);
             }
-            /*
-                ここに編集処理
-            */
+            //fillするために空配列作成
+            $data = [];
+            $data['user_id'] = $login_user['id'];
+            $data['project_id'] = $request['project_id'];
+            $data['target_user_id'] = $request['target_user_id'];
+            $data['comment'] = $request['comment'];
+            $target_comment->fill($data);
+            if($target_comment->isDirty()) {
+                $target_comment->save();
+            }
             $display_comments = Comment::where('project_id', 1)->get();
             return response()->json(['status_code' => '200', 'comments' => $display_comments]);
         } catch(\Exception $ex) {
