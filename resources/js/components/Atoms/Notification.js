@@ -1,10 +1,11 @@
 import React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-// import Stack from '@mui/material/Stack';
 
 export default function Notification({ onClose, level, text }) {
-  // level: error, warning, info, success
+  // level: 'error', 'warning', 'info', 'success'
+  // anchorOrigin: 'horizontal'=> 'left', 'center', 'right'
+  // anchorOrigin: 'vertical'=> 'top', 'center', 'bottom'
   return (
     <Snackbar
       open={Boolean(level && text)}
@@ -12,7 +13,7 @@ export default function Notification({ onClose, level, text }) {
       onClose={onClose}
       anchorOrigin={{ 'horizontal': 'left', 'vertical': 'bottom'}}
     >
-      <Alert variant="filled" severity={level || 'success'}>
+      <Alert variant='filled' severity={level || 'success'}>
         {text}
       </Alert>
     </Snackbar>
