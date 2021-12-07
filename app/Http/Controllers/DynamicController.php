@@ -28,7 +28,7 @@ class DynamicController extends Controller
     }
     public function index() {
         $t = new CallTwitterApi();
-        $d = $t->serachTweets("駆け出しエンジニア");
+        $d = $t->serachTweets("GitHub");
         $array = array();
         foreach($d as $d) {
           $array[] = array($t->statusesOembed($d->id));
@@ -61,6 +61,7 @@ class DynamicController extends Controller
         $messages = [
             'required' => ' :attributeを入力してください',
             'project_name.max' => ':attributeは50文字までです',
+            'project_detail.max' => ':attributeは1000文字までです',
             'project_image.image' => '指定されたファイルが画像ではありません。',
             'project_image.mimes' => '指定された拡張子（PNG/JPG/GIF）ではありません。',
             'project_image.max' => '1MBを超えています。',
@@ -231,7 +232,6 @@ class DynamicController extends Controller
         ->where('project_applications.deleted_at', null)
         ->get();
         $now_available_projects = Project::where('user_id', $target_user->id)->where('status', 1)->get();
-        
         return view('personal.user_info', ['target_user' => $target_user,
                                          'now_available_projects' => $now_available_projects, 
                                         //  'now_applications' => $now_applications, 

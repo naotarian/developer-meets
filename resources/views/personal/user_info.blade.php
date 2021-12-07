@@ -90,7 +90,7 @@
               </div>
               <p class="mypage_title"><i class="fas fa-clipboard-list icon_color mr1"></i>掲載中プロジェクト</p>
               <div class="row">
-                @if(count($join_projects) != 0)
+                @if(count($now_available_projects) != 0)
                 @foreach($now_available_projects as $key => $project)
                 <div class="col-sm-6 mb2">
                   <div class="card">
