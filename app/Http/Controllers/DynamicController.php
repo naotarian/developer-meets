@@ -209,12 +209,13 @@ class DynamicController extends Controller
     
     public function user_info($user_name) {
         $login_user = Auth::user();
-        $logging_id = $login_user['id'];
-        $target_user = User::where('user_name', $user_name)->first();
-        if($logging_id == $target_user->id) {
-            return redirect('/my_page');
+        if($login_user != null) {
+            $logging_id = $login_user['id'];
+            if($logging_id == $target_user->id) {
+                return redirect('/my_page');
+            }
         }
-        
+        $target_user = User::where('user_name', $user_name)->first();
         // if($target_user['sex']) {
         //     $target_user['sex'] = $this->gender[$target_user['sex']];
         // } else {
