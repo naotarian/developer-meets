@@ -127,6 +127,30 @@ const ProjectDetailPage = () => {
     }
   };
 
+  const sendJoinRequests = async() => {
+    let protocol = host === 'developer-meets.com' ? 'https' : 'http';
+    let url = `${protocol}://${host}/api/application`;
+
+    let level;
+    let text;
+    setLoading(true);
+    try {
+      await axios.post(url, data).then(res => {
+        if (res.data.status_code !== 200) throw '参加申請に失敗しました';
+        setApplyFlag(res.data.flag);
+      });
+      level = 'success';
+      text = 'プロジェクトへの参加を申請しました';
+    } catch (e) {
+      level = 'error';
+      text = e;
+    } finally {
+      setLoading(false);
+      setConfirmFlag(false);
+      pushNotification(level, text);
+    }
+  };
+
   return (
     <React.Fragment>
       { data &&
@@ -149,9 +173,8 @@ const ProjectDetailPage = () => {
       <JoinConfirmDialog
         open={confirmFlag}
         data={data}
-        host={host}
+        sendJoinRequests={sendJoinRequests}
         handleClose={() => setConfirmFlag(false)}
-        setApplyFlag={(f) => setApplyFlag(f)}
       />
       <ProgressCircular loading={loading} />
       <Notification onClose={closeNotification} level={notificationLevel} text={notificationText} />
