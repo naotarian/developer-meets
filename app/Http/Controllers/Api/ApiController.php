@@ -47,7 +47,7 @@ class ApiController extends Controller
     // ログインuser情報を返すAPI
     public function login_user_info() {
         $login_user = Auth::user();
-        $res = $login_user ? ['status_code' => '200', 'msg' => 'logged in.', 'user' => $login_user] : ['status_code' => '400', 'msg' => 'not logged in.'];
+        $res = $login_user ? ['status_code' => 200, 'msg' => 'logged in.', 'user' => $login_user] : ['status_code' => 400, 'msg' => 'not logged in.'];
         return response($res);
     }
 
@@ -139,7 +139,7 @@ class ApiController extends Controller
             $login_user = Auth::user();
             $project_data = $request->all();
             if($login_user->id == $project_data['user_id']) {
-                return response()->json(['status_code' => '400', 'msg' => '自分が作成したプロジェクトです', 'flag' => 'my_project']);
+                return response()->json(['status_code' => 400, 'msg' => '自分が作成したプロジェクトです', 'flag' => 'my_project']);
             }
             //既存のものがあれば追加しない
             $upsert = ProjectApplication::updateOrCreate(
@@ -147,12 +147,12 @@ class ApiController extends Controller
                 ['status' => '1', 'application_id' => $login_user->id, 'author_id' => $project_data['user_id'], 'project_id' => $project_data['id']]
             );
             if($upsert->wasRecentlyCreated) {
-                return response()->json(['status_code' => '200', 'msg' => '申請に成功しました', 'flag' => 'applied']);
+                return response()->json(['status_code' => 200, 'msg' => '申請に成功しました', 'flag' => 'applied']);
             } else {
-                return response()->json(['status_code' => '400', 'err_msg' => '既に申請済みです', 'flag' => 'unapplied']);
+                return response()->json(['status_code' => 400, 'err_msg' => '既に申請済みです', 'flag' => 'unapplied']);
             }
         } catch(\Exception $ex) {
-            return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
+            return response()->json(['status_code' => 400, 'err_msg' => $ex->getMessage()]);
         }
     }
 
@@ -172,9 +172,9 @@ class ApiController extends Controller
                     $comment['user'] = User::where('id', $comment['user_id'])->first();
                 }
             }
-            return response()->json(['status_code' => '200', 'comments' => $comments]);
+            return response()->json(['status_code' => 200, 'comments' => $comments]);
         } catch(\Exception $ex) {
-            return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
+            return response()->json(['status_code' => 400, 'err_msg' => $ex->getMessage()]);
         }
     }
 
@@ -185,7 +185,7 @@ class ApiController extends Controller
             $target_comment = Comment::where('user_id', $login_user['id'])->where('id', $comment_id)->first();
             if(!$target_comment) {
                 $display_comments = Comment::where('project_id', $request['project_id'])->get();
-                return response()->json(['status_code' => '200', 'comments' => $display_comments]);
+                return response()->json(['status_code' => 200, 'comments' => $display_comments]);
             }
             //fillするために空配列作成
             $data = [];
@@ -198,9 +198,9 @@ class ApiController extends Controller
                 $target_comment->save();
             }
             $display_comments = Comment::where('project_id', 1)->get();
-            return response()->json(['status_code' => '200', 'comments' => $display_comments]);
+            return response()->json(['status_code' => 200, 'comments' => $display_comments]);
         } catch(\Exception $ex) {
-            return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
+            return response()->json(['status_code' => 400, 'err_msg' => $ex->getMessage()]);
         }
     }
 
@@ -215,9 +215,9 @@ class ApiController extends Controller
                     $comment['user'] = User::where('id', $comment['user_id'])->first();
                 }
             }
-            return response()->json(['status_code' => '200', 'comments' => $comments]);
+            return response()->json(['status_code' => 200, 'comments' => $comments]);
         } catch(\Exception $ex) {
-            return response()->json(['status_code' => '400', 'err_msg' => $ex->getMessage()]);
+            return response()->json(['status_code' => 400, 'err_msg' => $ex->getMessage()]);
         }
     }
 
