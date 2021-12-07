@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -7,19 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const JoinConfirmDialog = ({ open, handleClose, data, host, setApplyFlag }) => {
-
-  const sendJoinRequests = () => {
-    let url = `http://${host}/api/application`;
-    if (host == 'developer-meets.com') {
-      url = `https://${host}/api/application`;
-    }
-    axios.post(url, data).then(res => {
-      setApplyFlag(res.data.flag);
-    });
-    handleClose();
-  };
-
+const JoinConfirmDialog = ({ open, handleClose, data, sendJoinRequests }) => {
   return (
     <Dialog
       open={open}
