@@ -89,7 +89,6 @@ class DynamicController extends Controller
         $datas['remarks'] = !empty($datas['remarks']) ? $datas['remarks'] : '';
         //作業頻度は個数が増えそうにないので固定で入れでもいいと思う
         $datas['work_frequency'] = !empty($datas['work_frequency']) ?  $datas['work_frequency'] : null;
-        // dd($datas);
         $project_instance = Project::create($datas);
         //作成したprojectのurl_codeを生成
         $project_instance['url_code'] = hash('crc32', $project_instance['id']);
@@ -100,19 +99,13 @@ class DynamicController extends Controller
             $save_image_instance = new SaveImage();
             $save = $save_image_instance->save_image($request, $input_name, $save_dir, $user, $project_instance['url_code']);
             $image_name = $save['image_name'];
-            $image_name_sp = $save['image_name_sp'];
         } else {
             $image_name = null;
-            $image_name_sp = null;
         }
         
         if($image_name != null) {
             $project_instance['project_image'] = $image_name;
         }
-        if($image_name_sp != null) {
-            $project_instance['project_image_sp'] = $image_name_sp;
-        }
-        
         $project_instance->save();
 
         return redirect('/make')->with('flash_message', 'プロジェクト作成が完了しました');
@@ -412,7 +405,6 @@ class DynamicController extends Controller
             }
             // $member->application_user_info = User::where('id', $member->application_id)->get();
         }
-        // dd($member_list);
         return view('personal.application', ['application_list' => $application_list, 'member_list' => $member_list]);
     }
     

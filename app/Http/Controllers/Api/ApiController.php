@@ -55,6 +55,10 @@ class ApiController extends Controller
     public function user_icon($id) {
         $user = User::where('id', $id)->first();
         if ($user) {
+            if(!$user['icon_image']) {
+                $filepath = '';
+                return Response($filepath);
+            }
             $filepath = storage_path('app/images/'.$user['url_code'].'/icon/'.$user['icon_image']);
             return Response()->file($filepath);
         }

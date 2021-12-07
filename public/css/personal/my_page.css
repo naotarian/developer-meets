@@ -109,7 +109,7 @@ dd {
 .card-title {
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis!important;
+    text-overflow: ellipsis !important;
     height: 30px;
 }
 
@@ -171,15 +171,18 @@ dd {
 
 .row {
     justify-content: center;
+    max-width: 900px;
 }
 
 @media only screen and (max-width: 768px) {
     .profile_ac {
         display: none;
     }
+
     .spmt4 {
         max-width: 340px;
     }
+
     #profile_ac {
         padding: 10px;
         text-align: center;
@@ -190,12 +193,15 @@ dd {
         margin: 0.6rem auto;
         border-radius: 12px;
     }
+
     .profile_card {
         display: none;
     }
+
     .grid_wrapper {
         display: block;
     }
+
     .other_profile {
         display: grid;
         grid-template-columns: 45% 45%;
@@ -205,42 +211,51 @@ dd {
         margin-top: 1rem;
         /*margin-top: 5rem;*/
     }
+
     .other_profile .free_url {
         grid-column: 1 / 3;
     }
+
     .other_profile .self_introduction {
         padding-left: 1rem;
         line-height: 1.6rem;
         font-size: 0.8rem;
     }
+
     .wrapper {
         margin-top: 3.5rem;
     }
+
     .list-group-flush:last-child .list-group-item:last-child {
         border-bottom-width: 0;
         border-bottom: 1px solid gray;
         border-left: 1px dashed gray;
     }
+
     .comment_sp {
         font-size: 0.8rem;
         color: #c0c0c0;
     }
+
     .sp_icon {
         margin-top: 1rem;
-        display: flex!important;
+        display: flex !important;
         align-items: center;
         padding-left: 2rem;
     }
+
     .sp_icon img {
         width: 75px;
         border-radius: 3rem;
         border: 3px solid deepskyblue;
     }
+
     .my_infomations {
         width: 100%;
         margin: 0 auto;
         padding: 1rem;
     }
+
     .row {
         display: -ms-flexbox;
         display: flex;
@@ -251,6 +266,7 @@ dd {
         margin-left: 0;
         justify-content: center;
     }
+
     .mypage_title {
         width: 100%;
         margin: 3rem auto;
@@ -258,6 +274,7 @@ dd {
         font-size: 1.5rem;
         color: gray;
     }
+
     .list-group {
         display: -ms-flexbox;
         display: flex;
@@ -267,16 +284,19 @@ dd {
         margin-bottom: 0;
         flex-wrap: wrap;
     }
+
     .list-group li {
         width: 50%;
         text-align: center;
         border: 1px solid gray;
     }
+
     .fade dl {
         flex-flow: column;
     }
+
     .col-9 {
-        max-width: 100%!important;
+        max-width: 100% !important;
         flex: 0 0 100%;
         padding: 0;
     }
