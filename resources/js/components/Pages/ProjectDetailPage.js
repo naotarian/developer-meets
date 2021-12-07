@@ -7,7 +7,9 @@ import DetailContent from '../Organisms/DetailContent';
 import DetailComments from '../Organisms/DetailComments';
 import ApplicationButton from '../Atoms/ApplicationButton';
 import QuestionButton from '../Atoms/QuestionButton';
+import Notification from '../Atoms/Notification';
 import JoinConfirmDialog from '../Molecules/JoinConfirmDialog';
+import ProgressCircular from '../Molecules/ProgressCircular';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 
@@ -35,6 +37,9 @@ const ProjectDetailPage = () => {
   const [confirmFlag, setConfirmFlag] = useState(false);
   const [comments, setComments] = useState([]);
   const [loginUser, setLoginUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [notificationLevel, setNotificationLevel] = useState('');
+  const [notificationText, setNotificationText] = useState('');
 
   useEffect(() => {
     setHost(location.host);
@@ -60,26 +65,66 @@ const ProjectDetailPage = () => {
     }
   }, [host]);
 
-  const postComment = async(text) => {
+  const pushNotification = (level, text) => {
+    setNotificationLevel(level);
+    setNotificationText(text);
+  };
+
+  const closeNotification = () => {
+    setNotificationLevel('');
+    setNotificationText('');
+  };
+
+  const postComment = async(comment) => {
     let protocol = host === 'developer-meets.com' ? 'https' : 'http';
     let url = `${protocol}://${host}/api/comment`;
     let d = {
       'project_id': data.id,
       'target_user_id': null, // メンション機能は別途実装
-      'comment': text,
+      'comment': comment,
     };
-    await axios.post(url, d).then(res => {
-      setComments(res.data.comments.reverse());
-    });
+
+    let level;
+    let text;
+    setLoading(true);
+    try {
+      await axios.post(url, d).then(res => {
+        if (res.data.status_code !== 200) throw 'コメントの投稿に失敗しました';
+        setComments(res.data.comments.reverse());
+      });
+      level = 'success';
+      text = 'コメントを投稿しました';
+    } catch (e) {
+      level = 'error';
+      text = e;
+    } finally {
+      setLoading(false);
+      pushNotification(level, text);
+    }
   };
 
   const deleteComment = async(id) => {
     let protocol = host === 'developer-meets.com' ? 'https' : 'http';
     let url = `${protocol}://${host}/api/comment`;
     let d = { 'comment_id': id };
-    await axios.delete(url, { data: d }).then(res => {
-      setComments(res.data.comments.reverse());
-    });
+
+    let level;
+    let text;
+    setLoading(true);
+    try {
+      await axios.delete(url, { data: d }).then(res => {
+        if (res.data.status_code !== 200) throw 'コメントの削除に失敗しました';
+        setComments(res.data.comments.reverse());
+      });
+      level = 'success';
+      text = 'コメントを削除しました';
+    } catch (e) {
+      level = 'error';
+      text = e;
+    } finally {
+      setLoading(false);
+      pushNotification(level, text);
+    }
   };
 
   return (
@@ -108,6 +153,8 @@ const ProjectDetailPage = () => {
         handleClose={() => setConfirmFlag(false)}
         setApplyFlag={(f) => setApplyFlag(f)}
       />
+      <ProgressCircular loading={loading} />
+      <Notification onClose={closeNotification} level={notificationLevel} text={notificationText} />
     </React.Fragment>
   );
 };
