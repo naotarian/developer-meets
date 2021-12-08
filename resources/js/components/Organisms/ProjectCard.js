@@ -35,7 +35,7 @@ const ProjectCard = ({ project_data }) => {
   }, []);
 
   return (
-    <StyledCard sx={{ maxWidth: 400 }}>
+    <StyledCard sx={{ maxWidth: 400, filter: project_data.status !== '募集中' && 'grayscale(1)' }}>
       <StyledCardActionArea
         href={`http://${host}/seek/detail/${project_data.id}`}
       >
@@ -44,9 +44,9 @@ const ProjectCard = ({ project_data }) => {
             {project_data.project_name}
           </TypographyOverflow>
           <SkillTags skills={[project_data.language, project_data.sub_language]} />
-          { project_data.work_frequency && <ProjectColumn column="time" text={project_data.work_frequency} /> }
-          { project_data.purpose && <ProjectColumn column="purpose" text={`${project_data.purpose}`} /> }
-          { project_data.number_of_application && <ProjectColumn column="people" text={`募集 ${project_data.number_of_application}人`} /> }
+          {project_data.work_frequency && <ProjectColumn column="time" text={project_data.work_frequency} />}
+          {project_data.purpose && <ProjectColumn column="purpose" text={`${project_data.purpose}`} />}
+          {project_data.number_of_application && <ProjectColumn column="people" text={`募集 ${project_data.number_of_application}人`} />}
           <UserInfo username={project_data.user.user_name} imgPath={imgPath} />
         </CardContent>
       </StyledCardActionArea>

@@ -12,12 +12,20 @@ import JoinConfirmDialog from '../Molecules/JoinConfirmDialog';
 import ProgressCircular from '../Molecules/ProgressCircular';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
+import { grey } from '@mui/material/colors';
 
 const WrapperGrid = styled(Grid)`
   width: 80%;
   margin: auto;
   margin-top: 4rem;
   margin-bottom: 4rem;
+`;
+
+const DisableTextGrid = styled(Grid)`
+  text-align: center;
+  background: ${grey[500]};
+  border-radius: 2rem;
+  padding: 1rem;
 `;
 
 const ContentContainer = styled(Card)`
@@ -75,7 +83,7 @@ const ProjectDetailPage = () => {
     setNotificationText('');
   };
 
-  const postComment = async(comment) => {
+  const postComment = async (comment) => {
     let protocol = host === 'developer-meets.com' ? 'https' : 'http';
     let url = `${protocol}://${host}/api/comment`;
     let d = {
@@ -103,7 +111,7 @@ const ProjectDetailPage = () => {
     }
   };
 
-  const deleteComment = async(id) => {
+  const deleteComment = async (id) => {
     let protocol = host === 'developer-meets.com' ? 'https' : 'http';
     let url = `${protocol}://${host}/api/comment`;
     let d = { 'comment_id': id };
@@ -127,7 +135,7 @@ const ProjectDetailPage = () => {
     }
   };
 
-  const sendJoinRequests = async() => {
+  const sendJoinRequests = async () => {
     let protocol = host === 'developer-meets.com' ? 'https' : 'http';
     let url = `${protocol}://${host}/api/application`;
 
@@ -153,19 +161,20 @@ const ProjectDetailPage = () => {
 
   return (
     <React.Fragment>
-      { data &&
-        <WrapperGrid>
-          <ContentContainer>
+      {data &&
+        <WrapperGrid >
+          {data.status !== '募集中' && <DisableTextGrid>このプロジェクトは募集終了しています</DisableTextGrid>}
+          <ContentContainer sx={{ filter: data.status !== '募集中' && 'grayscale(1)' }}>
             <DetailHeader data={data} userImgPath={userImgPath} projectImgPath={projectImgPath} />
           </ContentContainer>
           <Grid container>
             <ApplicationButton item openConfirmDialog={() => setConfirmFlag(true)} applyFlag={applyFlag} />
-            <QuestionButton item/>
+            <QuestionButton item />
           </Grid>
-          <ContentContainer>
+          <ContentContainer sx={{ filter: data.status !== '募集中' && 'grayscale(1)' }}>
             <DetailContent data={data} />
           </ContentContainer>
-          <ContentContainer>
+          <ContentContainer sx={{ filter: data.status !== '募集中' && 'grayscale(1)' }}>
             <DetailComments comments={comments} postComment={postComment} deleteComment={deleteComment} loginUser={loginUser} />
           </ContentContainer>
         </WrapperGrid>
