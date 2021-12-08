@@ -124,7 +124,7 @@ class ApiController extends Controller
     }
 
     public function all_projejct() {
-        $projects = Project::where('status', '募集中')->get();
+        $projects = Project::all();
         foreach($projects as $project) {
             $project->year = $project->minimum_years_old . '歳~' . $project->max_years_old . '歳';
             $project->user = User::where('id', $project->user_id)->first();
