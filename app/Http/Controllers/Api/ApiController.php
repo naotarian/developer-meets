@@ -120,12 +120,11 @@ class ApiController extends Controller
         $application_check = ProjectApplication::where('project_id', $project_data['id'])->where('application_id', $login_user->id)->first();
         $project_data['application_flag'] = $application_check ? "applied" : "unapplied";
         $project_data = json_encode($project_data);
-
         return response($project_data);
     }
 
     public function all_projejct() {
-        $projects = Project::where('status', 1)->get();
+        $projects = Project::where('status', '募集中')->get();
         foreach($projects as $project) {
             $project->year = $project->minimum_years_old . '歳~' . $project->max_years_old . '歳';
             $project->user = User::where('id', $project->user_id)->first();

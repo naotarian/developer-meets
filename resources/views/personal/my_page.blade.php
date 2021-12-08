@@ -98,6 +98,12 @@
                 </div>
                 @php session()->forget('withdrawal_message') @endphp
               @endif
+              @if (session('restart_message'))
+                <div class="flash_message">
+                    {{ session('restart_message') }}
+                </div>
+                @php session()->forget('restart_message') @endphp
+              @endif
               @if (session('edit_project_message'))
                 <div class="flash_message">
                     {{ session('edit_project_message') }}
@@ -117,7 +123,11 @@
                       <a href="/seek/detail/{{$project->id}}" class="btn btn-primary">このプロジェクトについて</a>
                       <a href="/application_list/{{$project->id}}" class="btn btn-primary">参加申請</a>
                       <a href="/project/edit/{{$project->id}}" class="btn btn-primary">編集</a>
-                      <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#withdrawalModalCenter{{$key}}">掲載終了</button>
+                      @if($project->status == '募集中')
+                      <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#withdrawalModalCenter{{$key}}">募集停止</button>
+                      @else
+                      <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#restart{{$key}}">募集再開</button>
+                      @endif
                     </div>
                   </div>
                 </div>
@@ -132,11 +142,31 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                        このプロジェクトの掲載を終了しますか？
+                        このプロジェクトの募集を停止しますか？
                       </div>
                       <div class="modal-footer">
                
-                        <a href="/withdrawal/{{$project->id}}" class="btn btn-primary">掲載取りやめ</a>
+                        <a href="/withdrawal/{{$project->id}}" class="btn btn-primary">募集停止</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal fade" id="restart{{$key}}" tabindex="-1" role="dialog" aria-labelledby="withdrawalModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">プロジェクト名 : {{$project->project_name}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        このプロジェクトの募集を再開しますか？
+                      </div>
+                      <div class="modal-footer">
+               
+                        <a href="/restart/{{$project->id}}" class="btn btn-primary">募集再開</a>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
                       </div>
                     </div>

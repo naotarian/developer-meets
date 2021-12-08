@@ -83,7 +83,7 @@ class DynamicController extends Controller
             $messages = array_values($messages);
         }
         $datas['user_id'] = $user->id;
-        $datas['status'] = 1;
+        $datas['status'] = '募集中';
         $datas['project_detail'] = !empty($datas['project_detail']) ? $datas['project_detail'] : '';
         $datas['max_years_old'] = !empty($datas['max_years_old']) ? $datas['max_years_old'] : 0;
         $datas['minimum_years_old'] = !empty($datas['minimum_years_old']) ? $datas['minimum_years_old'] : 0;
@@ -189,7 +189,7 @@ class DynamicController extends Controller
     }
     
     public function seek_project() {
-        $projects = Project::where('status', 1)->get();
+        $projects = Project::where('status', '募集中')->get();
         foreach($projects as $project) {
             // $project->purpose = $this->purposes[$project->purpose];
             // $project->men_and_women = $this->gender[$project->men_and_women];
@@ -209,13 +209,13 @@ class DynamicController extends Controller
     
     public function user_info($user_name) {
         $login_user = Auth::user();
+        $target_user = User::where('user_name', $user_name)->first();
         if($login_user != null) {
             $logging_id = $login_user['id'];
             if($logging_id == $target_user->id) {
                 return redirect('/my_page');
             }
         }
-        $target_user = User::where('user_name', $user_name)->first();
         // if($target_user['sex']) {
         //     $target_user['sex'] = $this->gender[$target_user['sex']];
         // } else {
@@ -229,10 +229,10 @@ class DynamicController extends Controller
         }
         $join_projects = Project::join('project_applications','projects.id','=','project_applications.project_id')
         ->where('project_applications.application_id', $target_user->id)
-        ->where('project_applications.status', 2)
+        ->where('project_applications.status', '承認済み')
         ->where('project_applications.deleted_at', null)
         ->get();
-        $now_available_projects = Project::where('user_id', $target_user->id)->where('status', 1)->get();
+        $now_available_projects = Project::where('user_id', $target_user->id)->where('status', '募集中')->get();
         return view('personal.user_info', ['target_user' => $target_user,
                                          'now_available_projects' => $now_available_projects, 
                                         //  'now_applications' => $now_applications, 
@@ -259,12 +259,12 @@ class DynamicController extends Controller
         */
         $now_applications = Project::join('project_applications','projects.id','=','project_applications.project_id')
         ->where('project_applications.application_id', $target_user->id)
-        ->where('project_applications.status', 1)
+        ->where('project_applications.status', '申請中')
         ->where('project_applications.deleted_at', null)
         ->get();
         $join_projects = Project::join('project_applications','projects.id','=','project_applications.project_id')
         ->where('project_applications.application_id', $target_user->id)
-        ->where('project_applications.status', 2)
+        ->where('project_applications.status', '承認済み')
         ->where('project_applications.deleted_at', null)
         ->get();
         // if($target_user['sex']) {
@@ -279,8 +279,7 @@ class DynamicController extends Controller
             $target_user['age'] = '未設定';
         }
         //掲載中のプロジェクト
-        $now_available_projects = Project::where('user_id', $target_user->id)->where('status', 1)->get();
-        
+        $now_available_projects = Project::where('user_id', $target_user->id)->get();
         return view('personal.my_page', ['login_user_infomation' => $target_user,
                                          'now_available_projects' => $now_available_projects, 
                                          'now_applications' => $now_applications, 
@@ -363,7 +362,7 @@ class DynamicController extends Controller
         //既存のものがあれば追加しない
         $upsert = ProjectApplication::updateOrCreate(
             ['application_id' => $target_user->id, 'project_id' => $project_info['id']],
-            ['status' => '1', 'application_id' => $target_user->id, 'author_id' => $project_info['user_id'], 'project_id' => $project_info['id']]
+            ['status' => '申請中', 'application_id' => $target_user->id, 'author_id' => $project_info['user_id'], 'project_id' => $project_info['id']]
         );
         if($upsert->wasRecentlyCreated) {
             $message = '申請が完了しました。';
@@ -382,13 +381,13 @@ class DynamicController extends Controller
         $application_list = Project::join('project_applications','projects.id','=','project_applications.project_id')
         ->where('author_id', $target_user->id)
         ->where('project_id', $id)
-        ->where('project_applications.status', 1)
+        ->where('project_applications.status', '申請中')
         ->where('project_applications.deleted_at', null)
         ->get();
         $member_list = Project::join('project_applications','projects.id','=','project_applications.project_id')
         ->where('author_id', $target_user->id)
         ->where('project_id', $id)
-        ->where('project_applications.status', 2)
+        ->where('project_applications.status', '承認済み')
         ->where('project_applications.deleted_at', null)
         ->get();
         foreach($application_list as $app) {
@@ -412,7 +411,7 @@ class DynamicController extends Controller
     public function cancel(Request $request) {
         $datas = json_decode($request['project_info'], true);
         $target_application = ProjectApplication::find($datas['id']);
-        $target_application['status'] = 0;
+        $target_application['status'] = '取り消し';
         $target_application->save();
         $delete_application = $target_application->delete();
         
@@ -427,7 +426,7 @@ class DynamicController extends Controller
     
     public function rejected($id) {
         $rejectd_application = ProjectApplication::find($id);
-        $rejectd_application->status = 0;
+        $rejectd_application->status = '見送り';
         $rejectd_application->save();
         $rejectd = $rejectd_application->delete();
         
@@ -442,32 +441,43 @@ class DynamicController extends Controller
     
     public function withdrawal($id) {
         $withdrawal_project = Project::find($id);
-        $withdrawal_project->status = 2;
+        $withdrawal_project->status = '募集停止';
         $withdrawal_project->save();
-        $withdrawal_project->delete();
-        if($withdrawal_project->status == 2) {
-            $message = '掲載を終了しました。';
+        // $withdrawal_project->delete();
+        if($withdrawal_project->status == '募集停止') {
+            $message = '募集を停止しました。';
         } else {
             $message = '予期せぬエラー。';
         }
-        
         return back()->with('withdrawal_message', $message);
+    }
+    
+    public function restart($id) {
+        $withdrawal_project = Project::find($id);
+        $withdrawal_project->status = '募集中';
+        $withdrawal_project->save();
+        if($withdrawal_project->status == '募集中') {
+            $message = '募集を再開しました。';
+        } else {
+            $message = '予期せぬエラー。';
+        }
+        return back()->with('restart_message', $message);
     }
     
     public function approval($id) {
         $target_application = ProjectApplication::find($id);
-        if($target_application->status == 2) {
+        if($target_application->status == '承認済み') {
             return back()->with('approval_message', '既に承認済みです。');
         }
         $target_project = Project::find($target_application['project_id']);
         
-        $target_application->status = 2;
+        $target_application->status = '承認済み';
         $target_application->save();
-        $target_project->number_of_application -= 1;
-        if($target_project->number_of_application == 0) {
-            $target_project->status = 4;
-        }
-        $target_project->save();
+        // $target_project->number_of_application -= 1;
+        // if($target_project->number_of_application == 0) {
+        //     $target_project->status = 4;
+        // }
+        // $target_project->save();
         return redirect('/my_page')->with('approval_message', '参加申請を承認しました。');
     }
     
