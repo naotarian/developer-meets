@@ -6,7 +6,6 @@ import DetailHeader from '../Organisms/DetailHeader';
 import DetailContent from '../Organisms/DetailContent';
 import DetailComments from '../Organisms/DetailComments';
 import ApplicationButton from '../Atoms/ApplicationButton';
-import QuestionButton from '../Atoms/QuestionButton';
 import Notification from '../Atoms/Notification';
 import JoinConfirmDialog from '../Molecules/JoinConfirmDialog';
 import ProgressCircular from '../Molecules/ProgressCircular';
@@ -169,7 +168,6 @@ const ProjectDetailPage = () => {
           </ContentContainer>
           <Grid container>
             <ApplicationButton item openConfirmDialog={() => setConfirmFlag(true)} applyFlag={applyFlag} />
-            <QuestionButton item />
           </Grid>
           <ContentContainer sx={{ filter: data.status !== '募集中' && 'grayscale(1)' }}>
             <DetailContent data={data} />
