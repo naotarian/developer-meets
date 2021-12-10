@@ -19,6 +19,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="/css/auth/register.css" rel="stylesheet">
+    @yield('head_content')
 </head>
 <body>
     <div id="app">

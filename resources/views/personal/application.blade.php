@@ -21,7 +21,6 @@
       <th scope="col">申請日</th>
       <th scope="col">申請者</th>
       <th scope="col">対象プロジェクト</th>
-      <th scope="col">残り募集人数</th>
       <th scope="col" colspan="2">アクション</th>
     </tr>
   </thead>
@@ -114,7 +113,6 @@
 
   </tr>
   <tr><th>対象プロジェクト : {{$app->project_name}}</th></tr>
-  <tr><th>残り募集人数 : {{$app->number_of_application}}人</th></tr>
   <tr><th class="bold">アクション<br><button type="submit" class="btn btn-outline-secondary" data-toggle="modal" data-target="#approvalModalCenter{{$key}}">承認する</button>
         <button type="submit" class="btn btn-outline-secondary" data-toggle="modal" data-target="#rejectedModalCenter{{$key}}">見送る</button></th>
   </tr>

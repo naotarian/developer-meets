@@ -40,8 +40,8 @@
                             {{Form::password('password_confirmation', ['class' => 'form','id' => 'password_confirm', 'placeholder' => 'パスワード確認'])}}
                         </div>
                         --}}
-                        <div class="col-xs-6 wow animated slideInLeft flex-form mt2" data-wow-delay=".5s">
-                            {{Form::select('age', ['20' => '20'], 'ordinarily', ['class' => 'form','id' => 'age', 'placeholder' => '年齢'])}}
+                        <div class="col-xs-6 wow animated slideInRight flex-form mt2" data-wow-delay=".5s">
+                            {{Form::select('age', $age, 'ordinarily', ['class' => 'form','id' => 'age', 'placeholder' => '年齢'])}}
                             {{Form::select('engineer_history', ['0' => 'なし', '1' => '~1年', '2' => '~2年', '3' => '~3年', '4' => '~4年', '5' => '~5年', '5' => 'それ以上'], 'ordinarily', ['class' => 'form','id' => 'engineer_history', 'placeholder' => 'エンジニア歴'])}}
                         </div>
                         {{--

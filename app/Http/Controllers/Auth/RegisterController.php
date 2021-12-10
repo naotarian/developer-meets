@@ -107,7 +107,11 @@ class RegisterController extends Controller
       if(User::where('email',$user['email'])->exists()) {
         return view('auth.main.register')->with('message', 'すでに本登録されています。ログインして利用してください。');
       }
-      return view('auth.main.register', compact('email_token'));
+      $age = [];
+      for($i = 18; $i <= 70; $i++) {
+          $age[$i] = $i;
+      }
+      return view('auth.main.register', compact('email_token', 'age'));
     }
   }
     
@@ -151,8 +155,6 @@ class RegisterController extends Controller
     TemporaryRegistration::where('email_verify_token',$request['email_token'])->delete();
     $email = new EmailMainRegister($user);
     Mail::to($user->email)->send($email);
-    
-
     return view('auth.main.registered');
   }
 }
