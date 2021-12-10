@@ -49,7 +49,7 @@ class DynamicController extends Controller
         $datas['men_and_women'] = $this->men_and_women;
         $datas['work_frequency'] = $this->work_frequency;
         $datas['age'] = [];
-        for($i = 15; $i < 60; $i++) {
+        for($i = 18; $i < 70; $i++) {
             $datas['age'][$i] = $i;
         }
         
