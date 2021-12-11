@@ -18,30 +18,28 @@ const StyledA = styled.a`
   }
 `;
 
-const ApplicationButton = ({ openConfirmDialog, applyFlag }) => {
+const ApplicationButton = ({ applyFlag, openConfirmDialog, status }) => {
+  const color = { background: (applyFlag === 'applied' || applyFlag === 'my_projejct' || status !== '募集中') ? grey[500] : green[500] }
+
+  const handleConfirm = () => {
+    if (applyFlag !== 'unapplied') return
+    openConfirmDialog()
+  }
+
   return (
-    <React.Fragment>
-      { applyFlag === 'applied' &&
-        <StyledButton size="large" variant="contained" style={{ background: grey[500] }} sx={{ width: { xs: '100%', sm: '140px' } }} disabled>
-          申請済み
-        </StyledButton>
-      }
-      { applyFlag === 'unapplied' &&
-        <StyledButton size="large" variant="contained" style={{ background: green[500] }} sx={{ width: { xs: '100%', sm: '140px' } }} onClick={openConfirmDialog} >
-          申請する
-        </StyledButton>
-      }
-      { applyFlag === 'my_projejct' &&
-        <StyledButton size="large" variant="contained" style={{ background: grey[500] }} sx={{ width: { xs: '100%', sm: '200px' } }} disabled>
-          自分のプロジェクト
-        </StyledButton>
-      }
-      { applyFlag === 'not_login' &&
-        <StyledButton size="large" variant="contained" style={{ background: green[500] }} sx={{ width: { xs: '100%', sm: '200px' } }} >
-          <StyledA href={`${location.origin}/login`}>ログインして申請する</StyledA>
-        </StyledButton>
-      }
-    </React.Fragment>
+    <StyledButton
+      size="large"
+      variant="contained"
+      style={color}
+      onClick={handleConfirm}
+      sx={{ width: { xs: '100%', sm: 'fit-content'}}}
+      disabled={(applyFlag === 'applied' || applyFlag === 'my_projejct' || status !== '募集中') ? true : false}
+    >
+      {applyFlag === 'applied' && '申請済み'}
+      {applyFlag === 'unapplied' && '申請する'}
+      {applyFlag === 'my_projejct' && '自分のプロジェクト'}
+      {applyFlag === 'not_login' && <StyledA href={`${location.origin}/login`}>ログインして申請する</StyledA>}
+    </StyledButton>
   );
 };
 

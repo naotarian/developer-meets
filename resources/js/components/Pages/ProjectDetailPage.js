@@ -166,9 +166,11 @@ const ProjectDetailPage = () => {
           <ContentContainer sx={{ filter: data.status !== '募集中' && 'grayscale(1)' }}>
             <DetailHeader data={data} userImgPath={userImgPath} projectImgPath={projectImgPath} />
           </ContentContainer>
-          <Grid container>
-            <ApplicationButton item openConfirmDialog={() => setConfirmFlag(true)} applyFlag={applyFlag} />
-          </Grid>
+          <ApplicationButton
+            applyFlag={applyFlag}
+            openConfirmDialog={() => setConfirmFlag(true)}
+            status={data.status}
+          />
           <ContentContainer sx={{ filter: data.status !== '募集中' && 'grayscale(1)' }}>
             <DetailContent data={data} />
           </ContentContainer>
