@@ -41,19 +41,25 @@ const PostButton = styled(Button)`
   display: block !important;
 `;
 
-const CommentUserName = styled(Typography)`
-font-weight: bold !important;
+const CommentUserName = styled.a`
+  font-weight: bold !important;
+  display: inline-block;
+  text-decoration: none;
+  color: #000000;
+  &:hover {
+    color: #000000;
+  }
 `;
 
 const CommentText = styled(Typography)`
-font-size: 0.8rem !important;
-white-space: pre;
+  font-size: 0.8rem !important;
+  white-space: pre;
 `;
 
 const EditButton = styled(Button)`
   height: 1rem;
   outline: none !important;
-  `;
+`;
 
 const DeleteButton = styled(Button)`
   height: 1rem;
@@ -114,14 +120,18 @@ const DetailComments = ({ comments, postComment, deleteComment, loginUser }) => 
         return (
           <React.Fragment key={index}>
             <CommentGrid container flexWrap='nowrap'>
-              <IconBox><UserIcon size={30} imgPath={`/api/user_icon/${val.user.id}`} /></IconBox>
+              <IconBox>
+                <a href={`/user_info/${val.user.user_name}`}>
+                  <UserIcon size={30} imgPath={`/api/user_icon/${val.user.id}`} />
+                </a>
+              </IconBox>
               <Grid sx={{width: '100%'}}>
-                <CommentUserName>{val.user && val.user.user_name}</CommentUserName>
+                <CommentUserName href={`/user_info/${val.user.user_name}`}>{val.user.user_name}</CommentUserName>
                 <CommentText>{val && val.comment}</CommentText>
               </Grid>
               {loginUser && loginUser.id === val.user.id &&
                 <Grid container flexDirection='column' justifyContent='flex-end' sx={{ width: 'fit-content' }}>
-                  <EditButton>編集</EditButton>
+                  {/* <EditButton>編集</EditButton> */}
                   <DeleteButton onClick={() => deleteComment(val.id)}>削除</DeleteButton>
                 </Grid>
               }
