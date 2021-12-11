@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const CommentNum = styled.span`
   font-weight: bold;
@@ -56,13 +58,7 @@ const CommentText = styled(Typography)`
   white-space: pre;
 `;
 
-const EditButton = styled(Button)`
-  height: 1rem;
-  outline: none !important;
-`;
-
-const DeleteButton = styled(Button)`
-  height: 1rem;
+const DeleteButton = styled(IconButton)`
   outline: none !important;
 `;
 
@@ -132,7 +128,9 @@ const DetailComments = ({ comments, postComment, deleteComment, loginUser }) => 
               {loginUser && loginUser.id === val.user.id &&
                 <Grid container flexDirection='column' justifyContent='flex-end' sx={{ width: 'fit-content' }}>
                   {/* <EditButton>編集</EditButton> */}
-                  <DeleteButton onClick={() => deleteComment(val.id)}>削除</DeleteButton>
+                <DeleteButton size="small" onClick={() => deleteComment(val.id)}>
+                  <DeleteIcon />
+                </DeleteButton>
                 </Grid>
               }
             </CommentGrid>
