@@ -128,9 +128,9 @@ const DetailComments = ({ comments, postComment, deleteComment, loginUser }) => 
               {loginUser && loginUser.id === val.user.id &&
                 <Grid container flexDirection='column' justifyContent='flex-end' sx={{ width: 'fit-content' }}>
                   {/* <EditButton>編集</EditButton> */}
-                <DeleteButton size="small" onClick={() => deleteComment(val.id)}>
-                  <DeleteIcon />
-                </DeleteButton>
+                  <DeleteButton size="small" onClick={() => deleteComment(val.id)}>
+                    <DeleteIcon />
+                  </DeleteButton>
                 </Grid>
               }
             </CommentGrid>

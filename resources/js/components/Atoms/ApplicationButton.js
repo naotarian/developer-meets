@@ -19,12 +19,12 @@ const StyledA = styled.a`
 `;
 
 const ApplicationButton = ({ applyFlag, openConfirmDialog, status }) => {
-  const color = { background: (applyFlag === 'applied' || applyFlag === 'my_projejct' || status !== '募集中') ? grey[500] : green[500] }
+  const color = { background: (applyFlag === 'applied' || applyFlag === 'my_projejct' || status !== '募集中') ? grey[500] : green[500] };
 
   const handleConfirm = () => {
-    if (applyFlag !== 'unapplied') return
-    openConfirmDialog()
-  }
+    if (applyFlag !== 'unapplied') return;
+    openConfirmDialog();
+  };
 
   return (
     <StyledButton
