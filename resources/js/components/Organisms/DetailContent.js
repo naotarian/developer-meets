@@ -7,11 +7,18 @@ const WrapperGrid = styled(Grid)`
   padding: 1rem;
 `;
 
+const Text = styled(Typography)`
+  white-space: pre;
+`;
+
 const DetailContent = ({ data }) => {
   return (
     <WrapperGrid>
       <Typography>▼案件詳細</Typography>
-      <Typography>{data && data.project_detail}</Typography>
+      <Text>{data && data.project_detail}</Text>
+      <br />
+      <Typography>▼備考</Typography>
+      <Text>{data && data.remarks}</Text>
     </WrapperGrid>
   );
 };
