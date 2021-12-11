@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import UserIcon from '../Atoms/UserIcon';
+import ProgressCircular from '../Molecules/ProgressCircular';
 import AppBar from '@mui/material/AppBar';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -66,6 +67,7 @@ const Header = () => {
   const [userIconPath, setUserIconPath] = useState(null);
   const [menuAnchorEl, setMenuAnchorEl] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setHost(location.host);
@@ -86,7 +88,9 @@ const Header = () => {
   const logout = () => {
     let protocol = host === 'developer-meets.com' ? 'https' : 'http';
     let url = `${protocol}://${host}/logout`;
+    setLoading(true);
     axios.post(url).then(() => {
+      setLoading(false);
       window.location.reload();
     });
   };
@@ -158,6 +162,7 @@ const Header = () => {
         </StyledAppBar>
       </Box>
       <Box sx={{ height: 60 }} />
+      <ProgressCircular loading={loading} />
     </React.Fragment>
   );
 };
