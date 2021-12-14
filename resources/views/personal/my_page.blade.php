@@ -42,6 +42,7 @@
                 @if($display_flag)
                 <li class="list-group-item"><a href="/edit_profile/{{$login_user_infomation['id']}}" class="Item"><span class="Item-Text">Edit Profile</span></a></li>
                 @endif
+                <li class="list-group-item"><a href="/quit" target="_blank" style="color: #747373;" class="Item"><span class="Item-Text">退会する</span></a></li>
               </ul>
               
             </div>
