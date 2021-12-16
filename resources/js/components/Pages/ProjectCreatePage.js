@@ -114,7 +114,7 @@ const ProjectCreatePage = () => {
     setRemarks('');
     setFileName('');
     setSubmit(false);
-  }
+  };
 
   const submitProject = async() => {
     let host = location.host;

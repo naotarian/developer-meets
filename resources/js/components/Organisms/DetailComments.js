@@ -55,7 +55,7 @@ const CommentUserName = styled.a`
 
 const CommentText = styled(Typography)`
   font-size: 0.8rem !important;
-  white-space: pre;
+  white-space: pre-wrap;
 `;
 
 const DeleteButton = styled(IconButton)`

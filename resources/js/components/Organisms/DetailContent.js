@@ -8,7 +8,7 @@ const WrapperGrid = styled(Grid)`
 `;
 
 const Text = styled(Typography)`
-  white-space: pre;
+  white-space: pre-wrap;
 `;
 
 const DetailContent = ({ data }) => {

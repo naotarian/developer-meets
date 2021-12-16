@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 const PreviewDialog = ({ open, srcImage, closeDialog, setProjectImage }) => {
   const imgRef = useRef(null);
-  const initialCrop = { unit: '%', width: 100, aspect: 2 / 1 };
+  const initialCrop = { unit: '%', width: 100, aspect: 2.5 / 1 };
   const [crop, setCrop] = useState(initialCrop);
   const [finalCrop, setFinalCrop] = useState(null);
 

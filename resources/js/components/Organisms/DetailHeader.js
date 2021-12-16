@@ -7,7 +7,7 @@ import UserInfo from '../Molecules/UserInfo';
 
 const ProjectImg = styled.img`
   width: 100%;
-  max-height: 300px;
+  max-height: 400px;
 `;
 
 const Contents = styled(Grid)`

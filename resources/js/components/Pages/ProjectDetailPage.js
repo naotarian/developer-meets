@@ -16,6 +16,7 @@ import { grey } from '@mui/material/colors';
 const WrapperGrid = styled(Grid)`
   width: 80%;
   margin: auto;
+  max-width: 1000px;
   margin-top: 4rem;
   margin-bottom: 4rem;
 `;
