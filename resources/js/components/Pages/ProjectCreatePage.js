@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-// import axios from 'axios';
+import axios from 'axios';
 import InputField from '../Molecules/InputField';
 import InputImageField from '../Molecules/InputImageField';
 import SelectField from '../Molecules/SelectField';
@@ -100,21 +100,55 @@ const ProjectCreatePage = () => {
     setNotificationText('');
   };
 
-  const submitProject = () => {
-    let protocol = location.host === 'developer-meets.com' ? 'https' : 'http';
+  const submitProject = async() => {
+    let host = location.host;
+    let protocol = host === 'developer-meets.com' ? 'https' : 'http';
     let url = `${protocol}://${host}/api/create_project`;
-    let d = { 'comment_id': id };
+    let d = {
+      // プロジェクト名
+      'project_name': title,
+      // 募集人数
+      'number_of_application': numPeople,
+      // 主要言語
+      'language': language,
+      // サブ言語
+      'sub_language': subLanguage,
+      // ソース管理
+      'tools': tool,
+      // プロジェクトの目的
+      'purpose': purpose,
+      // 最低実務経験
+      'minimum_experience': experience,
+      // 作業頻度
+      'work_frequency': frequency,
+      // 年齢下限
+      'minimum_years_old': lowerLimit,
+      // 年齢上限
+      'max_years_old': upperLimit,
+      // 性別
+      'men_and_women': gender,
+      // イメージ画像
+      'project_image': projectImage,
+      // プロジェクト詳細
+      'project_detail': detail,
+      // 備考
+      'remarks': remarks,
+    };
+
     let level;
     let text;
     setLoading(true);
     try {
-      // if (!title || !numPeople || !language || !subLanguage || !tool || !purpose || !experience) {
-      //   setSubmit(true);
-      //   throw '必須項目を入力してください';
-      // }
-      // await axios.post(url, d).then(res => {
-      //   if (res.data.status_code !== 200) throw 'プロジェクトの作成に失敗しました';
-      // });
+      setSubmit(true);
+      if (!title || !numPeople || !language || !subLanguage || !tool || !purpose || !experience) {
+        throw '必須項目を入力してください';
+      }
+      if (title.length > 50 || detail.length > 1000 || remarks.length > 1000) {
+        throw '登録できる文字数超えています';
+      }
+      await axios.post(url, d).then(res => {
+        if (res.data.status_code !== 200) throw 'プロジェクトの作成に失敗しました';
+      });
       level = 'success';
       text = 'プロジェクトを作成しました';
     } catch (e) {
@@ -149,8 +183,8 @@ const ProjectCreatePage = () => {
       <SubmitButton
         label='この内容で作成する'
         variant='contained'
-        color="success"
-        size="large"
+        color='success'
+        size='large'
         onClick={submitProject}
       />
       <PreviewDialog

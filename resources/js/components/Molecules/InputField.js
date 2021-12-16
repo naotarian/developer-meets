@@ -5,6 +5,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 
 const InputField = ({ label, type, fullWidth, multiline, value, onChange, required, submit }) => {
+  const MAX_LENGTH = multiline ? 1000 : 50;
 
   const handleChange = (e) => {
     onChange(e.target.value);
@@ -24,13 +25,21 @@ const InputField = ({ label, type, fullWidth, multiline, value, onChange, requir
         id={`input-${label}`}
         label={label}
         type={type}
-        error={(type === 'number' && value && value < 0) || (type === 'text' && submit && !value) || false}
+        error={
+          (type === 'number' && value && value < 0) ||
+          (type === 'text' && submit && !value) ||
+          (type === 'text' && value.length > MAX_LENGTH) ||
+          false
+        }
         multiline={multiline}
         rows={multiline ? 5 : null}
         value={value || ''}
         onChange={handleChange}
       />
-      <FormHelperText id={`input-${label}`}>{required ? '*必須項目です' : ' '}</FormHelperText>
+      <FormHelperText id={`input-${label}`}>
+        {required ? '*必須項目です' : ' '}
+        {(type === 'text' && value.length > MAX_LENGTH) ? ` *${MAX_LENGTH}文字以下で設定してください` : ' '}
+      </FormHelperText>
     </FormControl>
   );
 };
