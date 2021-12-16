@@ -10,6 +10,8 @@ use App\Comment;
 use App\ProjectApplication;
 use App\Http\Library\CallTwitterApi;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class ApiController extends Controller
 {
@@ -216,6 +218,70 @@ class ApiController extends Controller
             }
             return response()->json(['status_code' => 200, 'comments' => $comments]);
         } catch(\Exception $ex) {
+            return response()->json(['status_code' => 400, 'err_msg' => $ex->getMessage()]);
+        }
+    }
+
+    public function create_project(Request $request) {
+        try {
+            $user = Auth::user();
+            $datas = $request->all();
+            $datas['user_id'] = $user->id;
+            $datas['status'] = '募集中';
+            $datas['project_detail'] = !empty($datas['project_detail']) ? $datas['project_detail'] : '';
+            $datas['max_years_old'] = !empty($datas['max_years_old']) ? $datas['max_years_old'] : 0;
+            $datas['minimum_years_old'] = !empty($datas['minimum_years_old']) ? $datas['minimum_years_old'] : 0;
+            $datas['remarks'] = !empty($datas['remarks']) ? $datas['remarks'] : '';
+            $datas['work_frequency'] = !empty($datas['work_frequency']) ? $datas['work_frequency'] : null;
+            $datas['number_of_application'] = (int)str_replace('人', '', $datas['number_of_application']);
+            if ($datas['minimum_experience'] == '未経験可') { $datas['minimum_experience'] = 0; }
+            if ($datas['minimum_experience'] == '~1年') { $datas['minimum_experience'] = 1; }
+            if ($datas['minimum_experience'] == '~2年') { $datas['minimum_experience'] = 2; }
+            if ($datas['minimum_experience'] == '~3年') { $datas['minimum_experience'] = 3; }
+            if ($datas['minimum_experience'] == '4年以上') { $datas['minimum_experience'] = 4; }
+            $datas['minimum_experience'] = str_replace('人', '', $datas['minimum_experience']);
+            $img = $datas['project_image'];
+            $datas['project_image'] = NULL;
+            // プロジェクトインスタンスを作成
+            $project_instance = Project::create($datas);
+            //作成したprojectのurl_codeを生成
+            $project_instance['url_code'] = hash('crc32', $project_instance['id']);
+            // プロジェクト画像保存処理
+            if(!empty($img)) {
+                $url_code = $project_instance['url_code'];
+                $now = Carbon::now('Asia/Tokyo');
+                //画像名は年月日時分秒にして被らないようにする
+                $image_name = $now->year.$now->month.$now->day.$now->hour.$now->minute.$now->second.'.jpg';
+                //画像を保存するディレクトリを作成
+                $dir = $user->url_code.'/project/'.$url_code;
+                $path = storage_path('app').'/images/'.$dir;
+                if (!file_exists($path)) {
+                    Storage::disk('images')->makeDirectory($dir);
+                }
+
+                //現状の画像ファイルは削除処理
+                $files = Storage::allFiles('images/'.$dir);
+                if($files) {
+                    foreach($files as $f) {
+                        Storage::delete($f);
+                    }
+                }
+                // デコード処理
+                $img = str_replace('data:image/png;base64,', '', $img);
+                $img = str_replace('data:image/jpeg;base64,', '', $img);
+                $img = str_replace('data:image/jpg;base64,', '', $img);
+                $img = str_replace(' ', '+', $img);
+                $fileData = base64_decode($img);
+
+                // storageに保存
+                Storage::disk('images')->put('/'.$dir.'/'.$image_name, $fileData);
+
+                // ファイル名をDBに保存
+                $project_instance['project_image'] = $image_name;
+                $project_instance->save();
+            }
+            return response()->json(['status_code' => 200]);
+        } catch (\Exception $ex) {
             return response()->json(['status_code' => 400, 'err_msg' => $ex->getMessage()]);
         }
     }

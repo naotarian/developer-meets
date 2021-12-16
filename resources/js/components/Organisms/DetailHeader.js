@@ -5,6 +5,11 @@ import DetailInfo from '../Atoms/DetailInfo';
 import Grid from '@mui/material/Grid';
 import UserInfo from '../Molecules/UserInfo';
 
+const ProjectImg = styled.img`
+  width: 100%;
+  max-height: 300px;
+`;
+
 const Contents = styled(Grid)`
   padding-left: 1rem;
   padding-right: 1rem;
@@ -31,7 +36,7 @@ const UserInfoGrid = styled.a`
 const DetailHeader = ({ data, userImgPath, projectImgPath }) => {
   return (
     <React.Fragment>
-      <img src={projectImgPath} width='100%' height='300px' />
+      <ProjectImg src={projectImgPath} />
       <Contents>
         <SkillTags skills={[data.language, data.sub_language]} detail />
         <ProjectName>{data.project_name}</ProjectName>
