@@ -84,6 +84,7 @@ const ProjectCreatePage = () => {
   const [remarks, setRemarks] = useState('');
   // 画像クロップ関連値
   const [srcImg, setSrcImg] = useState(null);
+  const [fileName, setFileName] = useState('');
   const [openPreviewDialog, setOpenPreviewDialog] = useState(false);
 
   const pushNotification = (level, text) => {
@@ -95,6 +96,25 @@ const ProjectCreatePage = () => {
     setNotificationLevel('');
     setNotificationText('');
   };
+
+  const stateReset = () => {
+    setTitle('');
+    setNumPeople('');
+    setLowerLimit(null);
+    setUpperLimit(null);
+    setPurpose('');
+    setGender('');
+    setLanguage('');
+    setSubLanguage('');
+    setExperience('');
+    setTool('');
+    setFrequency('');
+    setProjectImage(null);
+    setDetail('');
+    setRemarks('');
+    setFileName('');
+    setSubmit(false);
+  }
 
   const submitProject = async() => {
     let host = location.host;
@@ -147,6 +167,7 @@ const ProjectCreatePage = () => {
       });
       level = 'success';
       text = 'プロジェクトを作成しました';
+      stateReset();
     } catch (e) {
       level = 'error';
       text = e;
@@ -171,7 +192,14 @@ const ProjectCreatePage = () => {
         <InputField label='年齢下限' type='number' value={lowerLimit} onChange={(val) => setLowerLimit(val)} />
         <InputField label='年齢上限' type='number' value={upperLimit} onChange={(val) => setUpperLimit(val)} />
         <SelectField label='性別' items={['制限なし', '男性のみ', '女性のみ']} value={gender} onChange={(val) => setGender(val)} />
-        <InputImageField label='イメージ画像' openDialog={() => setOpenPreviewDialog(true)} setSrcImg={(val) => setSrcImg(val)} deleteProjectImg={() => setProjectImage(null)} />
+        <InputImageField
+          label='イメージ画像'
+          openDialog={() => setOpenPreviewDialog(true)}
+          setSrcImg={(val) => setSrcImg(val)}
+          fileName={fileName}
+          setFileName={(val) => setFileName(val)}
+          deleteProjectImg={() => setProjectImage(null)}
+        />
         <InputField label='プロジェクト詳細' type='text' fullWidth multiline value={detail} onChange={(val) => setDetail(val)} />
         <InputField label='備考' type='text' fullWidth multiline value={remarks} onChange={(val) => setRemarks(val)} />
       </InputFormGrid>
