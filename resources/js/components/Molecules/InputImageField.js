@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import InputLabel from '@mui/material/InputLabel';
@@ -11,8 +11,7 @@ const HiddenInput = styled.input`
   display: none;
 `;
 
-const InputImageField = ({ label, openDialog, setSrcImg, deleteProjectImg }) => {
-  const [fileName, setFileName] = useState('');
+const InputImageField = ({ label, openDialog, setSrcImg, fileName, setFileName, deleteProjectImg }) => {
 
   const selectImageFile = (e) => {
     if (e.target.files && e.target.files.length > 0) {
