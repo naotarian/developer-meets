@@ -11,7 +11,7 @@ const HiddenInput = styled.input`
   display: none;
 `;
 
-const InputImageField = ({ label, openDialog, setSrcImg }) => {
+const InputImageField = ({ label, openDialog, setSrcImg, deleteProjectImg }) => {
   const [fileName, setFileName] = useState('');
 
   const selectImageFile = (e) => {
@@ -22,6 +22,11 @@ const InputImageField = ({ label, openDialog, setSrcImg }) => {
       openDialog();
       setFileName(e.target.files[0].name);
     }
+  };
+
+  const deleteFile = () => {
+    deleteProjectImg();
+    setFileName('');
   };
 
   return (
@@ -35,7 +40,7 @@ const InputImageField = ({ label, openDialog, setSrcImg }) => {
         disabled={!fileName}
       >
         <InputLabel htmlFor={`input-${label}`}>{label}</InputLabel>
-        <OutlinedInput id={`input-${label}`} label={label} value={fileName || ''} onChange={() => setFileName('')} />
+        <OutlinedInput id={`input-${label}`} label={label} value={fileName || ''} onChange={deleteFile} />
       </FormControl>
       <label htmlFor='icon-button-file' style={{ margin:'auto', paddingBottom: '1rem' }}>
         <HiddenInput accept='image/*' id='icon-button-file' type='file' onChange={selectImageFile} />

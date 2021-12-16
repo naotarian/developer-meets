@@ -86,10 +86,6 @@ const ProjectCreatePage = () => {
   const [srcImg, setSrcImg] = useState(null);
   const [openPreviewDialog, setOpenPreviewDialog] = useState(false);
 
-  useEffect(() => {
-    console.log('projectImage: ', projectImage);
-  }, [projectImage]);
-
   const pushNotification = (level, text) => {
     setNotificationLevel(level);
     setNotificationText(text);
@@ -158,7 +154,6 @@ const ProjectCreatePage = () => {
       setLoading(false);
       pushNotification(level, text);
     }
-    console.log('projectImage: ', projectImage);
   };
 
   return (
@@ -176,7 +171,7 @@ const ProjectCreatePage = () => {
         <InputField label='年齢下限' type='number' value={lowerLimit} onChange={(val) => setLowerLimit(val)} />
         <InputField label='年齢上限' type='number' value={upperLimit} onChange={(val) => setUpperLimit(val)} />
         <SelectField label='性別' items={['制限なし', '男性のみ', '女性のみ']} value={gender} onChange={(val) => setGender(val)} />
-        <InputImageField label='イメージ画像' openDialog={() => setOpenPreviewDialog(true)} setSrcImg={(val) => setSrcImg(val)} />
+        <InputImageField label='イメージ画像' openDialog={() => setOpenPreviewDialog(true)} setSrcImg={(val) => setSrcImg(val)} deleteProjectImg={() => setProjectImage(null)} />
         <InputField label='プロジェクト詳細' type='text' fullWidth multiline value={detail} onChange={(val) => setDetail(val)} />
         <InputField label='備考' type='text' fullWidth multiline value={remarks} onChange={(val) => setRemarks(val)} />
       </InputFormGrid>
