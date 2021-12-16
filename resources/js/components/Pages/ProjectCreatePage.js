@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 // import axios from 'axios';
 import InputField from '../Molecules/InputField';
+import InputImageField from '../Molecules/InputImageField';
+import SelectField from '../Molecules/SelectField';
 import LabelButton from '../Atoms/LabelButton';
+import PreviewDialog from '../Molecules/PreviewDialog';
+import Notification from '../Atoms/Notification';
+import ProgressCircular from '../Molecules/ProgressCircular';
+
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-// import TextField from '@mui/material/TextField';
-// import InputLabel from '@mui/material/InputLabel';
-// import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@mui/material/FormControl';
-// import Select from '@mui/material/Select';
 
 const languageList = [
   'C',
@@ -62,50 +63,104 @@ const SubmitButton = styled(LabelButton)`
 `;
 
 const ProjectCreatePage = () => {
-  // const [host, setHost] = useState('');
+  const [submit, setSubmit] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [notificationLevel, setNotificationLevel] = useState('');
+  const [notificationText, setNotificationText] = useState('');
+  // 各項目値
   const [title, setTitle] = useState('');
+  const [numPeople, setNumPeople] = useState('');
+  const [lowerLimit, setLowerLimit] = useState(null);
+  const [upperLimit, setUpperLimit] = useState(null);
+  const [purpose, setPurpose] = useState('');
+  const [gender, setGender] = useState('');
+  const [language, setLanguage] = useState('');
+  const [subLanguage, setSubLanguage] = useState('');
+  const [experience, setExperience] = useState('');
+  const [tool, setTool] = useState('');
+  const [frequency, setFrequency] = useState('');
+  const [projectImage, setProjectImage] = useState(null);
+  const [detail, setDetail] = useState('');
+  const [remarks, setRemarks] = useState('');
+  // 画像クロップ関連値
+  const [srcImg, setSrcImg] = useState(null);
+  const [openPreviewDialog, setOpenPreviewDialog] = useState(false);
 
-  // useEffect(() => {
-  //   setHost(location.host);
-  // }, []);
+  useEffect(() => {
+    console.log('projectImage: ', projectImage);
+  }, [projectImage]);
 
-  // useEffect(() => {
-  //   if (host) {
-  //     let protocol = host === 'developer-meets.com' ? 'https' : 'http';
-  //     let projectId = location.pathname.replace('/seek/detail/', '');
-  //     let url = `${protocol}://${host}/api/detail/${projectId}`;
-  //     console.log(url);
-  //   }
-  // }, [host]);
+  const pushNotification = (level, text) => {
+    setNotificationLevel(level);
+    setNotificationText(text);
+  };
+
+  const closeNotification = () => {
+    setNotificationLevel('');
+    setNotificationText('');
+  };
+
+  const submitProject = () => {
+    let protocol = location.host === 'developer-meets.com' ? 'https' : 'http';
+    let url = `${protocol}://${host}/api/create_project`;
+    let d = { 'comment_id': id };
+    let level;
+    let text;
+    setLoading(true);
+    try {
+      // if (!title || !numPeople || !language || !subLanguage || !tool || !purpose || !experience) {
+      //   setSubmit(true);
+      //   throw '必須項目を入力してください';
+      // }
+      // await axios.post(url, d).then(res => {
+      //   if (res.data.status_code !== 200) throw 'プロジェクトの作成に失敗しました';
+      // });
+      level = 'success';
+      text = 'プロジェクトを作成しました';
+    } catch (e) {
+      level = 'error';
+      text = e;
+    } finally {
+      setLoading(false);
+      pushNotification(level, text);
+    }
+    console.log('projectImage: ', projectImage);
+  };
+
   return (
     <WrapperGrid>
       <PageTitle variant='h4'>新規プロジェクト作成</PageTitle>
       <InputFormGrid container >
-        {/* 必須 */}
-        <InputField label='プロジェクト名' value={title} onChange={(val) => setTitle(val)}  />
-        {/* 必須 */}
-        <InputField select label='募集人数' items={['1人', '2人', '3人',]} />
-        <InputField select label='年齢下限' items={[1, 2, 3]} />
-        <InputField select label='年齢上限' items={[60, 70, 80]} />
-        {/* 必須 */}
-        <InputField select label='プロジェクト目的' items={['繋がり', 'リリース', '学習', 'ワイワイ', 'すべて']} />
-        <InputField select label='性別' items={['制限なし', '男性のみ', '女性のみ']} />
-        {/* 必須 */}
-        <InputField select label='主要言語' items={languageList} />
-        {/* 必須 */}
-        <InputField select label='サブ言語' items={languageList} />
-        {/* 必須 */}
-        <InputField select label='最低実務経験' items={['未経験可', '~1年', '~2年', '~3年', '4年以上']} />
-        {/* 必須 */}
-        <InputField select label='ソース管理' items={['GitHub', 'GitLab', 'SVN', 'BitBucket', 'SouceTree', 'その他', 'なし']} />
-        <InputField select label='作業頻度' items={['週1~2時間', '週3~4時間', '週1日', '週2~3日', '週4~5日']} />
-        {/* 画像選択 */}
-        {/* プロジェクト詳細 */}
-        <InputField multiline fullWidth label='プロジェクト詳細' />
-        {/* 備考 */}
-        <InputField multiline fullWidth label='備考' />
+        <InputField label='プロジェクト名' type='text' value={title} onChange={(val) => setTitle(val)} required submit={submit} />
+        <SelectField label='募集人数' items={['1人', '2人', '3人',]} value={numPeople} onChange={(val) => setNumPeople(val)} required submit={submit} />
+        <SelectField label='主要言語' items={languageList} value={language} onChange={(val) => setLanguage(val)} required submit={submit} />
+        <SelectField label='サブ言語' items={languageList} value={subLanguage} onChange={(val) => setSubLanguage(val)} required submit={submit} />
+        <SelectField label='ソース管理' items={['GitHub', 'GitLab', 'SVN', 'BitBucket', 'SouceTree', 'その他', 'なし']} value={tool} onChange={(val) => setTool(val)} required submit={submit} />
+        <SelectField label='プロジェクトの目的' items={['繋がり', 'リリース', '学習', 'ワイワイ', 'すべて']} value={purpose} onChange={(val) => setPurpose(val)} required submit={submit} />
+        <SelectField label='最低実務経験' items={['未経験可', '~1年', '~2年', '~3年', '4年以上']} value={experience} onChange={(val) => setExperience(val)} required submit={submit} />
+        <SelectField label='作業頻度' items={['週1~2時間', '週3~4時間', '週1日', '週2~3日', '週4~5日']} value={frequency} onChange={(val) => setFrequency(val)} />
+        <InputField label='年齢下限' type='number' value={lowerLimit} onChange={(val) => setLowerLimit(val)} />
+        <InputField label='年齢上限' type='number' value={upperLimit} onChange={(val) => setUpperLimit(val)} />
+        <SelectField label='性別' items={['制限なし', '男性のみ', '女性のみ']} value={gender} onChange={(val) => setGender(val)} />
+        <InputImageField label='イメージ画像' openDialog={() => setOpenPreviewDialog(true)} setSrcImg={(val) => setSrcImg(val)} />
+        <InputField label='プロジェクト詳細' type='text' fullWidth multiline value={detail} onChange={(val) => setDetail(val)} />
+        <InputField label='備考' type='text' fullWidth multiline value={remarks} onChange={(val) => setRemarks(val)} />
       </InputFormGrid>
-      <SubmitButton label='この内容で作成する' variant='contained' color="success" size="large" />
+      <SubmitButton
+        label='この内容で作成する'
+        variant='contained'
+        color="success"
+        size="large"
+        onClick={submitProject}
+      />
+      <PreviewDialog
+        open={openPreviewDialog}
+        srcImage={srcImg}
+        closeDialog={() => setOpenPreviewDialog(false)}
+        setProjectImage={(val) => setProjectImage(val)}
+      />
+      <ProgressCircular loading={loading} />
+      <Notification onClose={closeNotification} level={notificationLevel} text={notificationText} />
     </WrapperGrid>
   );
 };
