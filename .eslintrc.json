@@ -27,6 +27,14 @@
         "indent": ["warn", 2],
         //セミコロンを必ず付ける
         "semi": ["warn", "always"],
+        "no-unused-vars": [
+            "warn",
+            {
+                "vars": "all",
+                "args": "all",
+                "ignoreRestSiblings": false
+            }
+        ],
         "quotes": ["warn", "single"],
         "react/prop-types": "off"
     }
