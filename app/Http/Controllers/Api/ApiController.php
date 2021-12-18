@@ -290,8 +290,6 @@ class ApiController extends Controller
         try {
             $datas = $request->all();
             $user = Auth::user();
-            \Log::info('===============');
-            \Log::info($datas);
             //編集するプロジェクト
             $target_project_data = Project::find($datas['project_id']);
             $datas['number_of_application'] = (int)str_replace('人', '', $datas['number_of_application']);
@@ -304,9 +302,7 @@ class ApiController extends Controller
             $img = $datas['project_image'];
             $datas['project_image'] = NULL;
             if(!empty($img)) {
-                \Log::info('プロジェクト画像保存処理');
                 $url_code = $target_project_data['url_code'];
-
                 $now = Carbon::now('Asia/Tokyo');
                 //画像名は年月日時分秒にして被らないようにする
                 $image_name = $now->year.$now->month.$now->day.$now->hour.$now->minute.$now->second.'.jpg';
@@ -314,7 +310,6 @@ class ApiController extends Controller
                 $dir = $user->url_code.'/project/'.$url_code;
                 $path = storage_path('app').'/images/'.$dir;
                 if (!file_exists($path)) {
-                    \Log::info('ディレクトリを作成します');
                     Storage::disk('images')->makeDirectory($dir);
                 }
                 //現状の画像ファイルは削除処理
@@ -339,7 +334,6 @@ class ApiController extends Controller
             $target_project_data->save();
             return response()->json(['status_code' => 200]);
         } catch (\Exception $ex) {
-            \Log::info($ex);
             return response()->json(['status_code' => 400, 'err_msg' => $ex->getMessage()]);
         }
     }

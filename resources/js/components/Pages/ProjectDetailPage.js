@@ -39,8 +39,6 @@ const ContentContainer = styled(Card)`
 const ProjectDetailPage = () => {
   const [host, setHost] = useState('');
   const [data, setData] = useState(null);
-  const [userImgPath, setUserImgPath] = useState(null);
-  const [projectImgPath, setProjectImgPath] = useState(null);
   const [applyFlag, setApplyFlag] = useState('');
   const [confirmFlag, setConfirmFlag] = useState(false);
   const [comments, setComments] = useState([]);
@@ -62,8 +60,6 @@ const ProjectDetailPage = () => {
       axios.get(url).then(res => {
         setData(res.data);
         setApplyFlag(res.data.application_flag);
-        setUserImgPath(`${protocol}://${host}/api/user_icon/${res.data.created_by.id}`);
-        setProjectImgPath(`${protocol}://${host}/api/project_image/${res.data.id}`);
         setComments(res.data.comments.reverse());
       });
       url = `${protocol}://${host}/api/login_user_info`;
@@ -165,7 +161,7 @@ const ProjectDetailPage = () => {
         <WrapperGrid >
           {data.status !== '募集中' && <DisableTextGrid>このプロジェクトは募集終了しています</DisableTextGrid>}
           <ContentContainer sx={{ filter: data.status !== '募集中' && 'grayscale(1)' }}>
-            <DetailHeader data={data} userImgPath={userImgPath} projectImgPath={projectImgPath} />
+            <DetailHeader data={data} />
           </ContentContainer>
           <ApplicationButton
             applyFlag={applyFlag}
@@ -176,7 +172,12 @@ const ProjectDetailPage = () => {
             <DetailContent data={data} />
           </ContentContainer>
           <ContentContainer sx={{ filter: data.status !== '募集中' && 'grayscale(1)' }}>
-            <DetailComments comments={comments} postComment={postComment} deleteComment={deleteComment} loginUser={loginUser} />
+            <DetailComments
+              comments={comments}
+              postComment={postComment}
+              deleteComment={deleteComment}
+              loginUser={loginUser}
+            />
           </ContentContainer>
         </WrapperGrid>
       }
