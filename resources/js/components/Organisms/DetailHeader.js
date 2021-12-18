@@ -33,10 +33,10 @@ const UserInfoGrid = styled.a`
   }
 `;
 
-const DetailHeader = ({ data, userImgPath, projectImgPath }) => {
+const DetailHeader = ({ data }) => {
   return (
     <React.Fragment>
-      <ProjectImg src={projectImgPath} />
+      <ProjectImg src={`/api/project_image/${data.id}`} />
       <Contents>
         <SkillTags skills={[data.language, data.sub_language]} detail />
         <ProjectName>{data.project_name}</ProjectName>
@@ -47,7 +47,7 @@ const DetailHeader = ({ data, userImgPath, projectImgPath }) => {
           <DetailInfo item title='エリア' />
         </Grid>
         <UserInfoGrid href={`/user_info/${data.created_by.user_name}`}>
-          <UserInfo username={data.created_by.user_name} imgPath={userImgPath ? userImgPath : null} />
+          <UserInfo username={data.created_by.user_name} imgPath={`/api/user_icon/${data.created_by.id}`} />
         </UserInfoGrid>
       </Contents>
     </React.Fragment>
