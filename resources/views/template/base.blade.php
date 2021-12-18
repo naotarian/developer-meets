@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="/css/common.css">
-<link rel="stylesheet" href="/css/template/header.css">
+<!-- <link rel="stylesheet" href="/css/template/header.css"> -->
 <link rel="stylesheet" href="/css/template/btn.css">
 <!--<link rel="stylesheet" href="/css/auth/login.css">-->
 <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
