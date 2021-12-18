@@ -286,6 +286,64 @@ class ApiController extends Controller
         }
     }
 
+    public function edit_project(Request $request) {
+        try {
+            $datas = $request->all();
+            $user = Auth::user();
+            \Log::info('===============');
+            \Log::info($datas);
+            //編集するプロジェクト
+            $target_project_data = Project::find($datas['project_id']);
+            $datas['number_of_application'] = (int)str_replace('人', '', $datas['number_of_application']);
+            if ($datas['minimum_experience'] == '未経験可') { $datas['minimum_experience'] = 0; }
+            if ($datas['minimum_experience'] == '~1年') { $datas['minimum_experience'] = 1; }
+            if ($datas['minimum_experience'] == '~2年') { $datas['minimum_experience'] = 2; }
+            if ($datas['minimum_experience'] == '~3年') { $datas['minimum_experience'] = 3; }
+            if ($datas['minimum_experience'] == '4年以上') { $datas['minimum_experience'] = 4; }
+            $datas['minimum_experience'] = str_replace('人', '', $datas['minimum_experience']);
+            $img = $datas['project_image'];
+            $datas['project_image'] = NULL;
+            if(!empty($img)) {
+                \Log::info('プロジェクト画像保存処理');
+                $url_code = $target_project_data['url_code'];
+
+                $now = Carbon::now('Asia/Tokyo');
+                //画像名は年月日時分秒にして被らないようにする
+                $image_name = $now->year.$now->month.$now->day.$now->hour.$now->minute.$now->second.'.jpg';
+                //画像を保存するディレクトリを作成
+                $dir = $user->url_code.'/project/'.$url_code;
+                $path = storage_path('app').'/images/'.$dir;
+                if (!file_exists($path)) {
+                    \Log::info('ディレクトリを作成します');
+                    Storage::disk('images')->makeDirectory($dir);
+                }
+                //現状の画像ファイルは削除処理
+                $files = Storage::allFiles('images/'.$dir);
+                if($files) {
+                    foreach($files as $f) {
+                        Storage::delete($f);
+                    }
+                }
+                // デコード処理
+                $img = str_replace('data:image/png;base64,', '', $img);
+                $img = str_replace('data:image/jpeg;base64,', '', $img);
+                $img = str_replace('data:image/jpg;base64,', '', $img);
+                $img = str_replace(' ', '+', $img);
+                $fileData = base64_decode($img);
+                // storageに保存
+                Storage::disk('images')->put('/'.$dir.'/'.$image_name, $fileData);
+                // ファイル名をDBに保存
+                $datas['project_image'] = $image_name;
+            }
+            $target_project_data->fill($datas);
+            $target_project_data->save();
+            return response()->json(['status_code' => 200]);
+        } catch (\Exception $ex) {
+            \Log::info($ex);
+            return response()->json(['status_code' => 400, 'err_msg' => $ex->getMessage()]);
+        }
+    }
+
     public function twitterApi(Request $request)
     {
         $t = new CallTwitterApi();
