@@ -17,7 +17,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class DynamicController extends Controller
 {
-    
+
     public function __construct () {
         $this->gender = config('app.gender');
         $this->men_and_women = config('app.men_and_women');
@@ -37,9 +37,9 @@ class DynamicController extends Controller
         $slide_text_sorted = $slide_text->sortBy('sort')->values()->toArray();
         return view('top', ['twitter' => $array, 'slide_text_sorted' => $slide_text_sorted]);
     }
-    
-    
-   
+
+
+
     public function make_project() {
         $languages = $this->languages;
         $purposes = $this->purposes;
@@ -52,7 +52,7 @@ class DynamicController extends Controller
         for($i = 18; $i < 70; $i++) {
             $datas['age'][$i] = $i;
         }
-        
+
         return view('make_project', ['datas' => $datas]);
     }
     public function make_project_post(Request $request) {
@@ -103,7 +103,7 @@ class DynamicController extends Controller
         } else {
             $image_name = null;
         }
-        
+
         if($image_name != null) {
             $project_instance['project_image'] = $image_name;
         }
@@ -111,7 +111,7 @@ class DynamicController extends Controller
 
         return redirect('/make')->with('flash_message', 'プロジェクト作成が完了しました');
     }
-    
+
     public function project_edit($id) {
         $target_project = Project::find($id);
         $login_user = Auth::user();
@@ -125,7 +125,7 @@ class DynamicController extends Controller
         $datas['men_and_women'] = $this->men_and_women;
         $datas['tools'] = $this->tools;
         $datas['work_frequency'] = $this->work_frequency;
-        
+
         $datas['age'] = [];
         for($i = 15; $i < 60; $i++) {
             $datas['age'][$i] = $i;
@@ -137,7 +137,7 @@ class DynamicController extends Controller
         // }
         return view('edit_project', ['project' => $target_project, 'datas' => $datas]);
     }
-    
+
     public function edit_project_post(Request $request) {
         $project_data = $request->all();
         $login_user = Auth::user();
@@ -159,7 +159,7 @@ class DynamicController extends Controller
             'minimum_experience' => 'required',
             'tools' => 'required',
             'project_image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
-            
+
         ],$messages);
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
@@ -187,7 +187,7 @@ class DynamicController extends Controller
         $target_project_data->save();
         return redirect('/my_page')->with('edit_project_message', 'プロジェクト内容を編集しました');
     }
-    
+
     public function seek_project() {
         $projects = Project::where('status', '募集中')->get();
         foreach($projects as $project) {
@@ -203,10 +203,10 @@ class DynamicController extends Controller
         $array_datas['languages'] = $this->languages;
         $array_datas['purposes'] = $this->purposes;
         $array_datas['gender'] = $this->gender;
-        
+
         return view('seek_project', ['datas' => $array_datas, 'projects' => $projects]);
     }
-    
+
     public function user_info($user_name) {
         $login_user = Auth::user();
         $target_user = User::where('user_name', $user_name)->first();
@@ -234,8 +234,8 @@ class DynamicController extends Controller
         ->get();
         $now_available_projects = Project::where('user_id', $target_user->id)->where('status', '募集中')->get();
         return view('personal.user_info', ['target_user' => $target_user,
-                                         'now_available_projects' => $now_available_projects, 
-                                        //  'now_applications' => $now_applications, 
+                                         'now_available_projects' => $now_available_projects,
+                                        //  'now_applications' => $now_applications,
                                         //  'display_flag' => $display_flag,
                                          'join_projects' => $join_projects
                                          ]);
@@ -281,13 +281,13 @@ class DynamicController extends Controller
         //掲載中のプロジェクト
         $now_available_projects = Project::where('user_id', $target_user->id)->get();
         return view('personal.my_page', ['login_user_infomation' => $target_user,
-                                         'now_available_projects' => $now_available_projects, 
-                                         'now_applications' => $now_applications, 
+                                         'now_available_projects' => $now_available_projects,
+                                         'now_applications' => $now_applications,
                                          'display_flag' => $display_flag,
                                          'join_projects' => $join_projects
                                          ]);
     }
-    
+
     public function edit_profile($id) {
         $login_user = Auth::user();
         if($login_user->id != $id) {
@@ -296,7 +296,7 @@ class DynamicController extends Controller
         $edit_user = User::find($id);
         return view('personal.edit_user', ['login_user_infomation' => $edit_user]);
     }
-    
+
     public function edit_profile_post(Request $request) {
         $datas = $request->all();
         $login_user = Auth::user();
@@ -340,7 +340,7 @@ class DynamicController extends Controller
         if(!$target_user->isDirty()) {
             return redirect('/edit_profile/' . $target_user['id'])->with('edit_message', '変更がありませんでした。');
         }
-        
+
         $save = $target_user->save();
         if($save) {
             $message = '変更しました。';
@@ -349,7 +349,7 @@ class DynamicController extends Controller
         }
         return redirect('/edit_profile/' . $target_user['id'])->with('edit_message', $message);
     }
-    
+
     public function question(Request $request) {
         $project_info = json_decode($request['project_info'], true);
     }
@@ -371,7 +371,7 @@ class DynamicController extends Controller
         }
         return back()->with('flash_message', $message);
     }
-    
+
     public function application_list($id) {
         $target_user = Auth::user();
         $target_project = Project::where('id', $id)->first();
@@ -407,14 +407,14 @@ class DynamicController extends Controller
         }
         return view('personal.application', ['application_list' => $application_list, 'member_list' => $member_list]);
     }
-    
+
     public function cancel(Request $request) {
         $datas = json_decode($request['project_info'], true);
         $target_application = ProjectApplication::find($datas['id']);
         $target_application['status'] = '取り消し';
         $target_application->save();
         $delete_application = $target_application->delete();
-        
+
 
         if($delete_application) {
             $message = '申請を取り消しました。';
@@ -423,22 +423,22 @@ class DynamicController extends Controller
         }
         return back()->with('delete_message', $message);
     }
-    
+
     public function rejected($id) {
         $rejectd_application = ProjectApplication::find($id);
         $rejectd_application->status = '見送り';
         $rejectd_application->save();
         $rejectd = $rejectd_application->delete();
-        
+
         if($rejectd) {
             $message = '申請を見送りました。';
         } else {
             $message = '予期せぬエラー : 該当のは参加申請はありません。';
         }
         return back()->with('rejected_message', $message);
-        
+
     }
-    
+
     public function withdrawal($id) {
         $withdrawal_project = Project::find($id);
         $withdrawal_project->status = '募集停止';
@@ -451,7 +451,7 @@ class DynamicController extends Controller
         }
         return back()->with('withdrawal_message', $message);
     }
-    
+
     public function restart($id) {
         $withdrawal_project = Project::find($id);
         $withdrawal_project->status = '募集中';
@@ -463,14 +463,14 @@ class DynamicController extends Controller
         }
         return back()->with('restart_message', $message);
     }
-    
+
     public function approval($id) {
         $target_application = ProjectApplication::find($id);
         if($target_application->status == '承認済み') {
             return back()->with('approval_message', '既に承認済みです。');
         }
         $target_project = Project::find($target_application['project_id']);
-        
+
         $target_application->status = '承認済み';
         $target_application->save();
         // $target_project->number_of_application -= 1;
@@ -480,7 +480,7 @@ class DynamicController extends Controller
         // $target_project->save();
         return redirect('/my_page')->with('approval_message', '参加申請を承認しました。');
     }
-    
+
     //userのアイコンorプロジェクトのサムネイルが欲しい時だけ使用する
     public function get_request_image(Request $request){
         $data = $request->all();
@@ -496,5 +496,5 @@ class DynamicController extends Controller
         }
         return Response()->file($path);
     }
-    
+
 }
