@@ -31,7 +31,7 @@
       </div>
       @php session()->forget('rejected_message') @endphp
     @endif
-    
+
     @foreach($application_list as $key => $app)
     <tr>
       <th scope="row">{{$key}}</th>
@@ -52,14 +52,14 @@
       <!--<td class="btn_td"><a class="btn btn-secondary" href="/rejected/{{$app->id}}" role="button">見送る</a></td>-->
       <!--<td class="btn_td"><button type="button" class="btn btn-secondary">見送る</button></td>-->
       --}}
-      
+
     </tr>
     {{--承認モーダル--}}
     <div class="modal fade" id="approvalModalCenter{{$key}}" tabindex="-1" role="dialog" aria-labelledby="approvalModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">申請者名 : {{$app->application_user_info[0]['user_name']}}</h5>
+            <h5 class="modal-title" id="exampleModalCenterTitle">申請者名 : {{$app->application_user_info['user_name']}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -80,7 +80,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">申請者名 : {{$app->application_user_info[0]['user_name']}}</h5>
+            <h5 class="modal-title" id="exampleModalCenterTitle">申請者名 : {{$app->application_user_info['user_name']}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -104,7 +104,7 @@
   <tr><th>No : {{$key}}</th></tr>
   <tr><th>申請日 : {{$app->application_date[0]['created_at']->format('Y/m/d')}}</th></tr>
   <tr>
-    <th>申請者 : 
+    <th>申請者 :
         <a href="/get_request_image?id={{$app->application_user_info['url_code']}}&name={{$app->application_user_info['icon_image']}}&dir=icon" data-lightbox="user_icon" data-title="アイコン画像拡大">
           <img src="/get_request_image?id={{$app->application_user_info['url_code']}}&name={{$app->application_user_info['icon_image']}}&dir=icon" class="member_icon">
         </a>
@@ -136,7 +136,7 @@
       <a href="/user_info/{{$member->application_user_info['user_name']}}">{{$member->application_user_info['user_name']}}</a></td>
   </tr>
   @endforeach
-    
+
   </tbody>
 </table>
 @endif

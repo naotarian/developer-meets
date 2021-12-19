@@ -145,7 +145,7 @@ class ApiController extends Controller
             //既存のものがあれば追加しない
             $upsert = ProjectApplication::updateOrCreate(
                 ['application_id' => $login_user->id, 'project_id' => $project_data['id'], 'deleted_at' => null],
-                ['status' => '1', 'application_id' => $login_user->id, 'author_id' => $project_data['user_id'], 'project_id' => $project_data['id']]
+                ['status' => '申請中', 'application_id' => $login_user->id, 'author_id' => $project_data['user_id'], 'project_id' => $project_data['id']]
             );
             if($upsert->wasRecentlyCreated) {
                 return response()->json(['status_code' => 200, 'msg' => '申請に成功しました', 'flag' => 'applied']);
