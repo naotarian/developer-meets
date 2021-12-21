@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use App\TemporaryRegistration;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Mail;
@@ -117,11 +118,23 @@ class RegisterController extends Controller
     
     public function mainCheck(Request $request)
   {
-    $request->validate([
-      'user_name' => 'required|unique:users,user_name,NULL,id,deleted_at,NULL|max:255',
-      'age' => 'integer|between:16,99',
-      'engineer_history' => 'integer|between:0,5',
-    ]);
+    $datas = $request->all();
+    $messages = [
+        'required' => ' :attributeを入力してください',
+        'age.integer' => '年齢が不正な形式です。',
+        'age.between' => '年齢は16~99までで登録してください。',
+        'engineer_history.integer' => 'エンジニア歴が不正な値です。',
+        'doui.in' => '利用規約に同意いただいてからの登録となります。',
+    ];
+    $validator = Validator::make($datas,[
+          'user_name' => 'required|unique:users,user_name,NULL,id,deleted_at,NULL|max:255',
+          'age' => 'required|integer|between:16,99',
+          'engineer_history' => 'required|integer|between:0,5',
+          'doui' => Rule::in(['on']),
+        ],$messages);
+    if($validator->fails()){
+        return back()->withErrors($validator)->withInput();
+    }
     //データ保持用
     $email_token = $request->email_token;
     $user = new User();
