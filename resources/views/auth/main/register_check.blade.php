@@ -55,6 +55,9 @@
                                 <button type="submit" class="btn btn-primary">
                                     本登録
                                 </button>
+                                <a href="/register/verify/{{$email_token}}" class="btn btn-primary">
+                                    戻る
+                                </a>
                             </div>
                         </div>
                     {{Form::close()}}

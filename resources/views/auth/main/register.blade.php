@@ -44,6 +44,11 @@
                             {{Form::select('age', $age, 'ordinarily', ['class' => 'form','id' => 'age', 'placeholder' => '年齢'])}}
                             {{Form::select('engineer_history', ['0' => 'なし', '1' => '~1年', '2' => '~2年', '3' => '~3年', '4' => '~4年', '5' => '~5年', '5' => 'それ以上'], 'ordinarily', ['class' => 'form','id' => 'engineer_history', 'placeholder' => 'エンジニア歴'])}}
                         </div>
+                        <div class="col-xs-6 wow animated slideInLeft mt2" data-wow-delay=".5s" style="text-align: center;">
+                            <input type="hidden" name="doui" value="off">
+                            <p><a href="">利用規約はこちら</a></p>
+                            {{Form::checkbox('doui', 'on', false, ['id' => 'doui', 'style' => 'transform:scale(2.0);margin-right: 1rem;'])}}{{Form::label('doui','利用規約に同意する')}}
+                        </div>
                         {{--
                         <div class="col-xs-6 wow animated slideInLeft flex-form mt2" data-wow-delay=".5s">
                             {{Form::email('email', null, ['class' => 'form','id' => 'email','placeholder' => 'Eメール'])}}
