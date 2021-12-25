@@ -64,8 +64,8 @@ const ProjectListPage = () => {
       copyLists.map((pj, index) => {
         if (searchLanguage.includes(pj.language) || searchLanguage.includes(pj.sub_language)) {
           // pass
-        }else{
-          copyLists.splice(index, 1);
+        } else {
+          copyLists.splice(index, 1, '');
         }
       });
     }
