@@ -40,6 +40,7 @@ const ProjectListPage = () => {
   const [projects, setProjects] = useState([]);
   const [filterResult, setFilterResult] = useState([]);
   const [page, setPage] = useState(1);
+  const [pagesCount, setPagesCount] = useState(0);
 
   useEffect(() => {
     setHost(location.host);
@@ -56,6 +57,7 @@ const ProjectListPage = () => {
   }, [host]);
 
   useEffect(() => {
+    setPage(1);
     let search = false;
     let copyLists = cloneDeep(projects);
 
@@ -64,8 +66,8 @@ const ProjectListPage = () => {
       copyLists.map((pj, index) => {
         if (searchLanguage.includes(pj.language) || searchLanguage.includes(pj.sub_language)) {
           // pass
-        }else{
-          copyLists.splice(index, 1);
+        } else {
+          copyLists.splice(index, 1, '');
         }
       });
     }
@@ -92,6 +94,10 @@ const ProjectListPage = () => {
     setFilterResult(Array.from(new Set(result)));
   }, [searchLanguage, searchPurpose, searchGender]);
 
+  useEffect(() => {
+    setPagesCount(sliceByNumber(search ? filterResult : projects).length);
+  }, [projects, filterResult]);
+
   const sliceByNumber = (array) => {
     if (array.length === 0) { return []; }
     const max = 12;
@@ -117,18 +123,18 @@ const ProjectListPage = () => {
         {search ? (
           filterResult.length > 0 ? (
             sliceByNumber(filterResult)[page - 1].map((project, index) => {
-              return <ProjectCard item key={index} project_data={project} />;
+              return <ProjectCard item key={index} data={project} />;
             })
           ) : (
             <Typography>該当するプロジェクトがありません</Typography>
           )
         ) : (
           projects.length > 0 && sliceByNumber(projects)[page - 1].map((project, index) => {
-            return <ProjectCard item key={index} project_data={project} />;
+            return <ProjectCard item key={index} data={project} />;
           })
         )}
       </ContainerGrid>
-      <StyledPagination count={sliceByNumber(projects).length} page={page} onChange={handleChangePage} />
+      <StyledPagination count={pagesCount} page={page} onChange={handleChangePage} />
     </WrapperGrid>
   );
 };

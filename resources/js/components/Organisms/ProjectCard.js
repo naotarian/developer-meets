@@ -24,31 +24,21 @@ const TypographyOverflow = styled(Typography)`
   // text-overflow: ellipsis!important;
 `;
 
-const ProjectCard = ({ project_data }) => {
-  const [host, setHost] = useState('');
-  const [imgPath, setImgPath] = useState(null);
-
-  useEffect(() => {
-    setHost(location.host);
-    let urlCode = project_data.user.url_code;
-    let iconImg = project_data.user.icon_image;
-    setImgPath(urlCode && iconImg ? `get_request_image?id=${urlCode}&name=${iconImg}&dir=icon` : null);
-  }, []);
-
+const ProjectCard = ({ data }) => {
   return (
-    <StyledCard sx={{ maxWidth: 400, filter: project_data.status !== '募集中' && 'grayscale(1)' }}>
+    <StyledCard sx={{ maxWidth: 400, filter: data.status !== '募集中' && 'grayscale(1)' }}>
       <StyledCardActionArea
-        href={`http://${host}/seek/detail/${project_data.id}`}
+        href={`http://${location.host}/seek/detail/${data.id}`}
       >
         <CardContent>
           <TypographyOverflow gutterBottom variant="h6" component="div">
-            {project_data.project_name}
+            {data.project_name}
           </TypographyOverflow>
-          <SkillTags skills={[project_data.language, project_data.sub_language]} />
-          {project_data.work_frequency && <ProjectColumn column="time" text={project_data.work_frequency} />}
-          {project_data.purpose && <ProjectColumn column="purpose" text={`${project_data.purpose}`} />}
-          {project_data.number_of_application && <ProjectColumn column="people" text={`募集 ${project_data.number_of_application}人`} />}
-          <UserInfo username={project_data.user.user_name} imgPath={imgPath} />
+          <SkillTags skills={[data.language, data.sub_language]} />
+          {data.work_frequency && <ProjectColumn column="time" text={data.work_frequency} />}
+          {data.purpose && <ProjectColumn column="purpose" text={`${data.purpose}`} />}
+          {data.number_of_application && <ProjectColumn column="people" text={`募集 ${data.number_of_application}人`} />}
+          <UserInfo username={data.user.user_name} imgPath={`/api/user_icon/${data.user.id}`} />
         </CardContent>
       </StyledCardActionArea>
     </StyledCard>
