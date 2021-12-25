@@ -62,7 +62,6 @@ const DrawerMenuLink = styled(Link)`
 `;
 
 const Header = () => {
-  const [host, setHost] = useState('');
   const [loginUser, setLoginUser] = useState(null);
   const [userIconPath, setUserIconPath] = useState(null);
   const [menuAnchorEl, setMenuAnchorEl] = useState(false);
@@ -70,24 +69,18 @@ const Header = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setHost(location.host);
+    let protocol = location.host === 'developer-meets.com' ? 'https' : 'http';
+    let url = `${protocol}://${location.host}/api/login_user_info`;
+    axios.get(url).then(res => {
+      let user = res.data.user;
+      setLoginUser(user ? user : null);
+      setUserIconPath(`${protocol}://${location.host}/api/user_icon/${user.id}`);
+    });
   }, []);
 
-  useEffect(() => {
-    if (host) {
-      let protocol = host === 'developer-meets.com' ? 'https' : 'http';
-      let url = `${protocol}://${host}/api/login_user_info`;
-      axios.get(url).then(res => {
-        let user = res.data.user;
-        setLoginUser(user ? user : null);
-        setUserIconPath(`${protocol}://${host}/api/user_icon/${user.id}`);
-      });
-    }
-  }, [host]);
-
   const logout = () => {
-    let protocol = host === 'developer-meets.com' ? 'https' : 'http';
-    let url = `${protocol}://${host}/logout`;
+    let protocol = location.host === 'developer-meets.com' ? 'https' : 'http';
+    let url = `${protocol}://${location.host}/logout`;
     setLoading(true);
     axios.post(url).then(() => {
       setLoading(false);

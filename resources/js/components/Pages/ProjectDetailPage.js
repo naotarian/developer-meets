@@ -37,7 +37,6 @@ const ContentContainer = styled(Card)`
 `;
 
 const ProjectDetailPage = () => {
-  const [host, setHost] = useState('');
   const [data, setData] = useState(null);
   const [applyFlag, setApplyFlag] = useState('');
   const [confirmFlag, setConfirmFlag] = useState(false);
@@ -48,26 +47,20 @@ const ProjectDetailPage = () => {
   const [notificationText, setNotificationText] = useState('');
 
   useEffect(() => {
-    setHost(location.host);
-  }, []);
-
-  useEffect(() => {
-    if (host) {
-      let protocol = host === 'developer-meets.com' ? 'https' : 'http';
+      let protocol = location.host === 'developer-meets.com' ? 'https' : 'http';
       // GET プロジェクト詳細
       let projectId = location.pathname.replace('/seek/detail/', '');
-      let url = `${protocol}://${host}/api/detail/${projectId}`;
+      let url = `${protocol}://${location.host}/api/detail/${projectId}`;
       axios.get(url).then(res => {
         setData(res.data);
         setApplyFlag(res.data.application_flag);
         setComments(res.data.comments.reverse());
       });
-      url = `${protocol}://${host}/api/login_user_info`;
+      url = `${protocol}://${location.host}/api/login_user_info`;
       axios.get(url).then(res => {
         setLoginUser(res.data.user ? res.data.user : null);
       });
-    }
-  }, [host]);
+  }, []);
 
   const pushNotification = (level, text) => {
     setNotificationLevel(level);
@@ -80,8 +73,8 @@ const ProjectDetailPage = () => {
   };
 
   const postComment = async (comment) => {
-    let protocol = host === 'developer-meets.com' ? 'https' : 'http';
-    let url = `${protocol}://${host}/api/comment`;
+    let protocol = location.host === 'developer-meets.com' ? 'https' : 'http';
+    let url = `${protocol}://${location.host}/api/comment`;
     let d = {
       'project_id': data.id,
       'target_user_id': null, // メンション機能は別途実装
@@ -108,8 +101,8 @@ const ProjectDetailPage = () => {
   };
 
   const deleteComment = async (id) => {
-    let protocol = host === 'developer-meets.com' ? 'https' : 'http';
-    let url = `${protocol}://${host}/api/comment`;
+    let protocol = location.host === 'developer-meets.com' ? 'https' : 'http';
+    let url = `${protocol}://${location.host}/api/comment`;
     let d = { 'comment_id': id };
 
     let level;
@@ -132,8 +125,8 @@ const ProjectDetailPage = () => {
   };
 
   const sendJoinRequests = async () => {
-    let protocol = host === 'developer-meets.com' ? 'https' : 'http';
-    let url = `${protocol}://${host}/api/application`;
+    let protocol = location.host === 'developer-meets.com' ? 'https' : 'http';
+    let url = `${protocol}://${location.host}/api/application`;
 
     let level;
     let text;

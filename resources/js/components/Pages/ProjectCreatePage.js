@@ -117,9 +117,8 @@ const ProjectCreatePage = () => {
   };
 
   const submitProject = async() => {
-    let host = location.host;
-    let protocol = host === 'developer-meets.com' ? 'https' : 'http';
-    let url = `${protocol}://${host}/api/create_project`;
+    let protocol = location.host === 'developer-meets.com' ? 'https' : 'http';
+    let url = `${protocol}://${location.host}/api/create_project`;
     let d = {
       // プロジェクト名
       'project_name': title,

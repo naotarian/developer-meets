@@ -100,7 +100,6 @@ const ProjectEditPage = () => {
     let projectId = location.pathname.replace('/project/edit/', '');
     let url = `${protocol}://${location.host}/api/detail/${projectId}`;
     axios.get(url).then(res => {
-      console.log('res.data: ', res.data);
       if (res.data) {
         let data = res.data;
         if (data.id) { setProjectId(data.id); }
@@ -133,9 +132,8 @@ const ProjectEditPage = () => {
   };
 
   const submitProject = async () => {
-    let host = location.host;
-    let protocol = host === 'developer-meets.com' ? 'https' : 'http';
-    let url = `${protocol}://${host}/api/edit_project`;
+    let protocol = location.host === 'developer-meets.com' ? 'https' : 'http';
+    let url = `${protocol}://${location.host}/api/edit_project`;
     let d = {
       // プロジェクトID
       'project_id': projectId,

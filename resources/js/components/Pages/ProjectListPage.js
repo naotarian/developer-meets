@@ -32,7 +32,6 @@ const StyledPagination = styled(Pagination)`
 `;
 
 const ProjectListPage = () => {
-  const [host, setHost] = useState('');
   const [search, setSearch] = useState(false);
   const [searchLanguage, setSearchLanguage] = useState([]);
   const [searchPurpose, setSearchPurpose] = useState('');
@@ -43,18 +42,12 @@ const ProjectListPage = () => {
   const [pagesCount, setPagesCount] = useState(0);
 
   useEffect(() => {
-    setHost(location.host);
+    let protocol = location.host === 'developer-meets.com' ? 'https' : 'http';
+    let url = `${protocol}://${location.host}/api/all_projejct`;
+    axios.get(url).then(res => {
+      setProjects(res.data);
+    });
   }, []);
-
-  useEffect(() => {
-    if (host) {
-      let protocol = host === 'developer-meets.com' ? 'https' : 'http';
-      let url = `${protocol}://${host}/api/all_projejct`;
-      axios.get(url).then(res => {
-        setProjects(res.data);
-      });
-    }
-  }, [host]);
 
   useEffect(() => {
     setPage(1);
