@@ -40,6 +40,7 @@ const ProjectListPage = () => {
   const [projects, setProjects] = useState([]);
   const [filterResult, setFilterResult] = useState([]);
   const [page, setPage] = useState(1);
+  const [pagesCount, setPagesCount] = useState(0);
 
   useEffect(() => {
     setHost(location.host);
@@ -56,6 +57,7 @@ const ProjectListPage = () => {
   }, [host]);
 
   useEffect(() => {
+    setPage(1);
     let search = false;
     let copyLists = cloneDeep(projects);
 
@@ -91,6 +93,10 @@ const ProjectListPage = () => {
     setSearch(search);
     setFilterResult(Array.from(new Set(result)));
   }, [searchLanguage, searchPurpose, searchGender]);
+
+  useEffect(() => {
+    setPagesCount(sliceByNumber(search ? filterResult : projects).length);
+  }, [projects, filterResult]);
 
   const sliceByNumber = (array) => {
     if (array.length === 0) { return []; }
@@ -128,7 +134,7 @@ const ProjectListPage = () => {
           })
         )}
       </ContainerGrid>
-      <StyledPagination count={sliceByNumber(projects).length} page={page} onChange={handleChangePage} />
+      <StyledPagination count={pagesCount} page={page} onChange={handleChangePage} />
     </WrapperGrid>
   );
 };
