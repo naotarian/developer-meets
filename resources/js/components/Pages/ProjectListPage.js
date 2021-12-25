@@ -117,14 +117,14 @@ const ProjectListPage = () => {
         {search ? (
           filterResult.length > 0 ? (
             sliceByNumber(filterResult)[page - 1].map((project, index) => {
-              return <ProjectCard item key={index} project_data={project} />;
+              return <ProjectCard item key={index} data={project} />;
             })
           ) : (
             <Typography>該当するプロジェクトがありません</Typography>
           )
         ) : (
           projects.length > 0 && sliceByNumber(projects)[page - 1].map((project, index) => {
-            return <ProjectCard item key={index} project_data={project} />;
+            return <ProjectCard item key={index} data={project} />;
           })
         )}
       </ContainerGrid>
