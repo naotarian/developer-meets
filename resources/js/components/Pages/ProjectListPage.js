@@ -1,12 +1,14 @@
+/* eslint no-unused-vars: 0 */
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import axios from 'axios';
+import cloneDeep from 'lodash/cloneDeep';
 import ProjectCard from '../Organisms/ProjectCard';
 import FilterContainer from '../Organisms/FilterContainer';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import cloneDeep from 'lodash/cloneDeep';
+import Pagination from '@mui/material/Pagination';
 
 const WrapperGrid = styled(Grid)`
   width: 100%;
@@ -17,6 +19,18 @@ const ContainerGrid = styled(Grid)`
   margin: auto;
 `;
 
+const StyledPagination = styled(Pagination)`
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  & ul {
+    display: inline-flex;
+    & button {
+      outline: none;
+    }
+  }
+`;
+
 const ProjectListPage = () => {
   const [host, setHost] = useState('');
   const [search, setSearch] = useState(false);
@@ -25,6 +39,7 @@ const ProjectListPage = () => {
   const [searchGender, setSearchGender] = useState('');
   const [projects, setProjects] = useState([]);
   const [filterResult, setFilterResult] = useState([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     setHost(location.host);
@@ -77,6 +92,17 @@ const ProjectListPage = () => {
     setFilterResult(Array.from(new Set(result)));
   }, [searchLanguage, searchPurpose, searchGender]);
 
+  const sliceByNumber = (array) => {
+    if (array.length === 0) { return []; }
+    const max = 12;
+    const length = Math.ceil(array.length / max);
+    return new Array(length).fill().map((_, i) => array.slice(i * max, (i + 1) * max));
+  };
+
+  const handleChangePage = (event, value) => {
+    setPage(value);
+  };
+
   return (
     <WrapperGrid>
       <FilterContainer
@@ -90,18 +116,19 @@ const ProjectListPage = () => {
       <ContainerGrid container justifyContent="center">
         {search ? (
           filterResult.length > 0 ? (
-            filterResult.map((project, index) => {
+            sliceByNumber(filterResult)[page - 1].map((project, index) => {
               return <ProjectCard item key={index} project_data={project} />;
             })
           ) : (
             <Typography>該当するプロジェクトがありません</Typography>
           )
         ) : (
-          projects.map((project, index) => {
+          projects.length > 0 && sliceByNumber(projects)[page - 1].map((project, index) => {
             return <ProjectCard item key={index} project_data={project} />;
           })
         )}
       </ContainerGrid>
+      <StyledPagination count={sliceByNumber(projects).length} page={page} onChange={handleChangePage} />
     </WrapperGrid>
   );
 };
