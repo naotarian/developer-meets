@@ -15,6 +15,7 @@ const StyledCard = styled(Card)`
 
 const StyledCardActionArea = styled(CardActionArea)`
   outline: none !important;
+  height: 100%;
 `;
 const TypographyOverflow = styled(Typography)`
   font-weight: bold !important;
