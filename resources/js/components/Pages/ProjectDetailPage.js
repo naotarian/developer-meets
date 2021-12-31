@@ -47,19 +47,19 @@ const ProjectDetailPage = () => {
   const [notificationText, setNotificationText] = useState('');
 
   useEffect(() => {
-      let protocol = location.host === 'developer-meets.com' ? 'https' : 'http';
-      // GET プロジェクト詳細
-      let projectId = location.pathname.replace('/seek/detail/', '');
-      let url = `${protocol}://${location.host}/api/detail/${projectId}`;
-      axios.get(url).then(res => {
-        setData(res.data);
-        setApplyFlag(res.data.application_flag);
-        setComments(res.data.comments.reverse());
-      });
-      url = `${protocol}://${location.host}/api/login_user_info`;
-      axios.get(url).then(res => {
-        setLoginUser(res.data.user ? res.data.user : null);
-      });
+    let protocol = location.host === 'developer-meets.com' ? 'https' : 'http';
+    // GET プロジェクト詳細
+    let projectId = location.pathname.replace('/seek/detail/', '');
+    let url = `${protocol}://${location.host}/api/detail/${projectId}`;
+    axios.get(url).then(res => {
+      setData(res.data);
+      setApplyFlag(res.data.application_flag);
+      setComments(res.data.comments.reverse());
+    });
+    url = `${protocol}://${location.host}/api/login_user_info`;
+    axios.get(url).then(res => {
+      setLoginUser(res.data.user ? res.data.user : null);
+    });
   }, []);
 
   const pushNotification = (level, text) => {
