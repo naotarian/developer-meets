@@ -45,6 +45,12 @@ const ProjectListPage = () => {
     let protocol = location.host === 'developer-meets.com' ? 'https' : 'http';
     let url = `${protocol}://${location.host}/api/all_projejct`;
     axios.get(url).then(res => {
+      res.data.sort((a, b) => {
+        if (new Date(a.created_at) < new Date(b.created_at)) { return 1; }
+        if (new Date(a.created_at) > new Date(b.created_at)) { return -1; }
+        return 0;
+      });
+      res.data.sort((a, b) => a.status.length - b.status.length);
       setProjects(res.data);
     });
   }, []);
@@ -84,6 +90,12 @@ const ProjectListPage = () => {
       if (typeof pj === 'object') result.push(pj);
     });
     setSearch(search);
+    result.sort((a, b) => {
+      if (new Date(a.created_at) < new Date(b.created_at)) { return 1; }
+      if (new Date(a.created_at) > new Date(b.created_at)) { return -1; }
+      return 0;
+    });
+    result.sort((a, b) => a.status.length - b.status.length);
     setFilterResult(Array.from(new Set(result)));
   }, [searchLanguage, searchPurpose, searchGender]);
 
